@@ -1,4 +1,4 @@
-package com.belerweb.social.weibo;
+package com.belerweb.social.weibo.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import com.belerweb.social.weibo.WeiboException;
 import com.belerweb.social.weibo.bean.AccessToken;
 import com.belerweb.social.weibo.bean.Display;
 import com.belerweb.social.weibo.bean.Result;

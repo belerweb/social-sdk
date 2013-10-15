@@ -1,4 +1,4 @@
-package com.belerweb.social.qq.connect;
+package com.belerweb.social.qq.connect.api;
 
 import com.belerweb.social.SDK;
 

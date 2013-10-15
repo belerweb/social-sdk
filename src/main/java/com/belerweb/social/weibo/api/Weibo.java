@@ -1,4 +1,4 @@
-package com.belerweb.social.weibo;
+package com.belerweb.social.weibo.api;
 
 import com.belerweb.social.SDK;
 
