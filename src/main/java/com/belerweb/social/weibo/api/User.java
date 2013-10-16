@@ -35,15 +35,15 @@ public final class User extends API {
    * 
    *        参数uid与screen_name二者必选其一，且只能选其一
    */
-  public String show(String source, String accessToken, String uid, String screenName) {
+  public Result<com.belerweb.social.weibo.bean.User> show(String source, String accessToken,
+      String uid, String screenName) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     weibo.addNotNullParameter(params, "source", source);
     weibo.addNotNullParameter(params, "access_token", accessToken);
     weibo.addNotNullParameter(params, "uid", uid);
     weibo.addNotNullParameter(params, "screen_name", screenName);
-    String result = weibo.post("https://api.weibo.com/2/users/show.json", params);
-    // TODO convert result
-    return result;
+    String json = weibo.post("https://api.weibo.com/2/users/show.json", params);
+    return Result.perse(json, com.belerweb.social.weibo.bean.User.class);
   }
 
   /**
@@ -59,14 +59,14 @@ public final class User extends API {
    * @param accessToken 采用OAuth授权方式为必填参数，其他授权方式不需要此参数，OAuth授权后获得。
    * @param domain 需要查询的个性化域名。
    */
-  public String domainShow(String source, String accessToken, String domain) {
+  public Result<com.belerweb.social.weibo.bean.User> domainShow(String source, String accessToken,
+      String domain) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     weibo.addNotNullParameter(params, "source", source);
     weibo.addNotNullParameter(params, "access_token", accessToken);
     weibo.addParameter(params, "domain", domain);
-    String result = weibo.post("https://api.weibo.com/2/users/domain_show.json", params);
-    // TODO convert result
-    return result;
+    String json = weibo.post("https://api.weibo.com/2/users/domain_show.json", params);
+    return Result.perse(json, com.belerweb.social.weibo.bean.User.class);
   }
 
   /**
