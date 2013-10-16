@@ -12,7 +12,8 @@ public class RevokeOAuth2Result extends Result<Boolean> {
     super(result);
   }
 
-  public static RevokeOAuth2Result perse(JSONObject jsonObject) {
+  public static RevokeOAuth2Result perse(String json) {
+    JSONObject jsonObject = new JSONObject(json);
     Error error = Error.parse(jsonObject);
     if (error == null) {
       return new RevokeOAuth2Result(Result.perseBoolean(jsonObject.get("result")));

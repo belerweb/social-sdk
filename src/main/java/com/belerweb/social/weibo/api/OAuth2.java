@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
-import org.json.JSONObject;
 
 import com.belerweb.social.weibo.WeiboException;
 import com.belerweb.social.weibo.bean.AccessToken;
@@ -15,13 +14,12 @@ import com.belerweb.social.weibo.bean.RevokeOAuth2Result;
 import com.belerweb.social.weibo.bean.Scope;
 import com.belerweb.social.weibo.bean.TokenInfo;
 
-public final class OAuth2 {
-
-  private Weibo weibo;
+public final class OAuth2 extends API {
 
   OAuth2(Weibo weibo) {
-    this.weibo = weibo;
+    super(weibo);
   }
+
 
   /**
    * 从 {@link Weibo} 从获取clientId，redirectUri，scope 使用 {@link Scope#ALL}，其余参数默认
@@ -118,8 +116,8 @@ public final class OAuth2 {
       weibo.addParameter(params, "code", code);
       weibo.addParameter(params, "redirect_uri", redirectUri);
     }
-    JSONObject jsonObject = weibo.post("https://api.weibo.com/oauth2/access_token", params);
-    return Result.perse(jsonObject, AccessToken.class);
+    String result = weibo.post("https://api.weibo.com/oauth2/access_token", params);
+    return Result.perse(result, AccessToken.class);
   }
 
   /**
@@ -132,8 +130,8 @@ public final class OAuth2 {
   public Result<TokenInfo> getTokenInfo(String accessToken) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     weibo.addParameter(params, "access_token", accessToken);
-    JSONObject jsonObject = weibo.post("https://api.weibo.com/oauth2/get_token_info", params);
-    return Result.perse(jsonObject, TokenInfo.class);
+    String result = weibo.post("https://api.weibo.com/oauth2/get_token_info", params);
+    return Result.perse(result, TokenInfo.class);
   }
 
   /**
@@ -165,8 +163,8 @@ public final class OAuth2 {
    * @param accessToken 用户授权应用的access_token
    */
   public RevokeOAuth2Result revokeOAuth2(String accessToken) {
-    JSONObject jsonObject = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
-    return RevokeOAuth2Result.perse(jsonObject);
+    String result = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
+    return RevokeOAuth2Result.perse(result);
   }
 
 }

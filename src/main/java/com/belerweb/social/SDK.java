@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import com.belerweb.social.http.Http;
 import com.belerweb.social.http.HttpException;
@@ -12,27 +11,27 @@ import com.belerweb.social.weibo.WeiboException;
 
 public abstract class SDK {
 
-  public JSONObject get(String url, List<NameValuePair> params) {
+  public String get(String url, List<NameValuePair> params) {
     try {
-      return new JSONObject(Http.get(url, params));
+      return Http.get(url, params);
     } catch (HttpException e) {
       throw new WeiboException(e);
     }
   }
 
-  public JSONObject get(String url) {
+  public String get(String url) {
     return get(url, null);
   }
 
-  public JSONObject post(String url, List<NameValuePair> params) {
+  public String post(String url, List<NameValuePair> params) {
     try {
-      return new JSONObject(Http.post(url, params));
+      return Http.post(url, params);
     } catch (HttpException e) {
       throw new WeiboException(e);
     }
   }
 
-  public JSONObject post(String url) {
+  public String post(String url) {
     return post(url, null);
   }
 
