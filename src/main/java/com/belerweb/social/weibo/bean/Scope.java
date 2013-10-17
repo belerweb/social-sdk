@@ -48,7 +48,7 @@ public enum Scope {
   /**
    * 关注应用官方微博，该参数不对应具体接口，只需在应用控制台填写官方帐号即可（默认值是应用开发者帐号）
    */
-  FOLLOW_APP_OFFICIAL_MICROBLOG("follow_app_official_microblog ");
+  FOLLOW_APP_OFFICIAL_MICROBLOG("follow_app_official_microblog");
 
   private String scope;
 

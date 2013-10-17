@@ -2,6 +2,8 @@ package com.belerweb.social.weibo.bean;
 
 import java.util.Date;
 
+import org.json.JSONObject;
+
 import com.belerweb.social.bean.Gender;
 import com.belerweb.social.bean.OnlineStatus;
 
@@ -65,7 +67,7 @@ public class User {
   /**
    * 用户的微博统一URL地址
    */
-  private String profile_url;
+  private String profileUrl;
 
   /**
    * 用户的个性化域名
@@ -257,12 +259,12 @@ public class User {
     this.profileImageUrl = profileImageUrl;
   }
 
-  public String getProfile_url() {
-    return profile_url;
+  public String getProfileUrl() {
+    return profileUrl;
   }
 
-  public void setProfile_url(String profile_url) {
-    this.profile_url = profile_url;
+  public void setProfile_url(String profileUrl) {
+    this.profileUrl = profileUrl;
   }
 
   public String getDomain() {
@@ -441,4 +443,45 @@ public class User {
     this.lang = lang;
   }
 
+  public static User parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    User obj = new User();
+    obj.id = Result.toString(jsonObject.get("id"));
+    obj.idstr = Result.toString(jsonObject.opt("idstr"));
+    obj.screenName = Result.toString(jsonObject.opt("screen_name"));
+    obj.name = Result.toString(jsonObject.opt("name"));
+    obj.province = Result.perseInteger(jsonObject.opt("province"));
+    obj.city = Result.perseInteger(jsonObject.opt("city"));
+    obj.location = Result.toString(jsonObject.opt("location"));
+    obj.description = Result.toString(jsonObject.opt("description"));
+    obj.url = Result.toString(jsonObject.opt("url"));
+    obj.profileImageUrl = Result.toString(jsonObject.opt("profile_image_url"));
+    obj.profileUrl = Result.toString(jsonObject.opt("profile_url"));
+    obj.domain = Result.toString(jsonObject.opt("domain"));
+    obj.weihao = Result.toString(jsonObject.opt("weihao"));
+    obj.gender = Gender.parse(jsonObject.optString("gender"));
+    obj.followersCount = Result.perseInteger(jsonObject.opt("followers_count"));
+    obj.friendsCount = Result.perseInteger(jsonObject.opt("friends_count"));
+    obj.statusesCount = Result.perseInteger(jsonObject.opt("statuses_count"));
+    obj.favouritesCount = Result.perseInteger(jsonObject.opt("favourites_count"));
+    obj.createdAt = Result.perseDate(jsonObject.opt("created_at"));
+    obj.following = Result.perseBoolean(jsonObject.opt("following"));
+    obj.allowAllActMsg = Result.perseBoolean(jsonObject.opt("allow_all_act_msg"));
+    obj.geoEnabled = Result.perseBoolean(jsonObject.opt("geo_enabled"));
+    obj.verified = Result.perseBoolean(jsonObject.opt("verified"));
+    obj.verifiedType = Result.perseInteger(jsonObject.opt("verified_type"));
+    obj.remark = Result.toString(jsonObject.opt("remark"));
+    obj.status = Status.parse(jsonObject.optJSONObject("status"));
+    obj.allowAllComment = Result.perseBoolean(jsonObject.opt("allow_all_comment"));
+    obj.avatarLarge = Result.toString(jsonObject.opt("avatar_large"));
+    obj.verifiedReason = Result.toString(jsonObject.opt("verified_reason"));
+    obj.followMe = Result.perseBoolean(jsonObject.opt("follow_me"));
+    obj.onlineStatus =
+        OnlineStatus.parse(Result.perseInteger(jsonObject.optString("online_status")));
+    obj.biFollowersCount = Result.perseInteger(jsonObject.opt("bi_followers_count"));
+    obj.lang = Result.toString(jsonObject.opt("lang"));
+    return obj;
+  }
 }

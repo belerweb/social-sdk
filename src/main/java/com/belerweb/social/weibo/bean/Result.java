@@ -1,9 +1,12 @@
 package com.belerweb.social.weibo.bean;
 
 import java.lang.reflect.Method;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -47,29 +50,48 @@ public class Result<T> {
   @SuppressWarnings("unchecked")
   public static <T> Result<T> perse(String json, Class<T> resultType) {
     try {
-      Method parse = resultType.getMethod("parse", JSONObject.class);
-
       if (json.matches("^\\s*[.*$")) {
-        List<T> list = new ArrayList<T>();
-        JSONArray jsonArray = new JSONArray(json);
-        for (int i = 0; i < jsonArray.length(); i++) {
-          list.add((T) parse.invoke(null, jsonArray.getJSONObject(i)));
-        }
-        return new Result<T>(list);
+        return new Result<T>(perse(new JSONArray(json), resultType));
       } else {
         JSONObject jsonObject = new JSONObject(json);
         Error error = Error.parse(jsonObject);
         if (error == null) {
+          Method parse = resultType.getMethod("parse", JSONObject.class);
           T obj = (T) parse.invoke(null, jsonObject);
           return new Result<T>(obj);
         }
         return new Result<T>(error);
       }
-
     } catch (Exception e) {
       throw new WeiboException(e);
     }
+  }
 
+  @SuppressWarnings("unchecked")
+  public static <T> List<T> perse(JSONArray jsonArray, Class<T> resultType) {
+    List<T> list = new ArrayList<T>();
+    if (jsonArray == null) {
+      return list;
+    }
+    try {
+      for (int i = 0; i < jsonArray.length(); i++) {
+        if (resultType.isAssignableFrom(String.class)) {
+          list.add((T) toString(jsonArray.get(i)));
+        } else if (resultType.isAssignableFrom(Integer.class)) {
+          list.add((T) perseInteger(jsonArray.get(i)));
+        } else if (resultType.isAssignableFrom(Long.class)) {
+          list.add((T) perseLong(jsonArray.get(i)));
+        } else if (resultType.isAssignableFrom(Double.class)) {
+          list.add((T) perseDouble(jsonArray.get(i)));
+        } else {
+          Method parse = resultType.getMethod("parse", JSONObject.class);
+          list.add((T) parse.invoke(null, jsonArray.getJSONObject(i)));
+        }
+      }
+      return list;
+    } catch (Exception e) {
+      throw new WeiboException(e);
+    }
   }
 
   public static String toString(Object obj) {
@@ -110,6 +132,21 @@ public class Result<T> {
     return result;
   }
 
+  public static Double perseDouble(Object obj) {
+    if (obj == null) {
+      return null;
+    }
+
+    Double result = null;
+    if (obj instanceof Number) {
+      result = ((Number) obj).doubleValue();
+    } else if (obj instanceof String) {
+      result = Double.valueOf((String) obj);
+    }
+
+    return result;
+  }
+
   public static Boolean perseBoolean(Object obj) {
     if (obj == null) {
       return null;
@@ -125,4 +162,20 @@ public class Result<T> {
     return result;
   }
 
+  public static Date perseDate(Object obj) {
+    if (obj == null) {
+      return null;
+    }
+
+    Date result = null;
+    if (obj instanceof String) {
+      try {
+        result = DateUtils.parseDate((String) obj, new String[] {"EEE MMM dd HH:mm:ss z yyyy"});
+      } catch (ParseException e) {
+        throw new WeiboException(e);
+      }
+    }
+
+    return result;
+  }
 }

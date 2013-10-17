@@ -2,6 +2,8 @@ package com.belerweb.social.weibo.bean;
 
 import java.util.Date;
 
+import org.json.JSONObject;
+
 /**
  * 评论
  * 
@@ -124,6 +126,25 @@ public class Comment {
 
   public void setReplyComment(Comment replyComment) {
     this.replyComment = replyComment;
+  }
+
+  public static Comment parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    Comment obj = new Comment();
+    obj.id = Result.toString(jsonObject.get("id"));
+    obj.mid = Result.toString(jsonObject.opt("mid"));
+    obj.idstr = Result.toString(jsonObject.opt("idstr"));
+    obj.createdAt = Result.perseDate(jsonObject.opt("created_at"));
+
+    obj.text = Result.toString(jsonObject.get("text"));
+    obj.source = Result.toString(jsonObject.opt("source"));
+
+    obj.user = User.parse(jsonObject.optJSONObject("user"));
+    obj.status = Status.parse(jsonObject);
+    obj.replyComment = Comment.parse(jsonObject.optJSONObject("reply_comment"));
+    return obj;
   }
 
 }

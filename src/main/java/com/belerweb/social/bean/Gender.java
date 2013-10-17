@@ -38,6 +38,9 @@ public enum Gender {
   }
 
   public static Gender parse(Integer val) {
+    if (val == null) {
+      return null;
+    }
     if (new Integer(1).equals(val)) {
       return MALE;
     }
@@ -48,6 +51,9 @@ public enum Gender {
   }
 
   public static Gender parse(String val) {
+    if (val == null) {
+      return null;
+    }
     if ("男".equals(val) || "m".equalsIgnoreCase(val) || "male".equalsIgnoreCase(val)
         || "b".equalsIgnoreCase(val) || "boy".equalsIgnoreCase(val)) {
       return MALE;

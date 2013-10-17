@@ -3,6 +3,8 @@ package com.belerweb.social.weibo.bean;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 /**
  * 微博
  * 
@@ -53,27 +55,32 @@ public class Status {
   /**
    * （暂未支持）回复ID
    */
-  private String in_reply_to_status_id;
+  private String inReplyToStatusId;
 
   /**
    * （暂未支持）回复人UID
    */
-  private String in_reply_to_user_id;
+  private String inReplyToUserId;
 
   /**
    * （暂未支持）回复人昵称
    */
-  private String in_reply_to_screen_name;
+  private String inReplyToScreenName;
 
   /**
    * 缩略图片地址，没有时不返回此字段
    */
-  private String thumbnail_pic;
+  private String thumbnailPic;
+
+  /**
+   * 中等尺寸图片地址，没有时不返回此字段
+   */
+  private String bmiddlePic;
 
   /**
    * 原始图片地址，没有时不返回此字段
    */
-  private String original_pic;
+  private String originalPic;
 
   /**
    * 地理信息字段
@@ -189,44 +196,52 @@ public class Status {
     this.truncated = truncated;
   }
 
-  public String getIn_reply_to_status_id() {
-    return in_reply_to_status_id;
+  public String getInReplyToStatusId() {
+    return inReplyToStatusId;
   }
 
-  public void setIn_reply_to_status_id(String in_reply_to_status_id) {
-    this.in_reply_to_status_id = in_reply_to_status_id;
+  public void setInReplyToStatusId(String inReplyToStatusId) {
+    this.inReplyToStatusId = inReplyToStatusId;
   }
 
-  public String getIn_reply_to_user_id() {
-    return in_reply_to_user_id;
+  public String getInReplyToUserId() {
+    return inReplyToUserId;
   }
 
-  public void setIn_reply_to_user_id(String in_reply_to_user_id) {
-    this.in_reply_to_user_id = in_reply_to_user_id;
+  public void setInReplyToUserId(String inReplyToUserId) {
+    this.inReplyToUserId = inReplyToUserId;
   }
 
-  public String getIn_reply_to_screen_name() {
-    return in_reply_to_screen_name;
+  public String getInReplyToScreenName() {
+    return inReplyToScreenName;
   }
 
-  public void setIn_reply_to_screen_name(String in_reply_to_screen_name) {
-    this.in_reply_to_screen_name = in_reply_to_screen_name;
+  public void setInReplyToScreenName(String inReplyToScreenName) {
+    this.inReplyToScreenName = inReplyToScreenName;
   }
 
-  public String getThumbnail_pic() {
-    return thumbnail_pic;
+  public String getThumbnailPic() {
+    return thumbnailPic;
   }
 
-  public void setThumbnail_pic(String thumbnail_pic) {
-    this.thumbnail_pic = thumbnail_pic;
+  public void setThumbnailPic(String thumbnailPic) {
+    this.thumbnailPic = thumbnailPic;
   }
 
-  public String getOriginal_pic() {
-    return original_pic;
+  public String getBmiddlePic() {
+    return bmiddlePic;
   }
 
-  public void setOriginal_pic(String original_pic) {
-    this.original_pic = original_pic;
+  public void setBmiddlePic(String bmiddlePic) {
+    this.bmiddlePic = bmiddlePic;
+  }
+
+  public String getOriginalPic() {
+    return originalPic;
+  }
+
+  public void setOriginalPic(String originalPic) {
+    this.originalPic = originalPic;
   }
 
   public Geo getGeo() {
@@ -309,4 +324,35 @@ public class Status {
     this.ad = ad;
   }
 
+  public static Status parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    Status obj = new Status();
+    obj.id = Result.toString(jsonObject.get("id"));
+    obj.mid = Result.toString(jsonObject.opt("mid"));
+    obj.idstr = Result.toString(jsonObject.opt("idstr"));
+    obj.createdAt = Result.perseDate(jsonObject.opt("created_at"));
+    obj.text = Result.toString(jsonObject.get("text"));
+    obj.source = Result.toString(jsonObject.opt("source"));
+    obj.favorited = Result.perseBoolean(jsonObject.opt("favorited"));
+    obj.truncated = Result.perseBoolean(jsonObject.opt("truncated"));
+    obj.inReplyToStatusId = Result.toString(jsonObject.opt("in_reply_to_status_id"));
+    obj.inReplyToUserId = Result.toString(jsonObject.opt("in_reply_to_user_id"));
+    obj.inReplyToScreenName = Result.toString(jsonObject.opt("in_reply_to_screen_name"));
+    obj.thumbnailPic = Result.toString(jsonObject.opt("thumbnail_pic"));
+    obj.bmiddlePic = Result.toString(jsonObject.opt("bmiddle_pic"));
+    obj.originalPic = Result.toString(jsonObject.opt("original_pic"));
+    obj.geo = Geo.parse(jsonObject.optJSONObject("geo"));
+    obj.user = User.parse(jsonObject.optJSONObject("user"));
+    obj.retweetedStatus = Status.parse(jsonObject.optJSONObject("retweeted_status"));
+    obj.repostsCount = Result.perseInteger(jsonObject.opt("reposts_count"));
+    obj.commentsCount = Result.perseInteger(jsonObject.opt("comments_count"));
+    obj.attitudesCount = Result.perseInteger(jsonObject.opt("attitudes_count"));
+    obj.mlevel = Result.perseInteger(jsonObject.opt("mlevel"));
+    obj.visible = Visible.parse(jsonObject.optJSONObject("visible"));
+    obj.picUrls = Result.perse(jsonObject.optJSONArray("pic_urls"), String.class);
+    obj.ad = Result.perse(jsonObject.optJSONArray("ad"), String.class);
+    return obj;
+  }
 }

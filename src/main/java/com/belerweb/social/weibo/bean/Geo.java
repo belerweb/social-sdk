@@ -1,5 +1,7 @@
 package com.belerweb.social.weibo.bean;
 
+import org.json.JSONObject;
+
 /**
  * 地理信息
  * 
@@ -123,6 +125,23 @@ public class Geo {
 
   public void setMore(String more) {
     this.more = more;
+  }
+
+  public static Geo parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    Geo obj = new Geo();
+    obj.longitude = Result.perseDouble(jsonObject.get("longitude"));
+    obj.latitude = Result.perseDouble(jsonObject.get("latitude"));
+    obj.city = Result.toString(jsonObject.opt("city"));
+    obj.province = Result.toString(jsonObject.opt("province"));
+    obj.cityName = Result.toString(jsonObject.opt("city_name"));
+    obj.provinceName = Result.toString(jsonObject.opt("province_name"));
+    obj.address = Result.toString(jsonObject.opt("address"));
+    obj.pinyin = Result.toString(jsonObject.opt("pinyin"));
+    obj.more = Result.toString(jsonObject.opt("more"));
+    return obj;
   }
 
 }

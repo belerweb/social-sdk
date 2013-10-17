@@ -57,6 +57,9 @@ public class AccessToken {
   }
 
   public static AccessToken parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
     AccessToken obj = new AccessToken();
     obj.token = jsonObject.getString("access_token");
     obj.expiresIn = Result.perseLong(jsonObject.opt("expires_in"));

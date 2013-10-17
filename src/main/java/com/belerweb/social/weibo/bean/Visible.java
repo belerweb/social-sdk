@@ -1,5 +1,7 @@
 package com.belerweb.social.weibo.bean;
 
+import org.json.JSONObject;
+
 /**
  * 微博的可见性及指定可见分组信息
  */
@@ -31,4 +33,13 @@ public class Visible {
     this.listId = listId;
   }
 
+  public static Visible parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    Visible obj = new Visible();
+    obj.type = Result.perseInteger(jsonObject.opt("type"));
+    obj.listId = Result.perseInteger(jsonObject.opt("list_id"));
+    return obj;
+  }
 }

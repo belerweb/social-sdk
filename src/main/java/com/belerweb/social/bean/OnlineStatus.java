@@ -36,6 +36,9 @@ public enum OnlineStatus {
   }
 
   public static OnlineStatus parse(Integer val) {
+    if (val == null) {
+      return null;
+    }
     if (new Integer(1).equals(val)) {
       return ONLINE;
     }
@@ -43,6 +46,9 @@ public enum OnlineStatus {
   }
 
   public static OnlineStatus parse(String val) {
+    if (val == null) {
+      return null;
+    }
     if ("在线".equals(val) || "online".equalsIgnoreCase(val)) {
       return ONLINE;
     }
