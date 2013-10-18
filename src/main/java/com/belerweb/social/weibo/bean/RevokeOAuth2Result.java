@@ -2,6 +2,8 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+
 public class RevokeOAuth2Result extends Result<Boolean> {
 
   private RevokeOAuth2Result(Error error) {

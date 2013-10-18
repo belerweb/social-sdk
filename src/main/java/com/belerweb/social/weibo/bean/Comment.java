@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+
 /**
  * 评论
  * 

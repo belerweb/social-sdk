@@ -2,6 +2,8 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+
 /**
  * 隐私设置
  */

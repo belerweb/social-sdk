@@ -1,4 +1,4 @@
-package com.belerweb.social.weibo.bean;
+package com.belerweb.social.bean;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.belerweb.social.weibo.WeiboException;
-
+import com.belerweb.social.weibo.bean.Error;
 
 public class Result<T> {
 

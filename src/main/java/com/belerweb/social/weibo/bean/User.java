@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.belerweb.social.bean.Gender;
 import com.belerweb.social.bean.OnlineStatus;
+import com.belerweb.social.bean.Result;
 
 /**
  * 评论

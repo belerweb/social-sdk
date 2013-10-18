@@ -2,6 +2,8 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+
 /**
  * 用户的粉丝数、关注数、微博数
  */

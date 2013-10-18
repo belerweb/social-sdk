@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
+import com.belerweb.social.bean.Result;
 import com.belerweb.social.weibo.WeiboException;
-import com.belerweb.social.weibo.bean.Result;
 import com.belerweb.social.weibo.bean.UserCounts;
 
 /**

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+
 /**
  * 微博
  * 
