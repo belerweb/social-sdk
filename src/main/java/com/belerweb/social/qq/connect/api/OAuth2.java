@@ -19,6 +19,8 @@ public final class OAuth2 {
   }
 
   /**
+   * 获取Authorization Code
+   * 
    * @see OAuth2#authorize(Boolean)
    */
   public String authorize() {
@@ -27,6 +29,8 @@ public final class OAuth2 {
 
 
   /**
+   * 获取Authorization Code
+   * 
    * @see OAuth2#authorize(String, Boolean)
    */
   public String authorize(String redirectUri) {
@@ -34,18 +38,21 @@ public final class OAuth2 {
   }
 
   /**
+   * 获取Authorization Code
+   * 
    * 从 {@link QQConnect} 从获取clientId，redirectUri，responseType为code，state使用authorize，scope使用
    * {@link Scope#ALL}，其余参数默认
    * 
    * @see OAuth2#authorize(String, String, String, String, Scope[], Display, Gut, Boolean)
    */
   public String authorize(Boolean wap) {
-    return authorize(connect.getClientId(), connect.getRedirectUri(), "code", "authorize",
-        Scope.ALL, null, null, wap);
+    return authorize(connect.getRedirectUri(), wap);
   }
 
 
   /**
+   * 获取Authorization Code
+   * 
    * 从 {@link QQConnect} 从获取clientId，responseType为code，state使用authorize，scope使用 {@link Scope#ALL}
    * ，其余参数默认
    * 

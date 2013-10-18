@@ -22,17 +22,20 @@ public final class OAuth2 extends API {
 
 
   /**
+   * OAuth2的authorize接口
+   * 
    * 从 {@link Weibo} 从获取clientId，redirectUri，scope 使用 {@link Scope#ALL}，其余参数默认
    * 
    * @see OAuth2#authorize(String, String, Scope[], String, Display, Boolean, String)
    */
   public String authorize() {
-    return authorize(weibo.getClientId(), weibo.getRedirectUri(), new Scope[] {Scope.ALL}, null,
-        null, null, null);
+    return authorize(weibo.getRedirectUri());
   }
 
 
   /**
+   * OAuth2的authorize接口
+   * 
    * 从 {@link Weibo} 从获取clientId，scope 使用 {@link Scope#ALL}，其余参数默认
    * 
    * @see OAuth2#authorize(String, String, Scope[], String, Display, Boolean, String)
