@@ -36,7 +36,7 @@ public final class OAuth2 {
    * @see OAuth2#authorize(String, String, String, String, String, Boolean)
    */
   public String authorize(String redirectUri) {
-    return authorize(weixin.getClientId(), redirectUri, "code", null, null, null);
+    return authorize(weixin.getAppid(), redirectUri, "code", null, null, null);
   }
 
   /**
