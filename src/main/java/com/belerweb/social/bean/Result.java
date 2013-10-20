@@ -10,7 +10,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.belerweb.social.weibo.WeiboException;
+import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weibo.bean.Error;
 
 public class Result<T> {
@@ -63,7 +63,7 @@ public class Result<T> {
         return new Result<T>(error);
       }
     } catch (Exception e) {
-      throw new WeiboException(e);
+      throw new SocialException(e);
     }
   }
 
@@ -90,7 +90,7 @@ public class Result<T> {
       }
       return list;
     } catch (Exception e) {
-      throw new WeiboException(e);
+      throw new SocialException(e);
     }
   }
 
@@ -172,7 +172,7 @@ public class Result<T> {
       try {
         result = DateUtils.parseDate((String) obj, new String[] {"EEE MMM dd HH:mm:ss z yyyy"});
       } catch (ParseException e) {
-        throw new WeiboException(e);
+        throw new SocialException(e);
       }
     }
 

@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
 import com.belerweb.social.bean.Result;
-import com.belerweb.social.weibo.WeiboException;
+import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weibo.bean.UserCounts;
 
 /**
@@ -84,7 +84,7 @@ public final class User extends API {
    */
   public Result<UserCounts> counts(String source, String accessToken, List<String> uids) {
     if (uids == null || uids.size() > 100) {
-      throw new WeiboException("需要获取数据的用户UID，必须且最多不超过100个");
+      throw new SocialException("需要获取数据的用户UID，必须且最多不超过100个");
     }
 
     List<NameValuePair> params = new ArrayList<NameValuePair>();

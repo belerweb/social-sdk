@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
 import com.belerweb.social.bean.Result;
-import com.belerweb.social.weibo.WeiboException;
+import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weibo.bean.AccessToken;
 import com.belerweb.social.weibo.bean.Display;
 import com.belerweb.social.weibo.bean.RevokeOAuth2Result;
@@ -155,7 +155,7 @@ public final class OAuth2 extends API {
   public void getOAuth2Token(String oauthConsumerKey, String oauthToken,
       String oauthSignatureMethod, Long oauthTimestamp, String oauthNonce, String oauthVersion,
       String oauthSignature) {
-    throw new WeiboException("方法还未实现...");
+    throw new SocialException("方法还未实现...");
   }
 
   /**

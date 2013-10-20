@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.http.Http;
 import com.belerweb.social.http.HttpException;
-import com.belerweb.social.weibo.WeiboException;
 
 public abstract class SDK {
 
@@ -15,7 +15,7 @@ public abstract class SDK {
     try {
       return Http.get(url, params);
     } catch (HttpException e) {
-      throw new WeiboException(e);
+      throw new SocialException(e);
     }
   }
 
@@ -27,7 +27,7 @@ public abstract class SDK {
     try {
       return Http.post(url, params);
     } catch (HttpException e) {
-      throw new WeiboException(e);
+      throw new SocialException(e);
     }
   }
 
@@ -37,7 +37,7 @@ public abstract class SDK {
 
   public void addParameter(List<NameValuePair> params, String name, Object value) {
     if (value == null) {
-      throw new WeiboException("Parameter " + name + " must not be null.");
+      throw new SocialException("Parameter " + name + " must not be null.");
     }
     params.add(new BasicNameValuePair(name, value.toString()));
   }
