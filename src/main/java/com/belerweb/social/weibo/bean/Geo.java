@@ -134,8 +134,8 @@ public class Geo {
       return null;
     }
     Geo obj = new Geo();
-    obj.longitude = Result.perseDouble(jsonObject.get("longitude"));
-    obj.latitude = Result.perseDouble(jsonObject.get("latitude"));
+    obj.longitude = Result.parseDouble(jsonObject.get("longitude"));
+    obj.latitude = Result.parseDouble(jsonObject.get("latitude"));
     obj.city = Result.toString(jsonObject.opt("city"));
     obj.province = Result.toString(jsonObject.opt("province"));
     obj.cityName = Result.toString(jsonObject.opt("city_name"));

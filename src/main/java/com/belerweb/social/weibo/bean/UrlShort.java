@@ -68,8 +68,8 @@ public class UrlShort {
     UrlShort obj = new UrlShort();
     obj.urlShort = Result.toString(jsonObject.opt("url_short"));
     obj.urlLong = Result.toString(jsonObject.opt("url_long"));
-    obj.type = Result.perseInteger(jsonObject.opt("type"));
-    obj.result = Result.perseBoolean(jsonObject.opt("result"));
+    obj.type = Result.parseInteger(jsonObject.opt("type"));
+    obj.result = Result.parseBoolean(jsonObject.opt("result"));
     return obj;
   }
 }

@@ -43,7 +43,7 @@ public final class User extends API {
     weibo.addNotNullParameter(params, "uid", uid);
     weibo.addNotNullParameter(params, "screen_name", screenName);
     String json = weibo.post("https://api.weibo.com/2/users/show.json", params);
-    return Result.perse(json, com.belerweb.social.weibo.bean.User.class);
+    return Result.parse(json, com.belerweb.social.weibo.bean.User.class);
   }
 
   /**
@@ -66,7 +66,7 @@ public final class User extends API {
     weibo.addNotNullParameter(params, "access_token", accessToken);
     weibo.addParameter(params, "domain", domain);
     String json = weibo.post("https://api.weibo.com/2/users/domain_show.json", params);
-    return Result.perse(json, com.belerweb.social.weibo.bean.User.class);
+    return Result.parse(json, com.belerweb.social.weibo.bean.User.class);
   }
 
   /**
@@ -92,7 +92,7 @@ public final class User extends API {
     weibo.addNotNullParameter(params, "access_token", accessToken);
     weibo.addParameter(params, "uids", StringUtils.join(uids, ","));
     String result = weibo.post("https://api.weibo.com/2/users/domain_show.json", params);
-    return Result.perse(result, UserCounts.class);
+    return Result.parse(result, UserCounts.class);
   }
 
 }

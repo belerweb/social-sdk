@@ -64,8 +64,8 @@ public class AccessToken {
     }
     AccessToken obj = new AccessToken();
     obj.token = jsonObject.getString("access_token");
-    obj.expiresIn = Result.perseLong(jsonObject.opt("expires_in"));
-    obj.remindIn = Result.perseLong(jsonObject.opt("remind_in"));
+    obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));
+    obj.remindIn = Result.parseLong(jsonObject.opt("remind_in"));
     obj.uid = Result.toString(jsonObject.get("uid"));
     return obj;
   }

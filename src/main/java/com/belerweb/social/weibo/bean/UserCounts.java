@@ -78,10 +78,10 @@ public class UserCounts {
   public static UserCounts parse(JSONObject jsonObject) {
     UserCounts obj = new UserCounts();
     obj.id = Result.toString(jsonObject.get("uid"));
-    obj.followersCount = Result.perseInteger(jsonObject.opt("followers_count"));
-    obj.friendsCount = Result.perseInteger(jsonObject.opt("friends_count"));
-    obj.statusesCount = Result.perseInteger(jsonObject.opt("statuses_count"));
-    obj.privateFriendsCount = Result.perseInteger(jsonObject.opt("private_friends_count"));
+    obj.followersCount = Result.parseInteger(jsonObject.opt("followers_count"));
+    obj.friendsCount = Result.parseInteger(jsonObject.opt("friends_count"));
+    obj.statusesCount = Result.parseInteger(jsonObject.opt("statuses_count"));
+    obj.privateFriendsCount = Result.parseInteger(jsonObject.opt("private_friends_count"));
     return obj;
   }
 

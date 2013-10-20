@@ -105,13 +105,13 @@ public class Privacy {
       return null;
     }
     Privacy obj = new Privacy();
-    obj.comment = Result.perseInteger(jsonObject.opt("comment"));
-    obj.geo = Result.perseInteger(jsonObject.opt("geo"));
-    obj.message = Result.perseInteger(jsonObject.opt("message"));
-    obj.realname = Result.perseInteger(jsonObject.opt("realname"));
-    obj.badge = Result.perseInteger(jsonObject.opt("badge"));
-    obj.mobile = Result.perseInteger(jsonObject.opt("mobile"));
-    obj.webim = Result.perseInteger(jsonObject.opt("webim"));
+    obj.comment = Result.parseInteger(jsonObject.opt("comment"));
+    obj.geo = Result.parseInteger(jsonObject.opt("geo"));
+    obj.message = Result.parseInteger(jsonObject.opt("message"));
+    obj.realname = Result.parseInteger(jsonObject.opt("realname"));
+    obj.badge = Result.parseInteger(jsonObject.opt("badge"));
+    obj.mobile = Result.parseInteger(jsonObject.opt("mobile"));
+    obj.webim = Result.parseInteger(jsonObject.opt("webim"));
     return obj;
   }
 }

@@ -334,11 +334,11 @@ public class Status {
     obj.id = Result.toString(jsonObject.get("id"));
     obj.mid = Result.toString(jsonObject.opt("mid"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));
-    obj.createdAt = Result.perseDate(jsonObject.opt("created_at"));
+    obj.createdAt = Result.parseDate(jsonObject.opt("created_at"));
     obj.text = Result.toString(jsonObject.get("text"));
     obj.source = Result.toString(jsonObject.opt("source"));
-    obj.favorited = Result.perseBoolean(jsonObject.opt("favorited"));
-    obj.truncated = Result.perseBoolean(jsonObject.opt("truncated"));
+    obj.favorited = Result.parseBoolean(jsonObject.opt("favorited"));
+    obj.truncated = Result.parseBoolean(jsonObject.opt("truncated"));
     obj.inReplyToStatusId = Result.toString(jsonObject.opt("in_reply_to_status_id"));
     obj.inReplyToUserId = Result.toString(jsonObject.opt("in_reply_to_user_id"));
     obj.inReplyToScreenName = Result.toString(jsonObject.opt("in_reply_to_screen_name"));
@@ -348,13 +348,13 @@ public class Status {
     obj.geo = Geo.parse(jsonObject.optJSONObject("geo"));
     obj.user = User.parse(jsonObject.optJSONObject("user"));
     obj.retweetedStatus = Status.parse(jsonObject.optJSONObject("retweeted_status"));
-    obj.repostsCount = Result.perseInteger(jsonObject.opt("reposts_count"));
-    obj.commentsCount = Result.perseInteger(jsonObject.opt("comments_count"));
-    obj.attitudesCount = Result.perseInteger(jsonObject.opt("attitudes_count"));
-    obj.mlevel = Result.perseInteger(jsonObject.opt("mlevel"));
+    obj.repostsCount = Result.parseInteger(jsonObject.opt("reposts_count"));
+    obj.commentsCount = Result.parseInteger(jsonObject.opt("comments_count"));
+    obj.attitudesCount = Result.parseInteger(jsonObject.opt("attitudes_count"));
+    obj.mlevel = Result.parseInteger(jsonObject.opt("mlevel"));
     obj.visible = Visible.parse(jsonObject.optJSONObject("visible"));
-    obj.picUrls = Result.perse(jsonObject.optJSONArray("pic_urls"), String.class);
-    obj.ad = Result.perse(jsonObject.optJSONArray("ad"), String.class);
+    obj.picUrls = Result.parse(jsonObject.optJSONArray("pic_urls"), String.class);
+    obj.ad = Result.parse(jsonObject.optJSONArray("ad"), String.class);
     return obj;
   }
 }

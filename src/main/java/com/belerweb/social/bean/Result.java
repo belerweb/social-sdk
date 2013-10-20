@@ -48,10 +48,10 @@ public class Result<T> {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> Result<T> perse(String json, Class<T> resultType) {
+  public static <T> Result<T> parse(String json, Class<T> resultType) {
     try {
       if (json.matches("^\\s*[.*$")) {
-        return new Result<T>(perse(new JSONArray(json), resultType));
+        return new Result<T>(parse(new JSONArray(json), resultType));
       } else {
         JSONObject jsonObject = new JSONObject(json);
         Error error = Error.parse(jsonObject);
@@ -68,7 +68,7 @@ public class Result<T> {
   }
 
   @SuppressWarnings("unchecked")
-  public static <T> List<T> perse(JSONArray jsonArray, Class<T> resultType) {
+  public static <T> List<T> parse(JSONArray jsonArray, Class<T> resultType) {
     List<T> list = new ArrayList<T>();
     if (jsonArray == null) {
       return list;
@@ -78,11 +78,11 @@ public class Result<T> {
         if (resultType.isAssignableFrom(String.class)) {
           list.add((T) toString(jsonArray.get(i)));
         } else if (resultType.isAssignableFrom(Integer.class)) {
-          list.add((T) perseInteger(jsonArray.get(i)));
+          list.add((T) parseInteger(jsonArray.get(i)));
         } else if (resultType.isAssignableFrom(Long.class)) {
-          list.add((T) perseLong(jsonArray.get(i)));
+          list.add((T) parseLong(jsonArray.get(i)));
         } else if (resultType.isAssignableFrom(Double.class)) {
-          list.add((T) perseDouble(jsonArray.get(i)));
+          list.add((T) parseDouble(jsonArray.get(i)));
         } else {
           Method parse = resultType.getMethod("parse", JSONObject.class);
           list.add((T) parse.invoke(null, jsonArray.getJSONObject(i)));
@@ -102,7 +102,7 @@ public class Result<T> {
     return obj.toString();
   }
 
-  public static Long perseLong(Object obj) {
+  public static Long parseLong(Object obj) {
     if (obj == null) {
       return null;
     }
@@ -117,7 +117,7 @@ public class Result<T> {
     return result;
   }
 
-  public static Integer perseInteger(Object obj) {
+  public static Integer parseInteger(Object obj) {
     if (obj == null) {
       return null;
     }
@@ -132,7 +132,7 @@ public class Result<T> {
     return result;
   }
 
-  public static Double perseDouble(Object obj) {
+  public static Double parseDouble(Object obj) {
     if (obj == null) {
       return null;
     }
@@ -147,7 +147,7 @@ public class Result<T> {
     return result;
   }
 
-  public static Boolean perseBoolean(Object obj) {
+  public static Boolean parseBoolean(Object obj) {
     if (obj == null) {
       return null;
     }
@@ -162,7 +162,7 @@ public class Result<T> {
     return result;
   }
 
-  public static Date perseDate(Object obj) {
+  public static Date parseDate(Object obj) {
     if (obj == null) {
       return null;
     }

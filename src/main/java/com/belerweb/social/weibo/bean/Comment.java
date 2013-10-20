@@ -138,7 +138,7 @@ public class Comment {
     obj.id = Result.toString(jsonObject.get("id"));
     obj.mid = Result.toString(jsonObject.opt("mid"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));
-    obj.createdAt = Result.perseDate(jsonObject.opt("created_at"));
+    obj.createdAt = Result.parseDate(jsonObject.opt("created_at"));
 
     obj.text = Result.toString(jsonObject.get("text"));
     obj.source = Result.toString(jsonObject.opt("source"));

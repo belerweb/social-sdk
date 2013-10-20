@@ -120,7 +120,7 @@ public final class OAuth2 extends API {
       weibo.addParameter(params, "redirect_uri", redirectUri);
     }
     String result = weibo.post("https://api.weibo.com/oauth2/access_token", params);
-    return Result.perse(result, AccessToken.class);
+    return Result.parse(result, AccessToken.class);
   }
 
   /**
@@ -134,7 +134,7 @@ public final class OAuth2 extends API {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     weibo.addParameter(params, "access_token", accessToken);
     String result = weibo.post("https://api.weibo.com/oauth2/get_token_info", params);
-    return Result.perse(result, TokenInfo.class);
+    return Result.parse(result, TokenInfo.class);
   }
 
   /**
@@ -167,7 +167,7 @@ public final class OAuth2 extends API {
    */
   public RevokeOAuth2Result revokeOAuth2(String accessToken) {
     String result = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
-    return RevokeOAuth2Result.perse(result);
+    return RevokeOAuth2Result.parse(result);
   }
 
 }

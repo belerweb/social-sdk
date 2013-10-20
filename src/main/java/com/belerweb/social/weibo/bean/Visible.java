@@ -40,8 +40,8 @@ public class Visible {
       return null;
     }
     Visible obj = new Visible();
-    obj.type = Result.perseInteger(jsonObject.opt("type"));
-    obj.listId = Result.perseInteger(jsonObject.opt("list_id"));
+    obj.type = Result.parseInteger(jsonObject.opt("type"));
+    obj.listId = Result.parseInteger(jsonObject.opt("list_id"));
     return obj;
   }
 }

@@ -183,19 +183,19 @@ public class Remind {
       return null;
     }
     Remind obj = new Remind();
-    obj.status = Result.perseInteger(jsonObject.opt("status"));
-    obj.follower = Result.perseInteger(jsonObject.opt("follower"));
-    obj.cmt = Result.perseInteger(jsonObject.opt("cmt"));
-    obj.dm = Result.perseInteger(jsonObject.opt("dm"));
-    obj.mentionStatus = Result.perseInteger(jsonObject.opt("mention_status"));
-    obj.mentionCmt = Result.perseInteger(jsonObject.opt("mention_cmt"));
-    obj.group = Result.perseInteger(jsonObject.opt("group"));
-    obj.privateGroup = Result.perseInteger(jsonObject.opt("private_group"));
-    obj.notice = Result.perseInteger(jsonObject.opt("notice"));
-    obj.invite = Result.perseInteger(jsonObject.opt("invite"));
-    obj.badge = Result.perseInteger(jsonObject.opt("badge"));
-    obj.photo = Result.perseInteger(jsonObject.opt("photo"));
-    obj.msgbox = Result.perseInteger(jsonObject.opt("msgbox"));
+    obj.status = Result.parseInteger(jsonObject.opt("status"));
+    obj.follower = Result.parseInteger(jsonObject.opt("follower"));
+    obj.cmt = Result.parseInteger(jsonObject.opt("cmt"));
+    obj.dm = Result.parseInteger(jsonObject.opt("dm"));
+    obj.mentionStatus = Result.parseInteger(jsonObject.opt("mention_status"));
+    obj.mentionCmt = Result.parseInteger(jsonObject.opt("mention_cmt"));
+    obj.group = Result.parseInteger(jsonObject.opt("group"));
+    obj.privateGroup = Result.parseInteger(jsonObject.opt("private_group"));
+    obj.notice = Result.parseInteger(jsonObject.opt("notice"));
+    obj.invite = Result.parseInteger(jsonObject.opt("invite"));
+    obj.badge = Result.parseInteger(jsonObject.opt("badge"));
+    obj.photo = Result.parseInteger(jsonObject.opt("photo"));
+    obj.msgbox = Result.parseInteger(jsonObject.opt("msgbox"));
     return obj;
   }
 }

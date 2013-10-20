@@ -76,8 +76,8 @@ public class TokenInfo {
     obj.uid = Result.toString(jsonObject.get("uid"));
     obj.appkey = Result.toString(jsonObject.opt("appkey"));
     obj.scope = Result.toString(jsonObject.opt("scope"));
-    obj.createAt = Result.perseLong(jsonObject.opt("create_at"));
-    obj.expireIn = Result.perseLong(jsonObject.opt("expire_in"));
+    obj.createAt = Result.parseLong(jsonObject.opt("create_at"));
+    obj.expireIn = Result.parseLong(jsonObject.opt("expire_in"));
     return obj;
   }
 }
