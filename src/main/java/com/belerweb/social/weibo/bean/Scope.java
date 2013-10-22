@@ -1,7 +1,9 @@
 package com.belerweb.social.weibo.bean;
 
 /**
- * 授权页面的终端类型
+ * scope是OAuth2.0授权机制中authorize接口的一个参数
+ * 
+ * 通过scope，平台将开放更多的微博核心功能给开发者，同时也加强用户隐私保护，提升了用户体验，用户在新OAuth2.0授权页中有权利选择赋予应用的功能。
  */
 public enum Scope {
 

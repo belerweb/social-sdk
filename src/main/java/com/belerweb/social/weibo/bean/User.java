@@ -9,7 +9,7 @@ import com.belerweb.social.bean.OnlineStatus;
 import com.belerweb.social.bean.Result;
 
 /**
- * 评论
+ * 用户
  * 
  * 文档地址：http://open.weibo.com/wiki/常见返回对象数据结构#.E7.94.A8.E6.88.B7.EF.BC.88user.EF.BC.89
  */
