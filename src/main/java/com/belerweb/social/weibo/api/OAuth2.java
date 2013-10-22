@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
+import com.belerweb.social.API;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weibo.bean.AccessToken;
