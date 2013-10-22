@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.belerweb.social.exception.SocialException;
-import com.belerweb.social.weibo.bean.Error;
 
 public class Result<T> {
 

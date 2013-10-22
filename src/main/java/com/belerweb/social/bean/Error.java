@@ -1,4 +1,4 @@
-package com.belerweb.social.weibo.bean;
+package com.belerweb.social.bean;
 
 import org.json.JSONObject;
 
@@ -36,13 +36,22 @@ public final class Error {
 
   public static Error parse(JSONObject jsonObject) {
     String errorCode = jsonObject.optString("error_code");
-    if (errorCode != null) {
+    if (errorCode != null) {// 微博
       String request = jsonObject.optString("request");
       String error = jsonObject.optString("error");
       Error er = new Error();
       er.setRequest(request);
       er.setErrorCode(errorCode);
       er.setError(error);
+      return er;
+    }
+
+    Integer ret = Result.parseInteger(jsonObject.opt("ret"));
+    if (ret != null && ret != 0) {// QQ互联
+      String msg = jsonObject.optString("msg");
+      Error er = new Error();
+      er.setErrorCode(ret.toString());
+      er.setError(msg);
       return er;
     }
 
