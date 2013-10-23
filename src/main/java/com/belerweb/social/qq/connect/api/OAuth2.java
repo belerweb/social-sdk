@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
+import com.belerweb.social.bean.Result;
+import com.belerweb.social.qq.connect.bean.AccessToken;
 import com.belerweb.social.qq.connect.bean.Display;
 import com.belerweb.social.qq.connect.bean.Gut;
 import com.belerweb.social.qq.connect.bean.Scope;
@@ -48,7 +51,6 @@ public final class OAuth2 {
   public String authorize(Boolean wap) {
     return authorize(connect.getRedirectUri(), wap);
   }
-
 
   /**
    * 获取Authorization Code
@@ -101,4 +103,87 @@ public final class OAuth2 {
     return url + StringUtils.join(params, "&");
   }
 
+  /**
+   * 通过Authorization Code获取Access Token，此接口适用于PC网站。
+   * 
+   * 从 {@link QQConnect} 从获取clientId，clientSecret，redirectUri，grantType为authorization_code
+   * 
+   * @see OAuth2#accessToken(String, String, String, String, String, Boolean)
+   */
+  public Result<AccessToken> accessToken(String code) {
+    return accessToken(code, connect.getRedirectUri());
+  }
+
+  /**
+   * 通过Authorization Code获取Access Token，此接口适用于PC网站。
+   * 
+   * 从 {@link QQConnect} 从获取clientId，clientSecret，grantType为authorization_code
+   * 
+   * @see OAuth2#accessToken(String, String, String, String, String, Boolean)
+   */
+  public Result<AccessToken> accessToken(String code, String redirectUri) {
+    return accessToken(code, redirectUri, null);
+  }
+
+  /**
+   * 通过Authorization Code获取Access Token
+   * 
+   * 从 {@link QQConnect} 从获取clientId，clientSecret，redirectUri，grantType为authorization_code
+   * 
+   * @see OAuth2#accessToken(String, String, String, String, String, Boolean)
+   */
+  public Result<AccessToken> accessToken(String code, Boolean wap) {
+    return accessToken(code, connect.getRedirectUri(), wap);
+  }
+
+  /**
+   * 通过Authorization Code获取Access Token
+   * 
+   * 从 {@link QQConnect} 从获取clientId，clientSecret，grantType为authorization_code
+   * 
+   * @see OAuth2#accessToken(String, String, String, String, String, Boolean)
+   */
+  public Result<AccessToken> accessToken(String code, String redirectUri, Boolean wap) {
+    return accessToken(connect.getClientId(), connect.getClientSecret(), "authorization_code",
+        code, redirectUri, wap);
+  }
+
+  /**
+   * 通过Authorization Code获取Access Token
+   * 
+   * 文档地址：http://wiki.connect.qq.com/使用authorization_code获取access_token
+   * 
+   * @param clientId 申请QQ登录成功后，分配给网站的appid。
+   * @param clientSecret 申请QQ登录成功后，分配给网站的appkey。
+   * @param grantType 授权类型，在本步骤中，此值为“authorization_code”。
+   * @param code 上一步返回的authorization code。如果用户成功登录并授权，则会跳转到指定的回调地址，并在URL中带上Authorization
+   *        Code。注意此code会在10分钟内过期。
+   * @param redirectUri 与上面一步中传入的redirect_uri保持一致。
+   * @param wap 是否使wap版，默认为false
+   */
+  public Result<AccessToken> accessToken(String clientId, String clientSecret, String grantType,
+      String code, String redirectUri, Boolean wap) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "client_id", clientId);
+    connect.addParameter(params, "client_secret", clientSecret);
+    connect.addParameter(params, "grant_type", grantType);
+    connect.addParameter(params, "code", code);
+    connect.addParameter(params, "redirect_uri", redirectUri);
+    String url = "https://graph.qq.com/oauth2.0/token";
+    if (Boolean.TRUE.equals(wap)) {
+      url = "https://graph.z.qq.com/moc2/token";
+    }
+    String result = connect.get(url, params);
+    String[] results = result.split("\\&");
+    JSONObject jsonObject = new JSONObject();
+    for (String param : results) {
+      String[] keyValue = param.split("\\=");
+      jsonObject.put(keyValue[0], keyValue[1]);
+    }
+    String errorCode = jsonObject.optString("code");
+    if (errorCode != null) {
+      jsonObject.put("ret", errorCode);// To match Error.parse()
+    }
+    return Result.parse(jsonObject, AccessToken.class);
+  }
 }

@@ -46,21 +46,28 @@ public class Result<T> {
     return results;
   }
 
-  @SuppressWarnings("unchecked")
   public static <T> Result<T> parse(String json, Class<T> resultType) {
     try {
       if (json.matches("^\\s*[.*$")) {
         return new Result<T>(parse(new JSONArray(json), resultType));
       } else {
-        JSONObject jsonObject = new JSONObject(json);
-        Error error = Error.parse(jsonObject);
-        if (error == null) {
-          Method parse = resultType.getMethod("parse", JSONObject.class);
-          T obj = (T) parse.invoke(null, jsonObject);
-          return new Result<T>(obj);
-        }
-        return new Result<T>(error);
+        return parse(new JSONObject(json), resultType);
       }
+    } catch (Exception e) {
+      throw new SocialException(e);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> Result<T> parse(JSONObject jsonObject, Class<T> resultType) {
+    try {
+      Error error = Error.parse(jsonObject);
+      if (error == null) {
+        Method parse = resultType.getMethod("parse", JSONObject.class);
+        T obj = (T) parse.invoke(null, jsonObject);
+        return new Result<T>(obj);
+      }
+      return new Result<T>(error);
     } catch (Exception e) {
       throw new SocialException(e);
     }
