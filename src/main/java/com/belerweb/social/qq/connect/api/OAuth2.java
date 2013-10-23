@@ -11,6 +11,7 @@ import com.belerweb.social.bean.Result;
 import com.belerweb.social.qq.connect.bean.AccessToken;
 import com.belerweb.social.qq.connect.bean.Display;
 import com.belerweb.social.qq.connect.bean.Gut;
+import com.belerweb.social.qq.connect.bean.OpenID;
 import com.belerweb.social.qq.connect.bean.Scope;
 
 public final class OAuth2 {
@@ -185,5 +186,33 @@ public final class OAuth2 {
       jsonObject.put("ret", errorCode);// To match Error.parse()
     }
     return Result.parse(jsonObject, AccessToken.class);
+  }
+
+
+  public Result<OpenID> openId(String accessToken, Boolean wap) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "access_token", accessToken);
+    String url = "https://graph.qq.com/oauth2.0/me";
+    if (Boolean.TRUE.equals(wap)) {
+      url = "https://graph.z.qq.com/moc2/me";
+    }
+    String result = connect.get(url, params).trim();
+    JSONObject jsonObject;
+    if (result.startsWith("callback")) {// PC网站的正确返回结果
+      jsonObject =
+          new JSONObject(result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1));
+    } else {// WAP网站返回结果或错误信息
+      jsonObject = new JSONObject();
+      String[] results = result.split("\\&");
+      for (String param : results) {
+        String[] keyValue = param.split("\\=");
+        jsonObject.put(keyValue[0], keyValue[1]);
+      }
+      String errorCode = jsonObject.optString("code");
+      if (errorCode != null) {
+        jsonObject.put("ret", errorCode);// To match Error.parse()
+      }
+    }
+    return Result.parse(jsonObject, OpenID.class);
   }
 }
