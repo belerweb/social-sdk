@@ -189,6 +189,90 @@ public final class OAuth2 {
   }
 
   /**
+   * 权限自动续期，获取Access Token，此方法适用于PC网站。
+   * 
+   * 从 {@link QQConnect}中获取 clientId, clientSecret
+   * 
+   * @see OAuth2#refreshAccessToken(String, String, String, String, Boolean)
+   * @param refreshToken {@link AccessToken}中的refresToken。
+   */
+  public Result<AccessToken> refreshAccessToken(String refreshToken) {
+    return refreshAccessToken(connect.getClientId(), connect.getClientSecret(), refreshToken);
+  }
+
+  /**
+   * 权限自动续期，获取Access Token，此方法适用于PC网站。
+   * 
+   * @see OAuth2#refreshAccessToken(String, String, String, String, Boolean)
+   * @param refreshToken {@link AccessToken}中的refresToken。
+   */
+  public Result<AccessToken> refreshAccessToken(String clientId, String clientSecret,
+      String refreshToken) {
+    return refreshAccessToken(clientId, clientSecret, "refresh_token", refreshToken, null);
+  }
+
+  /**
+   * 权限自动续期，获取Access Token
+   * 
+   * 从 {@link QQConnect}中获取 clientId, clientSecret
+   * 
+   * @see OAuth2#refreshAccessToken(String, String, String, String, Boolean)
+   * @param refreshToken {@link AccessToken}中的refresToken。
+   * @param wap 是否使wap版，默认为false
+   */
+  public Result<AccessToken> refreshAccessToken(String refreshToken, Boolean wap) {
+    return refreshAccessToken(connect.getClientId(), connect.getClientSecret(), refreshToken, wap);
+  }
+
+  /**
+   * 权限自动续期，获取Access Token
+   * 
+   * @see OAuth2#refreshAccessToken(String, String, String, String, Boolean)
+   * @param refreshToken {@link AccessToken}中的refresToken。
+   * @param wap 是否使wap版，默认为false
+   */
+  public Result<AccessToken> refreshAccessToken(String clientId, String clientSecret,
+      String refreshToken, Boolean wap) {
+    return refreshAccessToken(clientId, clientSecret, "refresh_token", refreshToken, wap);
+  }
+
+  /**
+   * 权限自动续期，获取Access Token
+   * 
+   * 文档地址：http://wiki.connect.qq.com/使用authorization_code获取access_token
+   * 
+   * @param clientId 申请QQ登录成功后，分配给网站的appid。
+   * @param clientSecret 申请QQ登录成功后，分配给网站的appkey。
+   * @param grantType 授权类型，在本步骤中，此值为“refresh_token”。
+   * @param refresToken {@link AccessToken}中的refresToken。
+   * @param wap 是否使wap版，默认为false
+   */
+  public Result<AccessToken> refreshAccessToken(String clientId, String clientSecret,
+      String grantType, String refreshToken, Boolean wap) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "client_id", clientId);
+    connect.addParameter(params, "client_secret", clientSecret);
+    connect.addParameter(params, "grant_type", grantType);
+    connect.addParameter(params, "refresh_token", refreshToken);
+    String url = "https://graph.qq.com/oauth2.0/token";
+    if (Boolean.TRUE.equals(wap)) {
+      url = "https://graph.z.qq.com/moc2/token";
+    }
+    String result = connect.get(url, params);
+    String[] results = result.split("\\&");
+    JSONObject jsonObject = new JSONObject();
+    for (String param : results) {
+      String[] keyValue = param.split("\\=");
+      jsonObject.put(keyValue[0], keyValue[1]);
+    }
+    String errorCode = jsonObject.optString("code");
+    if (errorCode != null) {
+      jsonObject.put("ret", errorCode);// To match Error.parse()
+    }
+    return Result.parse(jsonObject, AccessToken.class);
+  }
+
+  /**
    * 获取用户OpenID，此接口适用于PC网站访问
    * 
    * 文档地址：http://wiki.connect.qq.com/获取用户openid_oauth2-0
