@@ -188,7 +188,26 @@ public final class OAuth2 {
     return Result.parse(jsonObject, AccessToken.class);
   }
 
+  /**
+   * 获取用户OpenID，此接口适用于PC网站访问
+   * 
+   * 文档地址：http://wiki.connect.qq.com/获取用户openid_oauth2-0
+   * 
+   * @param accessToken 授权令牌
+   */
 
+  public Result<OpenID> openId(String accessToken) {
+    return openId(accessToken, null);
+  }
+
+  /**
+   * 获取用户OpenID
+   * 
+   * 文档地址：http://wiki.connect.qq.com/获取用户openid_oauth2-0
+   * 
+   * @param accessToken 授权令牌
+   * @param wap 是否使wap网站访问
+   */
   public Result<OpenID> openId(String accessToken, Boolean wap) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     connect.addParameter(params, "access_token", accessToken);
