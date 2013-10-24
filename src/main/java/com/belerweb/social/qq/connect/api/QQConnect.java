@@ -9,6 +9,7 @@ public final class QQConnect extends SDK {
   private String redirectUri;
 
   private OAuth2 oAuth2;
+  private User user;
 
   public QQConnect(String clientId, String clientSecret) {
     this.clientId = clientId;
@@ -24,8 +25,14 @@ public final class QQConnect extends SDK {
     if (oAuth2 == null) {
       oAuth2 = new OAuth2(this);
     }
-
     return oAuth2;
+  }
+
+  public User getUser() {
+    if (user == null) {
+      user = new User(this);
+    }
+    return user;
   }
 
   public String getClientId() {
