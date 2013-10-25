@@ -14,126 +14,34 @@ import com.belerweb.social.bean.Result;
  */
 public class Status {
 
+  private String id;// 微博ID
+  private String mid;// 微博MID
+  private String idstr;// 字符串型的微博ID
+  private Date createdAt;// 微博创建时间
+  private String text;// 微博信息内容
+  private String source;// 微博来源
+  private Boolean favorited;// 是否已收藏
+  private Boolean truncated;// 是否被截断
+  private String inReplyToStatusId;// （暂未支持）回复ID
+  private String inReplyToUserId;// 暂未支持）回复人UID
+  private String inReplyToScreenName;// 暂未支持）回复人昵称
+  private String thumbnailPic;// 缩略图片地址，没有时不返回此字段
+  private String bmiddlePic;// 中等尺寸图片地址，没有时不返回此字段
+  private String originalPic;// 原始图片地址，没有时不返回此字段
+  private Geo geo;// 地理信息字段
+  private User user;// 微博作者的用户信息字段
+  private Status retweetedStatus;// 被转发的原微博信息字段，当该微博为转发微博时返回
+  private Integer repostsCount;// 转发数
+  private Integer commentsCount;// 评论数
+  private Integer attitudesCount;// 表态数
+  private Integer mlevel;// 暂未支持
+  private Visible visible;// 微博的可见性及指定可见分组信息
+  private List<String> picUrls;// 微博配图地址。多图时返回多图链接。无配图返回“[]”
+  private List<String> ad;// 微博流内的推广微博ID
+
   /**
    * 微博ID
    */
-  private String id;
-
-  /**
-   * 微博MID
-   */
-  private String mid;
-
-  /**
-   * 字符串型的微博ID
-   */
-  private String idstr;
-
-  /**
-   * 微博创建时间
-   */
-  private Date createdAt;
-
-  /**
-   * 微博信息内容
-   */
-  private String text;
-
-  /**
-   * 微博来源
-   */
-  private String source;
-
-  /**
-   * 是否已收藏
-   */
-  private Boolean favorited;
-
-  /**
-   * 是否被截断
-   */
-  private Boolean truncated;
-
-  /**
-   * （暂未支持）回复ID
-   */
-  private String inReplyToStatusId;
-
-  /**
-   * （暂未支持）回复人UID
-   */
-  private String inReplyToUserId;
-
-  /**
-   * （暂未支持）回复人昵称
-   */
-  private String inReplyToScreenName;
-
-  /**
-   * 缩略图片地址，没有时不返回此字段
-   */
-  private String thumbnailPic;
-
-  /**
-   * 中等尺寸图片地址，没有时不返回此字段
-   */
-  private String bmiddlePic;
-
-  /**
-   * 原始图片地址，没有时不返回此字段
-   */
-  private String originalPic;
-
-  /**
-   * 地理信息字段
-   */
-  private Geo geo;
-
-  /**
-   * 微博作者的用户信息字段
-   */
-  private User user;
-
-  /**
-   * 被转发的原微博信息字段，当该微博为转发微博时返回
-   */
-  private Status retweetedStatus;
-
-  /**
-   * 转发数
-   */
-  private Integer repostsCount;
-
-  /**
-   * 评论数
-   */
-  private Integer commentsCount;
-
-  /**
-   * 表态数
-   */
-  private Integer attitudesCount;
-
-  /**
-   * 暂未支持
-   */
-  private Integer mlevel;
-
-  /**
-   * 微博的可见性及指定可见分组信息
-   */
-  private Visible visible;
-
-  /**
-   * 微博配图地址。多图时返回多图链接。无配图返回“[]”
-   */
-  private List<String> picUrls;
-
-  /**
-   * 微博流内的推广微博ID
-   */
-  private List<String> ad;
-
   public String getId() {
     return id;
   }
@@ -142,6 +50,9 @@ public class Status {
     this.id = id;
   }
 
+  /**
+   * 微博MID
+   */
   public String getMid() {
     return mid;
   }
@@ -150,6 +61,9 @@ public class Status {
     this.mid = mid;
   }
 
+  /**
+   * 字符串型的微博ID
+   */
   public String getIdstr() {
     return idstr;
   }
@@ -158,6 +72,9 @@ public class Status {
     this.idstr = idstr;
   }
 
+  /**
+   * 微博创建时间
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -166,6 +83,9 @@ public class Status {
     this.createdAt = createdAt;
   }
 
+  /**
+   * 微博信息内容
+   */
   public String getText() {
     return text;
   }
@@ -174,6 +94,9 @@ public class Status {
     this.text = text;
   }
 
+  /**
+   * 微博来源
+   */
   public String getSource() {
     return source;
   }
@@ -182,6 +105,9 @@ public class Status {
     this.source = source;
   }
 
+  /**
+   * 是否已收藏
+   */
   public Boolean getFavorited() {
     return favorited;
   }
@@ -190,6 +116,9 @@ public class Status {
     this.favorited = favorited;
   }
 
+  /**
+   * 是否被截断
+   */
   public Boolean getTruncated() {
     return truncated;
   }
@@ -198,6 +127,9 @@ public class Status {
     this.truncated = truncated;
   }
 
+  /**
+   * （暂未支持）回复ID
+   */
   public String getInReplyToStatusId() {
     return inReplyToStatusId;
   }
@@ -206,6 +138,9 @@ public class Status {
     this.inReplyToStatusId = inReplyToStatusId;
   }
 
+  /**
+   * （暂未支持）回复人UID
+   */
   public String getInReplyToUserId() {
     return inReplyToUserId;
   }
@@ -214,6 +149,9 @@ public class Status {
     this.inReplyToUserId = inReplyToUserId;
   }
 
+  /**
+   * （暂未支持）回复人昵称
+   */
   public String getInReplyToScreenName() {
     return inReplyToScreenName;
   }
@@ -222,6 +160,9 @@ public class Status {
     this.inReplyToScreenName = inReplyToScreenName;
   }
 
+  /**
+   * 缩略图片地址，没有时不返回此字段
+   */
   public String getThumbnailPic() {
     return thumbnailPic;
   }
@@ -230,6 +171,9 @@ public class Status {
     this.thumbnailPic = thumbnailPic;
   }
 
+  /**
+   * 中等尺寸图片地址，没有时不返回此字段
+   */
   public String getBmiddlePic() {
     return bmiddlePic;
   }
@@ -238,6 +182,9 @@ public class Status {
     this.bmiddlePic = bmiddlePic;
   }
 
+  /**
+   * 原始图片地址，没有时不返回此字段
+   */
   public String getOriginalPic() {
     return originalPic;
   }
@@ -246,6 +193,9 @@ public class Status {
     this.originalPic = originalPic;
   }
 
+  /**
+   * 地理信息字段
+   */
   public Geo getGeo() {
     return geo;
   }
@@ -254,6 +204,9 @@ public class Status {
     this.geo = geo;
   }
 
+  /**
+   * 微博作者的用户信息字段
+   */
   public User getUser() {
     return user;
   }
@@ -262,6 +215,9 @@ public class Status {
     this.user = user;
   }
 
+  /**
+   * 被转发的原微博信息字段，当该微博为转发微博时返回
+   */
   public Status getRetweetedStatus() {
     return retweetedStatus;
   }
@@ -270,6 +226,9 @@ public class Status {
     this.retweetedStatus = retweetedStatus;
   }
 
+  /**
+   * 转发数
+   */
   public Integer getRepostsCount() {
     return repostsCount;
   }
@@ -278,6 +237,9 @@ public class Status {
     this.repostsCount = repostsCount;
   }
 
+  /**
+   * 评论数
+   */
   public Integer getCommentsCount() {
     return commentsCount;
   }
@@ -286,6 +248,9 @@ public class Status {
     this.commentsCount = commentsCount;
   }
 
+  /**
+   * 表态数
+   */
   public Integer getAttitudesCount() {
     return attitudesCount;
   }
@@ -294,6 +259,9 @@ public class Status {
     this.attitudesCount = attitudesCount;
   }
 
+  /**
+   * 暂未支持
+   */
   public Integer getMlevel() {
     return mlevel;
   }
@@ -302,6 +270,9 @@ public class Status {
     this.mlevel = mlevel;
   }
 
+  /**
+   * 微博的可见性及指定可见分组信息
+   */
   public Visible getVisible() {
     return visible;
   }
@@ -310,6 +281,9 @@ public class Status {
     this.visible = visible;
   }
 
+  /**
+   * 微博配图地址。多图时返回多图链接。无配图返回“[]”
+   */
   public List<String> getPicUrls() {
     return picUrls;
   }
@@ -318,6 +292,9 @@ public class Status {
     this.picUrls = picUrls;
   }
 
+  /**
+   * 微博流内的推广微博ID
+   */
   public List<String> getAd() {
     return ad;
   }

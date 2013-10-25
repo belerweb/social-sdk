@@ -6,26 +6,14 @@ import com.belerweb.social.bean.Result;
 
 public class AccessToken {
 
+  private String token;// 用于调用access_token，接口获取授权后的access token。
+  private Long expiresIn;// access_token的生命周期，单位是秒数。
+  private Long remindIn;// access_token的生命周期（该参数即将废弃，开发者请使用expires_in）。
+  private String uid;// 当前授权用户的UID。
+
   /**
    * 用于调用access_token，接口获取授权后的access token。
    */
-  private String token;
-
-  /**
-   * access_token的生命周期，单位是秒数。
-   */
-  private Long expiresIn;
-
-  /**
-   * access_token的生命周期（该参数即将废弃，开发者请使用expires_in）。
-   */
-  private Long remindIn;
-
-  /**
-   * 当前授权用户的UID。
-   */
-  private String uid;
-
   public String getToken() {
     return token;
   }
@@ -34,6 +22,9 @@ public class AccessToken {
     this.token = token;
   }
 
+  /**
+   * access_token的生命周期，单位是秒数。
+   */
   public Long getExpiresIn() {
     return expiresIn;
   }
@@ -42,6 +33,9 @@ public class AccessToken {
     this.expiresIn = expiresIn;
   }
 
+  /**
+   * access_token的生命周期（该参数即将废弃，开发者请使用expires_in）。
+   */
   public Long getRemindIn() {
     return remindIn;
   }
@@ -50,6 +44,9 @@ public class AccessToken {
     this.remindIn = remindIn;
   }
 
+  /**
+   * 当前授权用户的UID。
+   */
   public String getUid() {
     return uid;
   }

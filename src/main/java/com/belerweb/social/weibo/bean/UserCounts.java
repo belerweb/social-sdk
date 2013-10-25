@@ -9,31 +9,15 @@ import com.belerweb.social.bean.Result;
  */
 public class UserCounts {
 
+  private String id;// 微博ID
+  private Integer followersCount;// 粉丝数
+  private Integer friendsCount;// 关注数
+  private Integer statusesCount;// 微博数
+  private Integer privateFriendsCount;// 暂未支持
+
   /**
    * 微博ID
    */
-  private String id;
-
-  /**
-   * 粉丝数
-   */
-  private Integer followersCount;
-
-  /**
-   * 关注数
-   */
-  private Integer friendsCount;
-
-  /**
-   * 微博数
-   */
-  private Integer statusesCount;
-
-  /**
-   * 暂未支持
-   */
-  private Integer privateFriendsCount;
-
   public String getId() {
     return id;
   }
@@ -42,6 +26,9 @@ public class UserCounts {
     this.id = id;
   }
 
+  /**
+   * 粉丝数
+   */
   public Integer getFollowersCount() {
     return followersCount;
   }
@@ -50,6 +37,9 @@ public class UserCounts {
     this.followersCount = followersCount;
   }
 
+  /**
+   * 关注数
+   */
   public Integer getFriendsCount() {
     return friendsCount;
   }
@@ -58,6 +48,9 @@ public class UserCounts {
     this.friendsCount = friendsCount;
   }
 
+  /**
+   * 微博数
+   */
   public Integer getStatusesCount() {
     return statusesCount;
   }
@@ -66,6 +59,9 @@ public class UserCounts {
     this.statusesCount = statusesCount;
   }
 
+  /**
+   * 暂未支持
+   */
   public Integer getPrivateFriendsCount() {
     return privateFriendsCount;
   }

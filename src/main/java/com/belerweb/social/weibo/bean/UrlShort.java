@@ -9,26 +9,14 @@ import com.belerweb.social.bean.Result;
  */
 public class UrlShort {
 
+  private String urlShort;// 短链接
+  private String urlLong;// 原始长链接
+  private Integer type;// 链接的类型，0：普通网页、1：视频、2：音乐、3：活动、5、投票
+  private Boolean result;// 短链的可用状态，true：可用、false：不可用。
+
   /**
    * 短链接
    */
-  private String urlShort;
-
-  /**
-   * 原始长链接
-   */
-  private String urlLong;
-
-  /**
-   * 链接的类型，0：普通网页、1：视频、2：音乐、3：活动、5、投票
-   */
-  private Integer type;
-
-  /**
-   * 短链的可用状态，true：可用、false：不可用。
-   */
-  private Boolean result;
-
   public String getUrlShort() {
     return urlShort;
   }
@@ -37,6 +25,9 @@ public class UrlShort {
     this.urlShort = urlShort;
   }
 
+  /**
+   * 原始长链接
+   */
   public String getUrlLong() {
     return urlLong;
   }
@@ -45,6 +36,9 @@ public class UrlShort {
     this.urlLong = urlLong;
   }
 
+  /**
+   * 链接的类型，0：普通网页、1：视频、2：音乐、3：活动、5、投票
+   */
   public Integer getType() {
     return type;
   }
@@ -53,6 +47,9 @@ public class UrlShort {
     this.type = type;
   }
 
+  /**
+   * 短链的可用状态，true：可用、false：不可用。
+   */
   public Boolean getResult() {
     return result;
   }

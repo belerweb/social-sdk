@@ -13,51 +13,19 @@ import com.belerweb.social.bean.Result;
  */
 public class Comment {
 
+  private String id;// 评论的ID
+  private String mid;// 评论的MID
+  private String idstr;// 字符串型的评论ID
+  private Date createdAt;// 评论创建时间
+  private String text;// 评论的内容
+  private String source;// 评论的来源
+  private User user;// 评论作者的用户信息字段
+  private Status status;// 评论的微博信息字段
+  private Comment replyComment;// 评论来源评论，当本评论属于对另一评论的回复时返回此字段
+
   /**
    * 评论的ID
    */
-  private String id;
-
-  /**
-   * 评论的MID
-   */
-  private String mid;
-
-  /**
-   * 字符串型的评论ID
-   */
-  private String idstr;
-
-  /**
-   * 评论创建时间
-   */
-  private Date createdAt;
-
-  /**
-   * 评论的内容
-   */
-  private String text;
-
-  /**
-   * 评论的来源
-   */
-  private String source;
-
-  /**
-   * 评论作者的用户信息字段
-   */
-  private User user;
-
-  /**
-   * 评论的微博信息字段
-   */
-  private Status status;
-
-  /**
-   * 评论来源评论，当本评论属于对另一评论的回复时返回此字段
-   */
-  private Comment replyComment;
-
   public String getId() {
     return id;
   }
@@ -66,6 +34,9 @@ public class Comment {
     this.id = id;
   }
 
+  /**
+   * 评论的MID
+   */
   public String getMid() {
     return mid;
   }
@@ -74,6 +45,9 @@ public class Comment {
     this.mid = mid;
   }
 
+  /**
+   * 字符串型的评论ID
+   */
   public String getIdstr() {
     return idstr;
   }
@@ -82,6 +56,9 @@ public class Comment {
     this.idstr = idstr;
   }
 
+  /**
+   * 评论创建时间
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -90,6 +67,9 @@ public class Comment {
     this.createdAt = createdAt;
   }
 
+  /**
+   * 评论的内容
+   */
   public String getText() {
     return text;
   }
@@ -98,6 +78,9 @@ public class Comment {
     this.text = text;
   }
 
+  /**
+   * 评论的来源
+   */
   public String getSource() {
     return source;
   }
@@ -106,6 +89,9 @@ public class Comment {
     this.source = source;
   }
 
+  /**
+   * 评论作者的用户信息字段
+   */
   public User getUser() {
     return user;
   }
@@ -114,6 +100,9 @@ public class Comment {
     this.user = user;
   }
 
+  /**
+   * 评论的微博信息字段
+   */
   public Status getStatus() {
     return status;
   }
@@ -122,6 +111,9 @@ public class Comment {
     this.status = status;
   }
 
+  /**
+   * 评论来源评论，当本评论属于对另一评论的回复时返回此字段
+   */
   public Comment getReplyComment() {
     return replyComment;
   }

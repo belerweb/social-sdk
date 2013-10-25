@@ -9,71 +9,23 @@ import com.belerweb.social.bean.Result;
  */
 public class Remind {
 
+  private Integer status;// 新微博未读数
+  private Integer follower;// 新粉丝数
+  private Integer cmt;// 新评论数
+  private Integer dm;// 新私信数
+  private Integer mentionStatus;// 新提及我的微博数
+  private Integer mentionCmt;// 新提及我的评论数
+  private Integer group;// 微群消息未读数
+  private Integer privateGroup;// 私有微群消息未读数
+  private Integer notice;// 新通知未读数
+  private Integer invite;// 新邀请未读数
+  private Integer badge;// 新勋章数
+  private Integer photo;// 相册消息未读数
+  private Integer msgbox;// 消息未读数
+
   /**
    * 新微博未读数
    */
-  private Integer status;
-
-  /**
-   * 新粉丝数
-   */
-  private Integer follower;
-
-  /**
-   * 新评论数
-   */
-  private Integer cmt;
-
-  /**
-   * 新私信数
-   */
-  private Integer dm;
-
-  /**
-   * 新提及我的微博数
-   */
-  private Integer mentionStatus;
-
-  /**
-   * 新提及我的评论数
-   */
-  private Integer mentionCmt;
-
-  /**
-   * 微群消息未读数
-   */
-  private Integer group;
-
-  /**
-   * 私有微群消息未读数
-   */
-  private Integer privateGroup;
-
-  /**
-   * 新通知未读数
-   */
-  private Integer notice;
-
-  /**
-   * 新邀请未读数
-   */
-  private Integer invite;
-
-  /**
-   * 新勋章数
-   */
-  private Integer badge;
-
-  /**
-   * 相册消息未读数
-   */
-  private Integer photo;
-
-  /**
-   * 消息未读数
-   */
-  private Integer msgbox;
-
   public Integer getStatus() {
     return status;
   }
@@ -82,6 +34,9 @@ public class Remind {
     this.status = status;
   }
 
+  /**
+   * 新粉丝数
+   */
   public Integer getFollower() {
     return follower;
   }
@@ -90,6 +45,9 @@ public class Remind {
     this.follower = follower;
   }
 
+  /**
+   * 新评论数
+   */
   public Integer getCmt() {
     return cmt;
   }
@@ -98,6 +56,9 @@ public class Remind {
     this.cmt = cmt;
   }
 
+  /**
+   * 新私信数
+   */
   public Integer getDm() {
     return dm;
   }
@@ -106,6 +67,9 @@ public class Remind {
     this.dm = dm;
   }
 
+  /**
+   * 新提及我的微博数
+   */
   public Integer getMentionStatus() {
     return mentionStatus;
   }
@@ -114,6 +78,9 @@ public class Remind {
     this.mentionStatus = mentionStatus;
   }
 
+  /**
+   * 新提及我的评论数
+   */
   public Integer getMentionCmt() {
     return mentionCmt;
   }
@@ -122,6 +89,9 @@ public class Remind {
     this.mentionCmt = mentionCmt;
   }
 
+  /**
+   * 微群消息未读数
+   */
   public Integer getGroup() {
     return group;
   }
@@ -130,6 +100,9 @@ public class Remind {
     this.group = group;
   }
 
+  /**
+   * 私有微群消息未读数
+   */
   public Integer getPrivateGroup() {
     return privateGroup;
   }
@@ -138,6 +111,9 @@ public class Remind {
     this.privateGroup = privateGroup;
   }
 
+  /**
+   * 新通知未读数
+   */
   public Integer getNotice() {
     return notice;
   }
@@ -146,6 +122,9 @@ public class Remind {
     this.notice = notice;
   }
 
+  /**
+   * 新邀请未读数
+   */
   public Integer getInvite() {
     return invite;
   }
@@ -154,6 +133,9 @@ public class Remind {
     this.invite = invite;
   }
 
+  /**
+   * 新勋章数
+   */
   public Integer getBadge() {
     return badge;
   }
@@ -162,6 +144,9 @@ public class Remind {
     this.badge = badge;
   }
 
+  /**
+   * 相册消息未读数
+   */
   public Integer getPhoto() {
     return photo;
   }
@@ -170,6 +155,9 @@ public class Remind {
     this.photo = photo;
   }
 
+  /**
+   * 消息未读数
+   */
   public Integer getMsgbox() {
     return msgbox;
   }

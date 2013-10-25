@@ -6,31 +6,15 @@ import com.belerweb.social.bean.Result;
 
 public class TokenInfo {
 
+  private String uid;
+  private String appkey;// access_token所属的应用appkey。
+  private String scope;// 用户授权的scope权限。
+  private Long createAt;// access_token的创建时间，从1970年到创建时间的秒数。
+  private Long expireIn;// access_token的剩余时间，单位是秒数。
+
   /**
    * 授权用户的uid。
    */
-  private String uid;
-
-  /**
-   * access_token所属的应用appkey。
-   */
-  private String appkey;
-
-  /**
-   * 用户授权的scope权限。
-   */
-  private String scope;
-
-  /**
-   * access_token的创建时间，从1970年到创建时间的秒数。
-   */
-  private Long createAt;
-
-  /**
-   * access_token的剩余时间，单位是秒数。
-   */
-  private Long expireIn;
-
   public String getUid() {
     return uid;
   }
@@ -39,6 +23,9 @@ public class TokenInfo {
     this.uid = uid;
   }
 
+  /**
+   * access_token所属的应用appkey。
+   */
   public String getAppkey() {
     return appkey;
   }
@@ -47,6 +34,9 @@ public class TokenInfo {
     this.appkey = appkey;
   }
 
+  /**
+   * 用户授权的scope权限。
+   */
   public String getScope() {
     return scope;
   }
@@ -55,6 +45,9 @@ public class TokenInfo {
     this.scope = scope;
   }
 
+  /**
+   * access_token的创建时间，从1970年到创建时间的秒数。
+   */
   public Long getCreateAt() {
     return createAt;
   }
@@ -63,6 +56,10 @@ public class TokenInfo {
     this.createAt = createAt;
   }
 
+
+  /**
+   * access_token的剩余时间，单位是秒数。
+   */
   public Long getExpireIn() {
     return expireIn;
   }

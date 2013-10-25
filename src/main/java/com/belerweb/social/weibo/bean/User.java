@@ -15,171 +15,43 @@ import com.belerweb.social.bean.Result;
  */
 public class User {
 
+  private String id;// 用户UID
+  private String idstr;// 字符串型的用户UID
+  private String screenName;// 用户昵称
+  private String name;// screenName
+  private Integer province;// 用户所在省级ID
+  private Integer city;// 用户所在城市ID
+  private String location;// 用户所在地
+  private String description;// 用户个人描述
+  private String url;// 用户博客地址
+  private String profileImageUrl;// 用户头像地址，50×50像素
+  private String profileUrl;// 用户的微博统一URL地址
+  private String domain;// 用户的个性化域名
+  private String weihao;// 用户的微号
+  private Gender gender;// 性别
+  private Integer followersCount;// 粉丝数
+  private Integer friendsCount;// 关注数
+  private Integer statusesCount;// 微博数
+  private Integer favouritesCount;// 收藏数
+  private Date createdAt;// 用户创建（注册）时间
+  private Boolean following;// 暂未支持
+  private Boolean allowAllActMsg;// 是否允许所有人给我发私信
+  private Boolean geoEnabled;// 是否允许标识用户的地理位置
+  private Boolean verified;// 是否是微博认证用户，即加V用户
+  private Integer verifiedType;// 暂未支持
+  private String remark;// 用户备注信息，只有在查询用户关系时才返回此字段
+  private Status status;// 用户的最近一条微博信息字段 详细
+  private Boolean allowAllComment;// 是否允许所有人对我的微博进行评论
+  private String avatarLarge;// 用户大头像地址
+  private String verifiedReason;// 认证原因
+  private Boolean followMe;// 该用户是否关注当前登录用户
+  private OnlineStatus onlineStatus;// 用户的在线状态
+  private Integer biFollowersCount;// 用户的互粉数
+  private String lang;// 用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体中文，en：英语
+
   /**
    * 用户UID
    */
-  private String id;
-
-  /**
-   * 字符串型的用户UID
-   */
-  private String idstr;
-
-  /**
-   * 用户昵称
-   */
-  private String screenName;
-
-  /**
-   * 友好显示名称
-   */
-  private String name;
-
-  /**
-   * 用户所在省级ID
-   */
-  private Integer province;
-
-  /**
-   * 用户所在城市ID
-   */
-  private Integer city;
-
-  /**
-   * 用户所在地
-   */
-  private String location;
-
-  /**
-   * 用户个人描述
-   */
-  private String description;
-
-  /**
-   * 用户博客地址
-   */
-  private String url;
-
-  /**
-   * 用户头像地址，50×50像素
-   */
-  private String profileImageUrl;
-
-  /**
-   * 用户的微博统一URL地址
-   */
-  private String profileUrl;
-
-  /**
-   * 用户的个性化域名
-   */
-  private String domain;
-
-  /**
-   * 用户的微号
-   */
-  private String weihao;
-
-  /**
-   * 性别
-   */
-  private Gender gender;
-
-  /**
-   * 粉丝数
-   */
-  private Integer followersCount;
-
-  /**
-   * 关注数
-   */
-  private Integer friendsCount;
-
-  /**
-   * 微博数
-   */
-  private Integer statusesCount;
-
-  /**
-   * 收藏数
-   */
-  private Integer favouritesCount;
-
-  /**
-   * 用户创建（注册）时间
-   */
-  private Date createdAt;
-
-  /**
-   * 暂未支持
-   */
-  private Boolean following;
-
-  /**
-   * 是否允许所有人给我发私信
-   */
-  private Boolean allowAllActMsg;
-
-  /**
-   * 是否允许标识用户的地理位置
-   */
-  private Boolean geoEnabled;
-
-  /**
-   * 是否是微博认证用户，即加V用户
-   */
-  private Boolean verified;
-
-  /**
-   * 暂未支持
-   */
-  private Integer verifiedType;
-
-  /**
-   * 用户备注信息，只有在查询用户关系时才返回此字段
-   */
-  private String remark;
-
-  /**
-   * 用户的最近一条微博信息字段 详细
-   */
-  private Status status;
-
-  /**
-   * 是否允许所有人对我的微博进行评论
-   */
-  private Boolean allowAllComment;
-
-  /**
-   * 用户大头像地址
-   */
-  private String avatarLarge;
-
-  /**
-   * 认证原因
-   */
-  private String verifiedReason;
-
-  /**
-   * 该用户是否关注当前登录用户
-   */
-  private Boolean followMe;
-
-  /**
-   * 用户的在线状态
-   */
-  private OnlineStatus onlineStatus;
-
-  /**
-   * 用户的互粉数
-   */
-  private Integer biFollowersCount;
-
-  /**
-   * 用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体中文，en：英语
-   */
-  private String lang;
-
   public String getId() {
     return id;
   }
@@ -188,6 +60,9 @@ public class User {
     this.id = id;
   }
 
+  /**
+   * 字符串型的用户UID
+   */
   public String getIdstr() {
     return idstr;
   }
@@ -196,6 +71,9 @@ public class User {
     this.idstr = idstr;
   }
 
+  /**
+   * 用户昵称
+   */
   public String getScreenName() {
     return screenName;
   }
@@ -204,6 +82,9 @@ public class User {
     this.screenName = screenName;
   }
 
+  /**
+   * 友好显示名称
+   */
   public String getName() {
     return name;
   }
@@ -212,6 +93,9 @@ public class User {
     this.name = name;
   }
 
+  /**
+   * 用户所在省级ID
+   */
   public Integer getProvince() {
     return province;
   }
@@ -220,6 +104,9 @@ public class User {
     this.province = province;
   }
 
+  /**
+   * 用户所在城市ID
+   */
   public Integer getCity() {
     return city;
   }
@@ -228,6 +115,9 @@ public class User {
     this.city = city;
   }
 
+  /**
+   * 用户所在地
+   */
   public String getLocation() {
     return location;
   }
@@ -236,6 +126,9 @@ public class User {
     this.location = location;
   }
 
+  /**
+   * 用户个人描述
+   */
   public String getDescription() {
     return description;
   }
@@ -244,6 +137,9 @@ public class User {
     this.description = description;
   }
 
+  /**
+   * 用户博客地址
+   */
   public String getUrl() {
     return url;
   }
@@ -252,6 +148,9 @@ public class User {
     this.url = url;
   }
 
+  /**
+   * 用户头像地址，50×50像素
+   */
   public String getProfileImageUrl() {
     return profileImageUrl;
   }
@@ -260,14 +159,20 @@ public class User {
     this.profileImageUrl = profileImageUrl;
   }
 
+  /**
+   * 用户的微博统一URL地址
+   */
   public String getProfileUrl() {
     return profileUrl;
   }
 
-  public void setProfile_url(String profileUrl) {
+  public void setProfileUrl(String profileUrl) {
     this.profileUrl = profileUrl;
   }
 
+  /**
+   * 用户的个性化域名
+   */
   public String getDomain() {
     return domain;
   }
@@ -276,6 +181,9 @@ public class User {
     this.domain = domain;
   }
 
+  /**
+   * 用户的微号
+   */
   public String getWeihao() {
     return weihao;
   }
@@ -284,6 +192,9 @@ public class User {
     this.weihao = weihao;
   }
 
+  /**
+   * 性别
+   */
   public Gender getGender() {
     return gender;
   }
@@ -292,6 +203,9 @@ public class User {
     this.gender = gender;
   }
 
+  /**
+   * 粉丝数
+   */
   public Integer getFollowersCount() {
     return followersCount;
   }
@@ -300,6 +214,9 @@ public class User {
     this.followersCount = followersCount;
   }
 
+  /**
+   * 关注数
+   */
   public Integer getFriendsCount() {
     return friendsCount;
   }
@@ -308,6 +225,9 @@ public class User {
     this.friendsCount = friendsCount;
   }
 
+  /**
+   * 微博数
+   */
   public Integer getStatusesCount() {
     return statusesCount;
   }
@@ -316,6 +236,9 @@ public class User {
     this.statusesCount = statusesCount;
   }
 
+  /**
+   * 收藏数
+   */
   public Integer getFavouritesCount() {
     return favouritesCount;
   }
@@ -324,6 +247,9 @@ public class User {
     this.favouritesCount = favouritesCount;
   }
 
+  /**
+   * 用户创建（注册）时间
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -332,6 +258,9 @@ public class User {
     this.createdAt = createdAt;
   }
 
+  /**
+   * 暂未支持
+   */
   public Boolean getFollowing() {
     return following;
   }
@@ -340,6 +269,9 @@ public class User {
     this.following = following;
   }
 
+  /**
+   * 是否允许所有人给我发私信
+   */
   public Boolean getAllowAllActMsg() {
     return allowAllActMsg;
   }
@@ -348,6 +280,9 @@ public class User {
     this.allowAllActMsg = allowAllActMsg;
   }
 
+  /**
+   * 是否允许标识用户的地理位置
+   */
   public Boolean getGeoEnabled() {
     return geoEnabled;
   }
@@ -356,6 +291,9 @@ public class User {
     this.geoEnabled = geoEnabled;
   }
 
+  /**
+   * 是否是微博认证用户，即加V用户
+   */
   public Boolean getVerified() {
     return verified;
   }
@@ -364,6 +302,9 @@ public class User {
     this.verified = verified;
   }
 
+  /**
+   * 暂未支持
+   */
   public Integer getVerifiedType() {
     return verifiedType;
   }
@@ -372,6 +313,9 @@ public class User {
     this.verifiedType = verifiedType;
   }
 
+  /**
+   * 用户备注信息，只有在查询用户关系时才返回此字段
+   */
   public String getRemark() {
     return remark;
   }
@@ -380,6 +324,9 @@ public class User {
     this.remark = remark;
   }
 
+  /**
+   * 用户的最近一条微博信息字段 详细
+   */
   public Status getStatus() {
     return status;
   }
@@ -388,6 +335,9 @@ public class User {
     this.status = status;
   }
 
+  /**
+   * 是否允许所有人对我的微博进行评论
+   */
   public Boolean getAllowAllComment() {
     return allowAllComment;
   }
@@ -396,6 +346,9 @@ public class User {
     this.allowAllComment = allowAllComment;
   }
 
+  /**
+   * 用户大头像地址
+   */
   public String getAvatarLarge() {
     return avatarLarge;
   }
@@ -404,6 +357,9 @@ public class User {
     this.avatarLarge = avatarLarge;
   }
 
+  /**
+   * 认证原因
+   */
   public String getVerifiedReason() {
     return verifiedReason;
   }
@@ -412,6 +368,9 @@ public class User {
     this.verifiedReason = verifiedReason;
   }
 
+  /**
+   * 该用户是否关注当前登录用户
+   */
   public Boolean getFollowMe() {
     return followMe;
   }
@@ -420,6 +379,9 @@ public class User {
     this.followMe = followMe;
   }
 
+  /**
+   * 用户的在线状态
+   */
   public OnlineStatus getOnlineStatus() {
     return onlineStatus;
   }
@@ -428,6 +390,9 @@ public class User {
     this.onlineStatus = onlineStatus;
   }
 
+  /**
+   * 用户的互粉数
+   */
   public Integer getBiFollowersCount() {
     return biFollowersCount;
   }
@@ -436,6 +401,9 @@ public class User {
     this.biFollowersCount = biFollowersCount;
   }
 
+  /**
+   * 用户当前的语言版本，zh-cn：简体中文，zh-tw：繁体中文，en：英语
+   */
   public String getLang() {
     return lang;
   }

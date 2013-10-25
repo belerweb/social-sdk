@@ -9,16 +9,12 @@ import com.belerweb.social.bean.Result;
  */
 public class Visible {
 
+  private Integer type;// 0：普通微博，1：私密微博，3：指定分组微博，4：密友微博
+  private Integer listId;// 分组的组号
+
   /**
    * 0：普通微博，1：私密微博，3：指定分组微博，4：密友微博
    */
-  private Integer type;
-
-  /**
-   * 分组的组号
-   */
-  private Integer listId;
-
   public Integer getType() {
     return type;
   }
@@ -27,6 +23,9 @@ public class Visible {
     this.type = type;
   }
 
+  /**
+   * 分组的组号
+   */
   public Integer getListId() {
     return listId;
   }

@@ -12,51 +12,19 @@ import com.belerweb.social.bean.Result;
  */
 public class Geo {
 
+  private Double longitude;// 经度坐标
+  private Double latitude;// 维度坐标
+  private String city;// 所在城市的城市代码
+  private String province;// 所在省份的省份代码
+  private String cityName;// 所在城市的城市名称
+  private String provinceName;// 所在省份的省份名称
+  private String address;// 所在的实际地址，可以为空
+  private String pinyin;// 地址的汉语拼音，不是所有情况都会返回该字段
+  private String more;// 更多信息，不是所有情况都会返回该字段
+
   /**
    * 经度坐标
    */
-  private Double longitude;
-
-  /**
-   * 维度坐标
-   */
-  private Double latitude;
-
-  /**
-   * 所在城市的城市代码
-   */
-  private String city;
-
-  /**
-   * 所在省份的省份代码
-   */
-  private String province;
-
-  /**
-   * 所在城市的城市名称
-   */
-  private String cityName;
-
-  /**
-   * 所在省份的省份名称
-   */
-  private String provinceName;
-
-  /**
-   * 所在的实际地址，可以为空
-   */
-  private String address;
-
-  /**
-   * 地址的汉语拼音，不是所有情况都会返回该字段
-   */
-  private String pinyin;
-
-  /**
-   * 更多信息，不是所有情况都会返回该字段
-   */
-  private String more;
-
   public Double getLongitude() {
     return longitude;
   }
@@ -65,6 +33,9 @@ public class Geo {
     this.longitude = longitude;
   }
 
+  /**
+   * 维度坐标
+   */
   public Double getLatitude() {
     return latitude;
   }
@@ -73,6 +44,9 @@ public class Geo {
     this.latitude = latitude;
   }
 
+  /**
+   * 所在城市的城市代码
+   */
   public String getCity() {
     return city;
   }
@@ -81,6 +55,9 @@ public class Geo {
     this.city = city;
   }
 
+  /**
+   * 所在省份的省份代码
+   */
   public String getProvince() {
     return province;
   }
@@ -89,6 +66,9 @@ public class Geo {
     this.province = province;
   }
 
+  /**
+   * 所在城市的城市名称
+   */
   public String getCityName() {
     return cityName;
   }
@@ -97,6 +77,9 @@ public class Geo {
     this.cityName = cityName;
   }
 
+  /**
+   * 所在省份的省份名称
+   */
   public String getProvinceName() {
     return provinceName;
   }
@@ -105,6 +88,9 @@ public class Geo {
     this.provinceName = provinceName;
   }
 
+  /**
+   * 所在的实际地址，可以为空
+   */
   public String getAddress() {
     return address;
   }
@@ -113,6 +99,9 @@ public class Geo {
     this.address = address;
   }
 
+  /**
+   * 地址的汉语拼音，不是所有情况都会返回该字段
+   */
   public String getPinyin() {
     return pinyin;
   }
@@ -121,6 +110,9 @@ public class Geo {
     this.pinyin = pinyin;
   }
 
+  /**
+   * 更多信息，不是所有情况都会返回该字段
+   */
   public String getMore() {
     return more;
   }
