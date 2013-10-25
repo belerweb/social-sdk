@@ -18,15 +18,15 @@ public class Result<T> {
   private T result;
   private List<T> results;
 
-  protected Result(Error error) {
+  public Result(Error error) {
     this.error = error;
   }
 
-  protected Result(T result) {
+  public Result(T result) {
     this.result = result;
   }
 
-  protected Result(List<T> results) {
+  public Result(List<T> results) {
     this.results = results;
   }
 

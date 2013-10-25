@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
+import org.json.JSONObject;
 
 import com.belerweb.social.API;
+import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weibo.bean.AccessToken;
 import com.belerweb.social.weibo.bean.Display;
-import com.belerweb.social.weibo.bean.RevokeOAuth2Result;
 import com.belerweb.social.weibo.bean.Scope;
 import com.belerweb.social.weibo.bean.TokenInfo;
 
@@ -166,9 +167,15 @@ public final class OAuth2 extends API {
    * 
    * @param accessToken 用户授权应用的access_token
    */
-  public RevokeOAuth2Result revokeOAuth2(String accessToken) {
-    String result = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
-    return RevokeOAuth2Result.parse(result);
+  public Result<Boolean> revokeOAuth2(String accessToken) {
+    String json = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
+    JSONObject jsonObject = new JSONObject(json);
+    Error error = Error.parse(jsonObject);
+    if (error == null) {
+      return new Result<Boolean>(Result.parseBoolean(jsonObject.get("result")));
+    }
+
+    return new Result<Boolean>(error);
   }
 
 }
