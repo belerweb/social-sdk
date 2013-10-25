@@ -7,66 +7,22 @@ import com.belerweb.social.bean.Result;
 
 public class User {
 
+  private String nickname;// 用户在QQ空间的昵称。
+  private String figureUrl;// 大小为30×30像素的QQ空间头像URL。
+  private String figureUrl1;// 大小为50×50像素的QQ空间头像URL。
+  private String figureUrl2;// 大小为100×100像素的QQ空间头像URL。
+  private String figureUrlQQ1;// 大小为40×40像素的QQ头像URL。 40x40像素则是一定会有。
+  private String figureUrlQQ2;// 大小为100×100像素的QQ头像URL。需要注意，不是所有的用户都拥有QQ的100x100的头像。
+  private Gender gender;// 性别。 如果获取不到则默认返回"男"
+  private Boolean isYellowVip;// 标识用户是否为黄钻用户
+  private Boolean vip;// 标识用户是否为黄钻用户
+  private Integer yellowVipLevel;// 黄钻等级
+  private Integer level;// 黄钻等级
+  private Boolean isYellowYearVip;// 标识是否为年费黄钻用户
+
   /**
    * 用户在QQ空间的昵称。
    */
-  private String nickname;
-
-  /**
-   * 大小为30×30像素的QQ空间头像URL。
-   */
-  private String figureurl;
-
-  /**
-   * 大小为50×50像素的QQ空间头像URL。
-   */
-  private String figureurl1;
-
-  /**
-   * 大小为100×100像素的QQ空间头像URL。
-   */
-  private String figureurl2;
-
-  /**
-   * 大小为40×40像素的QQ头像URL。 40x40像素则是一定会有。
-   */
-  private String figureurlQQ1;
-
-  /**
-   * 大小为100×100像素的QQ头像URL。需要注意，不是所有的用户都拥有QQ的100x100的头像。
-   */
-  private String figureurlQQ2;
-
-  /**
-   * 性别。 如果获取不到则默认返回"男"
-   */
-  private Gender gender;
-
-  /**
-   * 标识用户是否为黄钻用户
-   */
-  private Boolean isYellowVip;
-
-  /**
-   * 标识用户是否为黄钻用户
-   */
-  private Boolean vip;
-
-  /**
-   * 黄钻等级
-   */
-  private Integer yellowVipLevel;
-
-  /**
-   * 黄钻等级
-   */
-  private Integer level;
-
-  /**
-   * 标识是否为年费黄钻用户
-   */
-  private Boolean isYellowYearVip;
-
   public String getNickname() {
     return nickname;
   }
@@ -75,46 +31,64 @@ public class User {
     this.nickname = nickname;
   }
 
-  public String getFigureurl() {
-    return figureurl;
+  /**
+   * 大小为30×30像素的QQ空间头像URL。
+   */
+  public String getFigureUrl() {
+    return figureUrl;
   }
 
-  public void setFigureurl(String figureurl) {
-    this.figureurl = figureurl;
+  public void setFigureUrl(String figureUrl) {
+    this.figureUrl = figureUrl;
   }
 
-  public String getFigureurl1() {
-    return figureurl1;
+  /**
+   * 大小为50×50像素的QQ空间头像URL。
+   */
+  public String getFigureUrl1() {
+    return figureUrl1;
   }
 
-  public void setFigureurl1(String figureurl1) {
-    this.figureurl1 = figureurl1;
+  public void setFigureUrl1(String figureUrl1) {
+    this.figureUrl1 = figureUrl1;
   }
 
-  public String getFigureurl2() {
-    return figureurl2;
+  /**
+   * 大小为100×100像素的QQ空间头像URL。
+   */
+  public String getFigureUrl2() {
+    return figureUrl2;
   }
 
-  public void setFigureurl2(String figureurl2) {
-    this.figureurl2 = figureurl2;
+  public void setFigureUrl2(String figureUrl2) {
+    this.figureUrl2 = figureUrl2;
   }
 
-  public String getFigureurlQQ1() {
-    return figureurlQQ1;
+  /**
+   * 大小为40×40像素的QQ头像URL。 40x40像素则是一定会有。
+   */
+  public String getFigureUrlQQ1() {
+    return figureUrlQQ1;
   }
 
-  public void setFigureurlQQ1(String figureurlQQ1) {
-    this.figureurlQQ1 = figureurlQQ1;
+  public void setFigureUrlQQ1(String figureUrlQQ1) {
+    this.figureUrlQQ1 = figureUrlQQ1;
   }
 
-  public String getFigureurlQQ2() {
-    return figureurlQQ2;
+  /**
+   * 大小为100×100像素的QQ头像URL。需要注意，不是所有的用户都拥有QQ的100x100的头像。
+   */
+  public String getFigureUrlQQ2() {
+    return figureUrlQQ2;
   }
 
-  public void setFigureurlQQ2(String figureurlQQ2) {
-    this.figureurlQQ2 = figureurlQQ2;
+  public void setFigureUrlQQ2(String figureUrlQQ2) {
+    this.figureUrlQQ2 = figureUrlQQ2;
   }
 
+  /**
+   * 性别。 如果获取不到则默认返回"男"
+   */
   public Gender getGender() {
     return gender;
   }
@@ -123,6 +97,9 @@ public class User {
     this.gender = gender;
   }
 
+  /**
+   * 标识用户是否为黄钻用户
+   */
   public Boolean getIsYellowVip() {
     return isYellowVip;
   }
@@ -131,6 +108,9 @@ public class User {
     this.isYellowVip = isYellowVip;
   }
 
+  /**
+   * 标识用户是否为黄钻用户
+   */
   public Boolean getVip() {
     return vip;
   }
@@ -139,6 +119,9 @@ public class User {
     this.vip = vip;
   }
 
+  /**
+   * 黄钻等级
+   */
   public Integer getYellowVipLevel() {
     return yellowVipLevel;
   }
@@ -147,6 +130,9 @@ public class User {
     this.yellowVipLevel = yellowVipLevel;
   }
 
+  /**
+   * 黄钻等级
+   */
   public Integer getLevel() {
     return level;
   }
@@ -155,6 +141,9 @@ public class User {
     this.level = level;
   }
 
+  /**
+   * 标识是否为年费黄钻用户
+   */
   public Boolean getIsYellowYearVip() {
     return isYellowYearVip;
   }
@@ -169,11 +158,11 @@ public class User {
     }
     User obj = new User();
     obj.nickname = Result.toString(jsonObject.get("nickname"));
-    obj.figureurl = Result.toString(jsonObject.opt("figureurl"));
-    obj.figureurl1 = Result.toString(jsonObject.opt("figureurl_1"));
-    obj.figureurl2 = Result.toString(jsonObject.opt("figureurl_2"));
-    obj.figureurlQQ1 = Result.toString(jsonObject.opt("figureurl_qq_1"));
-    obj.figureurlQQ2 = Result.toString(jsonObject.opt("figureurl_qq_2"));
+    obj.figureUrl = Result.toString(jsonObject.opt("figureurl"));
+    obj.figureUrl1 = Result.toString(jsonObject.opt("figureurl_1"));
+    obj.figureUrl2 = Result.toString(jsonObject.opt("figureurl_2"));
+    obj.figureUrlQQ1 = Result.toString(jsonObject.opt("figureurl_qq_1"));
+    obj.figureUrlQQ2 = Result.toString(jsonObject.opt("figureurl_qq_2"));
     obj.gender = Gender.parse(jsonObject.optString("gender"));
     obj.isYellowVip = Result.parseBoolean(jsonObject.opt("is_yellow_vip"));
     obj.vip = Result.parseBoolean(jsonObject.opt("vip"));

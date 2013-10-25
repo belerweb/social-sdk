@@ -6,21 +6,13 @@ import com.belerweb.social.bean.Result;
 
 public class AccessToken {
 
+  private String token;// 授权令牌，Access_Token。
+  private Long expiresIn;// 该access token的有效期，单位为秒。
+  private String refreshToken;// 在授权自动续期步骤中，获取新的Access_Token时需要提供的参数。
+
   /**
    * 授权令牌，Access_Token。
    */
-  private String token;
-
-  /**
-   * 该access token的有效期，单位为秒。
-   */
-  private Long expiresIn;
-
-  /**
-   * 在授权自动续期步骤中，获取新的Access_Token时需要提供的参数。
-   */
-  private String refreshToken;
-
   public String getToken() {
     return token;
   }
@@ -29,6 +21,10 @@ public class AccessToken {
     this.token = token;
   }
 
+
+  /**
+   * 该access token的有效期，单位为秒。
+   */
   public Long getExpiresIn() {
     return expiresIn;
   }
@@ -37,6 +33,9 @@ public class AccessToken {
     this.expiresIn = expiresIn;
   }
 
+  /**
+   * 在授权自动续期步骤中，获取新的Access_Token时需要提供的参数。
+   */
   public String getRefreshToken() {
     return refreshToken;
   }
