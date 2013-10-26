@@ -4,12 +4,12 @@ import com.belerweb.social.SDK;
 
 public final class Weixin extends SDK {
 
-  private String appid;
+  private String appId;
   private String secret;
   private String redirectUri;
 
-  public Weixin(String appid, String secret) {
-    this.appid = appid;
+  public Weixin(String appId, String secret) {
+    this.appId = appId;
     this.secret = secret;
   }
 
@@ -18,12 +18,12 @@ public final class Weixin extends SDK {
     this.redirectUri = redirectUri;
   }
 
-  public String getAppid() {
-    return appid;
+  public String getAppId() {
+    return appId;
   }
 
-  public void setAppid(String appid) {
-    this.appid = appid;
+  public void setAppId(String appId) {
+    this.appId = appId;
   }
 
   public String getSecret() {
