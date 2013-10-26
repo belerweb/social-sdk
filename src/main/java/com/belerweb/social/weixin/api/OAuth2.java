@@ -108,4 +108,39 @@ public final class OAuth2 {
     return Result.parse(result, AccessToken.class);
   }
 
+  /**
+   * 刷新access_token（如果需要）。从{@link Weixin}中获取appId
+   * 
+   * @param refreshToken 填写通过access_token获取到的refresh_token参数
+   */
+  public Result<AccessToken> refreshAccessToken(String refreshToken) {
+    return refreshAccessToken(weixin.getAppId(), "refresh_token", refreshToken);
+  }
+
+  /**
+   * 刷新access_token（如果需要）
+   * 
+   * @param appId 公众号的唯一标识
+   * @param refreshToken 填写通过access_token获取到的refresh_token参数
+   */
+  public Result<AccessToken> refreshAccessToken(String appId, String refreshToken) {
+    return refreshAccessToken(appId, "refresh_token", refreshToken);
+  }
+
+  /**
+   * 刷新access_token（如果需要）
+   * 
+   * @param appId 公众号的唯一标识
+   * @param grantType 填写为refresh_token
+   * @param refreshToken 填写通过access_token获取到的refresh_token参数
+   */
+  public Result<AccessToken> refreshAccessToken(String appId, String grantType, String refreshToken) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    weixin.addParameter(params, "appid", appId);
+    weixin.addParameter(params, "grant_type", grantType);
+    weixin.addParameter(params, "refresh_token", refreshToken);
+    String result = weixin.get("https://api.weixin.qq.com/sns/oauth2/refresh_token", params);
+    return Result.parse(result, AccessToken.class);
+  }
+
 }
