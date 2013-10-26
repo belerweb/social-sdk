@@ -1,5 +1,9 @@
 package com.belerweb.social.weixin.bean;
 
+import org.json.JSONObject;
+
+import com.belerweb.social.bean.Result;
+
 /**
  * 网页授权接口调用凭证
  */
@@ -66,4 +70,16 @@ public class AccessToken {
     this.scope = scope;
   }
 
+  public static AccessToken parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    AccessToken obj = new AccessToken();
+    obj.openId = Result.toString(jsonObject.get("openid"));
+    obj.token = jsonObject.getString("access_token");
+    obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));
+    obj.refreshToken = Result.toString(jsonObject.opt("refresh_token"));
+    obj.scope = Scope.parse(jsonObject.opt("scope"));
+    return obj;
+  }
 }
