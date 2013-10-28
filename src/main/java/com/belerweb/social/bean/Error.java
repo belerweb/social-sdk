@@ -46,6 +46,15 @@ public final class Error {
       return er;
     }
 
+    errorCode = jsonObject.optString("errcode");
+    if (errorCode != null) {// 微信
+      String error = jsonObject.optString("errmsg");
+      Error er = new Error();
+      er.setErrorCode(errorCode);
+      er.setError(error);
+      return er;
+    }
+
     Integer ret = Result.parseInteger(jsonObject.opt("ret"));
     if (ret != null && ret != 0) {// QQ互联
       String msg = jsonObject.optString("msg");
@@ -54,6 +63,8 @@ public final class Error {
       er.setError(msg);
       return er;
     }
+
+
 
     return null;
   }
