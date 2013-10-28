@@ -44,7 +44,8 @@ public enum Gender {
     if (new Integer(1).equals(val)) {
       return MALE;
     }
-    if (new Integer(0).equals(val)) {
+    if (new Integer(0).equals(val) || new Integer(2).equals(val)) {
+      // FIXME 微信2代表女性，0表示未知。暂且把微信的未知看作女性，如同新浪微博用户没有设置性别的时候会返回男性一样
       return FEMALE;
     }
     return UNKNOWN;
