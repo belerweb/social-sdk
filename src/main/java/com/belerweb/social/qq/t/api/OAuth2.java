@@ -6,12 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
-public final class OAuth2 {
+import com.belerweb.social.API;
 
-  private QQT t;
+public final class OAuth2 extends API {
 
   OAuth2(QQT t) {
-    this.t = t;
+    super(t);
   }
 
   /**

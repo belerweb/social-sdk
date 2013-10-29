@@ -6,16 +6,15 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
+import com.belerweb.social.API;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.weixin.bean.AccessToken;
 import com.belerweb.social.weixin.bean.Scope;
 
-public final class OAuth2 {
-
-  private Weixin weixin;
+public final class OAuth2 extends API {
 
   OAuth2(Weixin weixin) {
-    this.weixin = weixin;
+    super(weixin);
   }
 
   /**

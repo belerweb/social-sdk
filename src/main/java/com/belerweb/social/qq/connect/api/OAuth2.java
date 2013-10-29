@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
+import com.belerweb.social.API;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.qq.connect.bean.AccessToken;
 import com.belerweb.social.qq.connect.bean.Display;
@@ -14,12 +15,10 @@ import com.belerweb.social.qq.connect.bean.Gut;
 import com.belerweb.social.qq.connect.bean.OpenID;
 import com.belerweb.social.qq.connect.bean.Scope;
 
-public final class OAuth2 {
-
-  private QQConnect connect;
+public final class OAuth2 extends API {
 
   OAuth2(QQConnect connect) {
-    this.connect = connect;
+    super(connect);
   }
 
   /**

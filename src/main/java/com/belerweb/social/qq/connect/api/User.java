@@ -13,8 +13,8 @@ import com.belerweb.social.bean.Result;
  */
 public final class User extends API {
 
-  protected User(QQConnect qqConnect) {
-    super(qqConnect);
+  protected User(QQConnect connect) {
+    super(connect);
   }
 
   /**
@@ -28,7 +28,7 @@ public final class User extends API {
    */
   public Result<com.belerweb.social.qq.connect.bean.User> getUserInfo(String accessToken,
       String openid) {
-    return getSimpleUserInfo(accessToken, qqConnect.getClientSecret(), openid);
+    return getSimpleUserInfo(accessToken, connect.getClientSecret(), openid);
   }
 
   /**
