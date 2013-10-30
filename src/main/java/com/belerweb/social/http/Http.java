@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -38,11 +39,18 @@ public final class Http {
     return get(url);
   }
 
-  public static String get(String uri) throws HttpException {
-    return execute(new HttpGet(uri));
+  public static String get(String uri, Header... headers) throws HttpException {
+    HttpGet request = new HttpGet(uri);
+    if (headers != null) {
+      for (Header header : headers) {
+        request.addHeader(header);
+      }
+    }
+    return execute(request);
   }
 
-  public static String post(String uri, List<NameValuePair> params) throws HttpException {
+  public static String post(String uri, List<NameValuePair> params, Header... headers)
+      throws HttpException {
     HttpPost request = new HttpPost(uri);
     if (params != null) {
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
@@ -55,6 +63,11 @@ public final class Http {
       }
     }
 
+    if (headers != null) {
+      for (Header header : headers) {
+        request.addHeader(header);
+      }
+    }
     return execute(request);
   }
 
