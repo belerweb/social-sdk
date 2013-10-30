@@ -2,8 +2,12 @@ package com.belerweb.social.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +23,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public final class Http {
@@ -97,7 +103,18 @@ public final class Http {
   }
 
   static {
-    CLIENT = HttpClientBuilder.create().build();
+    SSLContext sslContext = SSLContexts.createDefault();
+    try {
+      sslContext = SSLContexts.custom().loadTrustMaterial(null, new TrustStrategy() {
+        public boolean isTrusted(X509Certificate[] chain, String authType)
+            throws CertificateException {
+          return true;
+        }
+      }).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    CLIENT = HttpClientBuilder.create().setSslcontext(sslContext).build();
   }
 
 }
