@@ -2,11 +2,12 @@ package com.belerweb.social.bean;
 
 import java.lang.reflect.Method;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -168,15 +169,18 @@ public class Result<T> {
     return result;
   }
 
-  public static Date parseDate(Object obj) {
+  public static Date parseDate(Object obj, String pattern, Locale locale) {
     if (obj == null) {
       return null;
     }
 
     Date result = null;
-    if (obj instanceof String) {
+    if (obj instanceof Date) {
+      result = new Date(((Date) obj).getTime());
+    } else if (obj instanceof String) {
       try {
-        result = DateUtils.parseDate((String) obj, new String[] {"EEE MMM dd HH:mm:ss z yyyy"});
+        SimpleDateFormat format = new SimpleDateFormat(pattern, locale);
+        result = format.parse((String) obj);
       } catch (ParseException e) {
         throw new SocialException(e);
       }

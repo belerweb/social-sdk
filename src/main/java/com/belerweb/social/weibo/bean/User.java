@@ -1,6 +1,7 @@
 package com.belerweb.social.weibo.bean;
 
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
@@ -435,7 +436,9 @@ public class User {
     obj.friendsCount = Result.parseInteger(jsonObject.opt("friends_count"));
     obj.statusesCount = Result.parseInteger(jsonObject.opt("statuses_count"));
     obj.favouritesCount = Result.parseInteger(jsonObject.opt("favourites_count"));
-    obj.createdAt = Result.parseDate(jsonObject.opt("created_at"));
+    obj.createdAt =
+        Result
+            .parseDate(jsonObject.opt("created_at"), "EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
     obj.following = Result.parseBoolean(jsonObject.opt("following"));
     obj.allowAllActMsg = Result.parseBoolean(jsonObject.opt("allow_all_act_msg"));
     obj.geoEnabled = Result.parseBoolean(jsonObject.opt("geo_enabled"));

@@ -1,6 +1,7 @@
 package com.belerweb.social.weibo.bean;
 
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONObject;
 
@@ -130,7 +131,9 @@ public class Comment {
     obj.id = Result.toString(jsonObject.get("id"));
     obj.mid = Result.toString(jsonObject.opt("mid"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));
-    obj.createdAt = Result.parseDate(jsonObject.opt("created_at"));
+    obj.createdAt =
+        Result
+            .parseDate(jsonObject.opt("created_at"), "EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
 
     obj.text = Result.toString(jsonObject.get("text"));
     obj.source = Result.toString(jsonObject.opt("source"));
