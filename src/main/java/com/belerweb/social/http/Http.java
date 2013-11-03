@@ -60,7 +60,7 @@ public final class Http {
     HttpPost request = new HttpPost(uri);
     if (params != null) {
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-      parameters.addAll(parameters);
+      parameters.addAll(params);
       try {
         HttpEntity entity = new UrlEncodedFormEntity(parameters);
         request.setEntity(entity);
