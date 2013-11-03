@@ -48,7 +48,7 @@ public class Result<T> {
 
   public static <T> Result<T> parse(String json, Class<T> resultType) {
     try {
-      if (json.matches("^\\s*[.*$")) {
+      if (json.matches("^\\s*\\[.*$")) {
         return new Result<T>(parse(new JSONArray(json), resultType));
       } else {
         return parse(new JSONObject(json), resultType);
