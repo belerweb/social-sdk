@@ -163,7 +163,7 @@ public class User {
     obj.figureUrl2 = Result.toString(jsonObject.opt("figureurl_2"));
     obj.figureUrlQQ1 = Result.toString(jsonObject.opt("figureurl_qq_1"));
     obj.figureUrlQQ2 = Result.toString(jsonObject.opt("figureurl_qq_2"));
-    obj.gender = Gender.parse(jsonObject.optString("gender"));
+    obj.gender = Gender.parse(jsonObject.optString("gender", null));
     obj.isYellowVip = Result.parseBoolean(jsonObject.opt("is_yellow_vip"));
     obj.vip = Result.parseBoolean(jsonObject.opt("vip"));
     obj.yellowVipLevel = Result.parseInteger(jsonObject.opt("yellow_vip_level"));

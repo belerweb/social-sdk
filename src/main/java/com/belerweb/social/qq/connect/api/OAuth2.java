@@ -180,7 +180,7 @@ public final class OAuth2 extends API {
       String[] keyValue = param.split("\\=");
       jsonObject.put(keyValue[0], keyValue[1]);
     }
-    String errorCode = jsonObject.optString("code");
+    String errorCode = jsonObject.optString("code", null);
     if (errorCode != null) {
       jsonObject.put("ret", errorCode);// To match Error.parse()
     }
@@ -264,7 +264,7 @@ public final class OAuth2 extends API {
       String[] keyValue = param.split("\\=");
       jsonObject.put(keyValue[0], keyValue[1]);
     }
-    String errorCode = jsonObject.optString("code");
+    String errorCode = jsonObject.optString("code", null);
     if (errorCode != null) {
       jsonObject.put("ret", errorCode);// To match Error.parse()
     }
@@ -310,7 +310,7 @@ public final class OAuth2 extends API {
         String[] keyValue = param.split("\\=");
         jsonObject.put(keyValue[0], keyValue[1]);
       }
-      String errorCode = jsonObject.optString("code");
+      String errorCode = jsonObject.optString("code", null);
       if (errorCode != null) {
         jsonObject.put("ret", errorCode);// To match Error.parse()
       }

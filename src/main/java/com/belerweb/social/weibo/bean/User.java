@@ -430,7 +430,7 @@ public class User {
     obj.profileUrl = Result.toString(jsonObject.opt("profile_url"));
     obj.domain = Result.toString(jsonObject.opt("domain"));
     obj.weihao = Result.toString(jsonObject.opt("weihao"));
-    obj.gender = Gender.parse(jsonObject.optString("gender"));
+    obj.gender = Gender.parse(jsonObject.optString("gender", null));
     obj.followersCount = Result.parseInteger(jsonObject.opt("followers_count"));
     obj.friendsCount = Result.parseInteger(jsonObject.opt("friends_count"));
     obj.statusesCount = Result.parseInteger(jsonObject.opt("statuses_count"));
