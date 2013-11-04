@@ -178,7 +178,7 @@ public final class OAuth2 extends API {
     JSONObject jsonObject = new JSONObject();
     for (String param : results) {
       String[] keyValue = param.split("\\=");
-      jsonObject.put(keyValue[0], keyValue[1]);
+      jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
     }
     String errorCode = jsonObject.optString("code", null);
     if (errorCode != null) {
@@ -262,7 +262,7 @@ public final class OAuth2 extends API {
     JSONObject jsonObject = new JSONObject();
     for (String param : results) {
       String[] keyValue = param.split("\\=");
-      jsonObject.put(keyValue[0], keyValue[1]);
+      jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
     }
     String errorCode = jsonObject.optString("code", null);
     if (errorCode != null) {
@@ -308,7 +308,7 @@ public final class OAuth2 extends API {
       String[] results = result.split("\\&");
       for (String param : results) {
         String[] keyValue = param.split("\\=");
-        jsonObject.put(keyValue[0], keyValue[1]);
+        jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
       }
       String errorCode = jsonObject.optString("code", null);
       if (errorCode != null) {
