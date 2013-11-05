@@ -43,12 +43,12 @@ public final class User extends API {
    */
   public Result<User> getUserInfo(String accessToken, String oAuthConsumerKey, String openid) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
-    weibo.addParameter(params, "access_token", accessToken);
-    weibo.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
-    weibo.addParameter(params, "openid", openid);
-    weibo.addNotNullParameter(params, "access_token", accessToken);
-    weibo.addNotNullParameter(params, "format", "json");
-    String json = weibo.get("https://graph.qq.com/user/get_user_info", params);
+    connect.addParameter(params, "access_token", accessToken);
+    connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
+    connect.addParameter(params, "openid", openid);
+    connect.addNotNullParameter(params, "access_token", accessToken);
+    connect.addNotNullParameter(params, "format", "json");
+    String json = connect.get("https://graph.qq.com/user/get_user_info", params);
     return Result.parse(json, User.class);
   }
 
@@ -65,12 +65,12 @@ public final class User extends API {
   public Result<com.belerweb.social.qq.connect.bean.User> getSimpleUserInfo(String accessToken,
       String oAuthConsumerKey, String openid) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
-    weibo.addParameter(params, "access_token", accessToken);
-    weibo.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
-    weibo.addParameter(params, "openid", openid);
-    weibo.addNotNullParameter(params, "access_token", accessToken);
-    weibo.addNotNullParameter(params, "format", "json");
-    String json = weibo.get("https://openmobile.qq.com/user/get_simple_userinfo", params);
+    connect.addParameter(params, "access_token", accessToken);
+    connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
+    connect.addParameter(params, "openid", openid);
+    connect.addNotNullParameter(params, "access_token", accessToken);
+    connect.addNotNullParameter(params, "format", "json");
+    String json = connect.get("https://openmobile.qq.com/user/get_simple_userinfo", params);
     return Result.parse(json, com.belerweb.social.qq.connect.bean.User.class);
   }
 
