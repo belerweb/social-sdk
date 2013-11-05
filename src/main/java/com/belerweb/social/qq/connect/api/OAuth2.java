@@ -173,18 +173,8 @@ public final class OAuth2 extends API {
     if (Boolean.TRUE.equals(wap)) {
       url = "https://graph.z.qq.com/moc2/token";
     }
-    String result = connect.get(url, params);
-    String[] results = result.split("\\&");
-    JSONObject jsonObject = new JSONObject();
-    for (String param : results) {
-      String[] keyValue = param.split("\\=");
-      jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
-    }
-    String errorCode = jsonObject.optString("code", null);
-    if (errorCode != null) {
-      jsonObject.put("ret", errorCode);// To match Error.parse()
-    }
-    return Result.parse(jsonObject, AccessToken.class);
+    String result = connect.get(url, params).trim();
+    return parseAccessTokenResult(result);
   }
 
   /**
@@ -258,17 +248,7 @@ public final class OAuth2 extends API {
       url = "https://graph.z.qq.com/moc2/token";
     }
     String result = connect.get(url, params);
-    String[] results = result.split("\\&");
-    JSONObject jsonObject = new JSONObject();
-    for (String param : results) {
-      String[] keyValue = param.split("\\=");
-      jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
-    }
-    String errorCode = jsonObject.optString("code", null);
-    if (errorCode != null) {
-      jsonObject.put("ret", errorCode);// To match Error.parse()
-    }
-    return Result.parse(jsonObject, AccessToken.class);
+    return parseAccessTokenResult(result);
   }
 
   /**
@@ -317,4 +297,27 @@ public final class OAuth2 extends API {
     }
     return Result.parse(jsonObject, OpenID.class);
   }
+
+  private Result<AccessToken> parseAccessTokenResult(String result) {
+    JSONObject jsonObject;
+    if (result.startsWith("callback")) {// 错误信息
+                                        // callback({"error":100021,"error_description":"get access token error"});
+      jsonObject =
+          new JSONObject(result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1));
+      return Result.parse(jsonObject, AccessToken.class);
+    } else {// 正确结果
+      jsonObject = new JSONObject();
+      String[] results = result.split("\\&");
+      for (String param : results) {
+        String[] keyValue = param.split("\\=");
+        jsonObject.put(keyValue[0], keyValue.length > 0 ? keyValue[1] : null);
+      }
+      String errorCode = jsonObject.optString("code", null);
+      if (errorCode != null) {
+        jsonObject.put("ret", errorCode);// To match Error.parse()
+      }
+    }
+    return Result.parse(jsonObject, AccessToken.class);
+  }
+
 }

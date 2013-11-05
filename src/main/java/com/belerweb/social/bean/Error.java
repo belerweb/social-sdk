@@ -55,6 +55,15 @@ public final class Error {
       return er;
     }
 
+    errorCode = jsonObject.optString("error", null);
+    if (errorCode != null) {// QQ互联
+      String error = jsonObject.optString("error_description", null);
+      Error er = new Error();
+      er.setErrorCode(errorCode);
+      er.setError(error);
+      return er;
+    }
+
     Integer ret = Result.parseInteger(jsonObject.opt("ret"));
     if (ret != null && ret != 0) {// QQ互联
       String msg = jsonObject.optString("msg", null);
