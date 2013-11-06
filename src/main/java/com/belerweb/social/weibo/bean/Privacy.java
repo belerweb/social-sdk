@@ -2,12 +2,19 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
  * 隐私设置
  */
-public class Privacy {
+public class Privacy extends JsonBean {
+
+  public Privacy() {}
+
+  private Privacy(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private Integer comment;// 是否可以评论我的微博，0：所有人、1：关注的人、2：可信用户
   private Integer geo;// 是否开启地理信息，0：不开启、1：开启
@@ -98,7 +105,7 @@ public class Privacy {
     if (jsonObject == null) {
       return null;
     }
-    Privacy obj = new Privacy();
+    Privacy obj = new Privacy(jsonObject);
     obj.comment = Result.parseInteger(jsonObject.opt("comment"));
     obj.geo = Result.parseInteger(jsonObject.opt("geo"));
     obj.message = Result.parseInteger(jsonObject.opt("message"));

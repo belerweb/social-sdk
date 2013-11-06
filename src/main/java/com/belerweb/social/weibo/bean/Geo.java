@@ -2,6 +2,7 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
@@ -10,7 +11,13 @@ import com.belerweb.social.bean.Result;
  * 文档地址：http://open.weibo.com/wiki/常见返回对象数据结构#.E5.9C.B0.E7.90.86.E4.BF.A1.E6.81.AF.EF.BC.88geo.EF.BC
  * .89
  */
-public class Geo {
+public class Geo extends JsonBean {
+
+  public Geo() {}
+
+  private Geo(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private Double longitude;// 经度坐标
   private Double latitude;// 维度坐标
@@ -125,7 +132,7 @@ public class Geo {
     if (jsonObject == null) {
       return null;
     }
-    Geo obj = new Geo();
+    Geo obj = new Geo(jsonObject);
     obj.longitude = Result.parseDouble(jsonObject.get("longitude"));
     obj.latitude = Result.parseDouble(jsonObject.get("latitude"));
     obj.city = Result.toString(jsonObject.opt("city"));

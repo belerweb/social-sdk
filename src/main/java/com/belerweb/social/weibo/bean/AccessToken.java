@@ -2,9 +2,16 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
-public class AccessToken {
+public class AccessToken extends JsonBean {
+
+  public AccessToken() {}
+
+  private AccessToken(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String token;// 用于调用access_token，接口获取授权后的access token。
   private Long expiresIn;// access_token的生命周期，单位是秒数。
@@ -59,7 +66,7 @@ public class AccessToken {
     if (jsonObject == null) {
       return null;
     }
-    AccessToken obj = new AccessToken();
+    AccessToken obj = new AccessToken(jsonObject);
     obj.token = jsonObject.getString("access_token");
     obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));
     obj.remindIn = Result.parseLong(jsonObject.opt("remind_in"));

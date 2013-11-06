@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
@@ -13,7 +14,13 @@ import com.belerweb.social.bean.Result;
  * 
  * 文档地址：http://open.weibo.com/wiki/常见返回对象数据结构#.E5.BE.AE.E5.8D.9A.EF.BC.88status.EF.BC.89
  */
-public class Status {
+public class Status extends JsonBean {
+
+  public Status() {}
+
+  private Status(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String id;// 微博ID
   private String mid;// 微博MID
@@ -308,7 +315,7 @@ public class Status {
     if (jsonObject == null) {
       return null;
     }
-    Status obj = new Status();
+    Status obj = new Status(jsonObject);
     obj.id = Result.toString(jsonObject.get("id"));
     obj.mid = Result.toString(jsonObject.opt("mid"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));

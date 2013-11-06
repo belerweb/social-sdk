@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.json.JSONObject;
 
 import com.belerweb.social.bean.Gender;
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.OnlineStatus;
 import com.belerweb.social.bean.Result;
 
@@ -14,7 +15,13 @@ import com.belerweb.social.bean.Result;
  * 
  * 文档地址：http://open.weibo.com/wiki/常见返回对象数据结构#.E7.94.A8.E6.88.B7.EF.BC.88user.EF.BC.89
  */
-public class User {
+public class User extends JsonBean {
+
+  public User() {}
+
+  private User(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String id;// 用户UID
   private String idstr;// 字符串型的用户UID
@@ -417,7 +424,7 @@ public class User {
     if (jsonObject == null) {
       return null;
     }
-    User obj = new User();
+    User obj = new User(jsonObject);
     obj.id = Result.toString(jsonObject.get("id"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));
     obj.screenName = Result.toString(jsonObject.opt("screen_name"));

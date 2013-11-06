@@ -2,13 +2,17 @@ package com.belerweb.social.bean;
 
 import org.json.JSONObject;
 
-public final class Error {
+public final class Error extends JsonBean {
 
   private String request;
   private String errorCode;
   private String error;
 
   public Error() {}
+
+  private Error(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   public String getRequest() {
     return request;
@@ -44,7 +48,7 @@ public final class Error {
     if (errorCode != null) {// 微博
       String request = jsonObject.optString("request", null);
       String error = jsonObject.optString("error", null);
-      Error er = new Error();
+      Error er = new Error(jsonObject);
       er.setRequest(request);
       er.setErrorCode(errorCode);
       er.setError(error);
@@ -54,7 +58,7 @@ public final class Error {
     errorCode = jsonObject.optString("errcode", null);
     if (errorCode != null) {// 微信
       String error = jsonObject.optString("errmsg", null);
-      Error er = new Error();
+      Error er = new Error(jsonObject);
       er.setErrorCode(errorCode);
       er.setError(error);
       return er;
@@ -63,7 +67,7 @@ public final class Error {
     errorCode = jsonObject.optString("error", null);
     if (errorCode != null) {// QQ互联
       String error = jsonObject.optString("error_description", null);
-      Error er = new Error();
+      Error er = new Error(jsonObject);
       er.setErrorCode(errorCode);
       er.setError(error);
       return er;
@@ -72,7 +76,7 @@ public final class Error {
     Integer ret = Result.parseInteger(jsonObject.opt("ret"));
     if (ret != null && ret != 0) {// QQ互联
       String msg = jsonObject.optString("msg", null);
-      Error er = new Error();
+      Error er = new Error(jsonObject);
       er.setErrorCode(ret.toString());
       er.setError(msg);
       return er;

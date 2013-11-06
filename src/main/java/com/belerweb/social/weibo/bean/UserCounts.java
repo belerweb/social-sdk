@@ -2,12 +2,19 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
  * 用户的粉丝数、关注数、微博数
  */
-public class UserCounts {
+public class UserCounts extends JsonBean {
+
+  public UserCounts() {}
+
+  private UserCounts(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String id;// 微博ID
   private Integer followersCount;// 粉丝数
@@ -72,7 +79,7 @@ public class UserCounts {
 
 
   public static UserCounts parse(JSONObject jsonObject) {
-    UserCounts obj = new UserCounts();
+    UserCounts obj = new UserCounts(jsonObject);
     obj.id = Result.toString(jsonObject.get("uid"));
     obj.followersCount = Result.parseInteger(jsonObject.opt("followers_count"));
     obj.friendsCount = Result.parseInteger(jsonObject.opt("friends_count"));

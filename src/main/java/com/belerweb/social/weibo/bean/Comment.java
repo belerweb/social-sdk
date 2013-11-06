@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
@@ -12,7 +13,13 @@ import com.belerweb.social.bean.Result;
  * 
  * 文档地址：http://open.weibo.com/wiki/常见返回对象数据结构#.E8.AF.84.E8.AE.BA.EF.BC.88comment.EF.BC.89
  */
-public class Comment {
+public class Comment extends JsonBean {
+
+  public Comment() {}
+
+  private Comment(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String id;// 评论的ID
   private String mid;// 评论的MID
@@ -127,7 +134,7 @@ public class Comment {
     if (jsonObject == null) {
       return null;
     }
-    Comment obj = new Comment();
+    Comment obj = new Comment(jsonObject);
     obj.id = Result.toString(jsonObject.get("id"));
     obj.mid = Result.toString(jsonObject.opt("mid"));
     obj.idstr = Result.toString(jsonObject.opt("idstr"));

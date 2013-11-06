@@ -3,9 +3,16 @@ package com.belerweb.social.qq.connect.bean;
 import org.json.JSONObject;
 
 import com.belerweb.social.bean.Gender;
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
-public class User {
+public class User extends JsonBean {
+
+  public User() {}
+
+  private User(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String nickname;// 用户在QQ空间的昵称。
   private String figureUrl;// 大小为30×30像素的QQ空间头像URL。
@@ -156,7 +163,7 @@ public class User {
     if (jsonObject == null) {
       return null;
     }
-    User obj = new User();
+    User obj = new User(jsonObject);
     obj.nickname = Result.toString(jsonObject.get("nickname"));
     obj.figureUrl = Result.toString(jsonObject.opt("figureurl"));
     obj.figureUrl1 = Result.toString(jsonObject.opt("figureurl_1"));

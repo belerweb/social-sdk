@@ -2,12 +2,19 @@ package com.belerweb.social.weixin.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
  * 网页授权接口调用凭证
  */
-public class AccessToken {
+public class AccessToken extends JsonBean {
+
+  public AccessToken() {}
+
+  private AccessToken(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String token;// 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
   private Long expiresIn;// access_token接口调用凭证超时时间，单位（秒）
@@ -74,7 +81,7 @@ public class AccessToken {
     if (jsonObject == null) {
       return null;
     }
-    AccessToken obj = new AccessToken();
+    AccessToken obj = new AccessToken(jsonObject);
     obj.openId = Result.toString(jsonObject.get("openid"));
     obj.token = jsonObject.getString("access_token");
     obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));

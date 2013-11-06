@@ -2,12 +2,19 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
  * 消息未读数
  */
-public class Remind {
+public class Remind extends JsonBean {
+
+  public Remind() {}
+
+  private Remind(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private Integer status;// 新微博未读数
   private Integer follower;// 新粉丝数
@@ -170,7 +177,7 @@ public class Remind {
     if (jsonObject == null) {
       return null;
     }
-    Remind obj = new Remind();
+    Remind obj = new Remind(jsonObject);
     obj.status = Result.parseInteger(jsonObject.opt("status"));
     obj.follower = Result.parseInteger(jsonObject.opt("follower"));
     obj.cmt = Result.parseInteger(jsonObject.opt("cmt"));

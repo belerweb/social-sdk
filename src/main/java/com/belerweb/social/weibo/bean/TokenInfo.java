@@ -2,9 +2,16 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
-public class TokenInfo {
+public class TokenInfo extends JsonBean {
+
+  public TokenInfo() {}
+
+  private TokenInfo(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String uid;
   private String appkey;// access_token所属的应用appkey。
@@ -69,7 +76,7 @@ public class TokenInfo {
   }
 
   public static TokenInfo parse(JSONObject jsonObject) {
-    TokenInfo obj = new TokenInfo();
+    TokenInfo obj = new TokenInfo(jsonObject);
     obj.uid = Result.toString(jsonObject.get("uid"));
     obj.appkey = Result.toString(jsonObject.opt("appkey"));
     obj.scope = Result.toString(jsonObject.opt("scope"));

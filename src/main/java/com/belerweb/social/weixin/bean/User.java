@@ -3,12 +3,21 @@ package com.belerweb.social.weixin.bean;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.belerweb.social.bean.Gender;
+import com.belerweb.social.bean.JsonBean;
 
 /**
  * 微信用户信息
  */
-public class User {
+public class User extends JsonBean {
+
+  public User() {}
+
+  private User(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String openId;// 用户的唯一标识
   private String nickname;// 用户昵称
@@ -141,6 +150,15 @@ public class User {
 
   public void setSubscribeTime(Date subscribeTime) {
     this.subscribeTime = subscribeTime;
+  }
+
+  public static User parse(JSONObject jsonObject) {
+    if (jsonObject == null) {
+      return null;
+    }
+    User obj = new User(jsonObject);
+    // TODO parse json object
+    return obj;
   }
 
 }

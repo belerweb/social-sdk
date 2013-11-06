@@ -2,12 +2,19 @@ package com.belerweb.social.weibo.bean;
 
 import org.json.JSONObject;
 
+import com.belerweb.social.bean.JsonBean;
 import com.belerweb.social.bean.Result;
 
 /**
  * 短链
  */
-public class UrlShort {
+public class UrlShort extends JsonBean {
+
+  public UrlShort() {}
+
+  private UrlShort(JSONObject jsonObject) {
+    super(jsonObject);
+  }
 
   private String urlShort;// 短链接
   private String urlLong;// 原始长链接
@@ -62,7 +69,7 @@ public class UrlShort {
     if (jsonObject == null) {
       return null;
     }
-    UrlShort obj = new UrlShort();
+    UrlShort obj = new UrlShort(jsonObject);
     obj.urlShort = Result.toString(jsonObject.opt("url_short"));
     obj.urlLong = Result.toString(jsonObject.opt("url_long"));
     obj.type = Result.parseInteger(jsonObject.opt("type"));
