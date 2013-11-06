@@ -34,6 +34,11 @@ public final class Error {
     this.error = error;
   }
 
+  @Override
+  public String toString() {
+    return errorCode + ":" + errorCode + "(" + request + ")";
+  }
+
   public static Error parse(JSONObject jsonObject) {
     String errorCode = jsonObject.optString("error_code", null);
     if (errorCode != null) {// 微博
