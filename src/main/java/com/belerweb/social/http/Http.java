@@ -14,9 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -84,17 +82,19 @@ public final class Http {
   private static String execute(HttpUriRequest request) throws HttpException {
     try {
       HttpResponse response = CLIENT.execute(request);
-      StatusLine status = response.getStatusLine();
+      // StatusLine status = response.getStatusLine();
       HttpEntity entity = response.getEntity();
       String result = null;
       if (entity != null) {
         result = IOUtils.toString(entity.getContent());
+        return result;
+      } else {
+        throw new HttpException("No response entity.");
       }
-      if (status.getStatusCode() != HttpStatus.SC_OK) {
-        throw new HttpException(status.getStatusCode() + ":" + status.getReasonPhrase() + "\r\n"
-            + result);
-      }
-      return result;
+      // if (status.getStatusCode() != HttpStatus.SC_OK) {
+      // throw new HttpException(status.getStatusCode() + ":" + status.getReasonPhrase() + "\r\n"
+      // + result);
+      // }
     } catch (ClientProtocolException e) {
       throw new HttpException(e);
     } catch (IOException e) {

@@ -86,8 +86,7 @@ public final class OAuth2 extends API {
    * @see OAuth2#accessToken(String, String, String, String, String)
    */
   public Result<AccessToken> accessToken(String code) {
-    return accessToken(weibo.getClientId(), weibo.getClientSecret(), "authorization_code", code,
-        weibo.getRedirectUri());
+    return accessToken(code, weibo.getRedirectUri());
   }
 
   /**

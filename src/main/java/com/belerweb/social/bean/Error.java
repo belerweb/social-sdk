@@ -40,7 +40,7 @@ public final class Error extends JsonBean {
 
   @Override
   public String toString() {
-    return errorCode + ":" + errorCode + "(" + request + ")";
+    return errorCode + ":" + error + "(" + request + ")";
   }
 
   public static Error parse(JSONObject jsonObject) {
