@@ -6,6 +6,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.belerweb.social.SDK;
+import com.belerweb.social.weixin.api.OAuth2;
+import com.belerweb.social.weixin.api.User;
 
 /**
  * 微信SDK
@@ -16,6 +18,9 @@ public final class Weixin extends SDK {
   private String secret;
   private String redirectUri;
   private String token;
+
+  private OAuth2 oAuth2;
+  private User user;
 
   /**
    * 只传入token实例化微信SDK，适合于只开发基于微信基础接口的被动接受消息类应用，如智能应答机器人。不推荐适用。
@@ -115,6 +120,22 @@ public final class Weixin extends SDK {
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public OAuth2 getOAuth2() {
+    if (oAuth2 == null) {
+      oAuth2 = new OAuth2(this);
+    }
+
+    return oAuth2;
+  }
+
+  public User getUser() {
+    if (user == null) {
+      user = new User(this);
+    }
+
+    return user;
   }
 
 }

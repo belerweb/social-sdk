@@ -26,7 +26,7 @@ public class User extends API {
   }
 
   /**
-   * 拉取用户信息(需scope为 snsapi_userinfo)。
+   * 拉取用户信息(需scope为 snsapi_userinfo)。适用于网页授权的用户。
    * 
    * 如果网页授权作用域为snsapi_userinfo，则此时开发者可以通过access_token和openid拉取用户信息了。
    * 
@@ -36,14 +36,14 @@ public class User extends API {
   public Result<com.belerweb.social.weixin.bean.User> snsapiUserInfo(String accessToken,
       String openId) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
-    weixin.addParameter(params, " access_token", accessToken);
+    weixin.addParameter(params, "access_token", accessToken);
     weixin.addParameter(params, "openid", openId);
     String json = weixin.get("https://api.weixin.qq.com/sns/userinfo", params);
     return Result.parse(json, com.belerweb.social.weixin.bean.User.class);
   }
 
   /**
-   * 获取用户基本信息
+   * 获取用户基本信息，适用于已关注公众帐号的用户。
    * 
    * 在关注者与公众号产生消息交互后，公众号可获得关注者的OpenID（加密后的微信号，每个用户对每个公众号的OpenID是唯一的。对于不同公众号，同一用户的openid不同）。
    * 公众号可通过本接口来根据OpenID获取用户基本信息，包括昵称、头像、性别、所在城市、语言和关注时间。
@@ -53,7 +53,7 @@ public class User extends API {
    */
   public Result<com.belerweb.social.weixin.bean.User> userInfo(String accessToken, String openId) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
-    weixin.addParameter(params, " access_token", accessToken);
+    weixin.addParameter(params, "access_token", accessToken);
     weixin.addParameter(params, "openid", openId);
     String json = weixin.get("https://api.weixin.qq.com/cgi-bin/user/info", params);
     return Result.parse(json, com.belerweb.social.weixin.bean.User.class);

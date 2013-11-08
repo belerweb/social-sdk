@@ -25,19 +25,43 @@ public final class OAuth2 extends API {
    * @see OAuth2#authorize(String, String, String, String, String, Boolean)
    */
   public String authorize() {
-    return authorize(weixin.getRedirectUri());
+    return authorize(false);
+  }
+
+  /**
+   * 获取Authorization Code
+   * 
+   * 从 {@link Weixin} 从获取clientId，redirectUri，responseType为code ，其余参数默认
+   * 
+   * @see OAuth2#authorize(String, String, String, String, String, Boolean)
+   */
+  public String authorize(Boolean wechatRedirect) {
+    return authorize(weixin.getRedirectUri(), wechatRedirect);
   }
 
 
   /**
    * 获取Authorization Code
    * 
-   * 从 {@link Weixin} 从获取clientId，responseType为code ，其余参数默认
+   * 从 {@link Weixin} 从获取clientId，responseType为code ，scope为snsapi_userinfo，其余参数默认
    * 
    * @see OAuth2#authorize(String, String, String, String, String, Boolean)
    */
   public String authorize(String redirectUri) {
-    return authorize(weixin.getAppId(), redirectUri, "code", null, null, null);
+    return authorize(redirectUri, false);
+  }
+
+
+  /**
+   * 获取Authorization Code
+   * 
+   * 从 {@link Weixin} 从获取clientId，responseType为code ，scope为snsapi_userinfo，其余参数默认
+   * 
+   * @see OAuth2#authorize(String, String, String, String, String, Boolean)
+   */
+  public String authorize(String redirectUri, Boolean wechatRedirect) {
+    return authorize(weixin.getAppId(), redirectUri, "code", Scope.SNSAPI_USERINFO, null,
+        wechatRedirect);
   }
 
   /**
