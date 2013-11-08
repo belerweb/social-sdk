@@ -28,7 +28,7 @@ public final class User extends API {
    */
   public Result<com.belerweb.social.qq.connect.bean.User> getUserInfo(String accessToken,
       String openid) {
-    return getSimpleUserInfo(accessToken, connect.getClientSecret(), openid);
+    return getUserInfo(accessToken, connect.getClientId(), openid);
   }
 
   /**
@@ -41,15 +41,15 @@ public final class User extends API {
    * @param openid 用户的ID，与QQ号码一一对应。
    *        可通过调用https://graph.qq.com/oauth2.0/me?access_token=YOUR_ACCESS_TOKEN 来获取。
    */
-  public Result<User> getUserInfo(String accessToken, String oAuthConsumerKey, String openid) {
+  public Result<com.belerweb.social.qq.connect.bean.User> getUserInfo(String accessToken,
+      String oAuthConsumerKey, String openid) {
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     connect.addParameter(params, "access_token", accessToken);
     connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
     connect.addParameter(params, "openid", openid);
-    connect.addNotNullParameter(params, "access_token", accessToken);
     connect.addNotNullParameter(params, "format", "json");
     String json = connect.get("https://graph.qq.com/user/get_user_info", params);
-    return Result.parse(json, User.class);
+    return Result.parse(json, com.belerweb.social.qq.connect.bean.User.class);
   }
 
   /**
@@ -68,7 +68,6 @@ public final class User extends API {
     connect.addParameter(params, "access_token", accessToken);
     connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
     connect.addParameter(params, "openid", openid);
-    connect.addNotNullParameter(params, "access_token", accessToken);
     connect.addNotNullParameter(params, "format", "json");
     String json = connect.get("https://openmobile.qq.com/user/get_simple_userinfo", params);
     return Result.parse(json, com.belerweb.social.qq.connect.bean.User.class);
