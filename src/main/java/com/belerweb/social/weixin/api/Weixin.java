@@ -1,5 +1,6 @@
 package com.belerweb.social.weixin.api;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,12 +9,17 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
+import org.apache.http.entity.StringEntity;
 
 import com.belerweb.social.SDK;
 import com.belerweb.social.bean.Result;
+import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weixin.api.OAuth2;
 import com.belerweb.social.weixin.api.User;
 import com.belerweb.social.weixin.bean.AccessToken;
+import com.belerweb.social.weixin.bean.QRCreation;
+import com.belerweb.social.weixin.bean.QRTicket;
+import com.belerweb.social.weixin.bean.QRType;
 
 /**
  * 微信SDK
@@ -143,6 +149,45 @@ public final class Weixin extends SDK {
     }
 
     return accessToken;
+  }
+
+  /**
+   * 自动获取accessToken并创建二维码ticket
+   * 
+   * 每次创建二维码ticket需要提供一个开发者自行设定的参数（scene_id）
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 
+   * @param type 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久
+   * @param sceneId 场景值ID，临时二维码时为32位整型，永久二维码时最大值为1000
+   */
+  public Result<QRTicket> createQR(QRType type, Integer sceneId) {
+    return createQR(getAccessToken().getToken(), type, sceneId);
+  }
+
+  /**
+   * 创建二维码ticket
+   * 
+   * 每次创建二维码ticket需要提供一个开发者自行设定的参数（scene_id）
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/index.php?title=生成带参数的二维码
+   * 
+   * @param accessToken access_token是公众号的全局唯一票据
+   * @param type 二维码类型，QR_SCENE为临时,QR_LIMIT_SCENE为永久
+   * @param sceneId 场景值ID，临时二维码时为32位整型，永久二维码时最大值为1000
+   */
+  public Result<QRTicket> createQR(String accessToken, QRType type, Integer sceneId) {
+    QRCreation request = new QRCreation();
+    request.setType(type);
+    request.setSceneId(sceneId);
+    try {
+      String json =
+          post("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + accessToken,
+              new StringEntity(request.toString()));
+      return Result.parse(json, QRTicket.class);
+    } catch (UnsupportedEncodingException e) {
+      throw new SocialException(e);
+    }
   }
 
   /**

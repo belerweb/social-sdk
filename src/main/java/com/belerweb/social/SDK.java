@@ -2,6 +2,7 @@ package com.belerweb.social;
 
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -23,6 +24,14 @@ public abstract class SDK {
     return get(url, null);
   }
 
+  public String post(String url, HttpEntity postBody) {
+    try {
+      return Http.post(url, postBody);
+    } catch (HttpException e) {
+      throw new SocialException(e);
+    }
+  }
+
   public String post(String url, List<NameValuePair> params) {
     try {
       return Http.post(url, params);
@@ -32,7 +41,7 @@ public abstract class SDK {
   }
 
   public String post(String url) {
-    return post(url, null);
+    return post(url, (HttpEntity) null);
   }
 
   public void addParameter(List<NameValuePair> params, String name, Object value) {

@@ -53,6 +53,21 @@ public final class Http {
     return execute(request);
   }
 
+  public static String post(String uri, HttpEntity postBody, Header... headers)
+      throws HttpException {
+    HttpPost request = new HttpPost(uri);
+    if (postBody != null) {
+      request.setEntity(postBody);
+    }
+
+    if (headers != null) {
+      for (Header header : headers) {
+        request.addHeader(header);
+      }
+    }
+    return execute(request);
+  }
+
   public static String post(String uri, List<NameValuePair> params, Header... headers)
       throws HttpException {
     HttpPost request = new HttpPost(uri);
@@ -76,7 +91,7 @@ public final class Http {
   }
 
   public static String post(String uri) throws HttpException {
-    return post(uri, null);
+    return post(uri, (HttpEntity) null);
   }
 
   private static String execute(HttpUriRequest request) throws HttpException {
