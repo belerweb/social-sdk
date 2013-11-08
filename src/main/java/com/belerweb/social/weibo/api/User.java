@@ -92,7 +92,7 @@ public final class User extends API {
     weibo.addNotNullParameter(params, "source", source);
     weibo.addNotNullParameter(params, "access_token", accessToken);
     weibo.addParameter(params, "uids", StringUtils.join(uids, ","));
-    String result = weibo.get("https://api.weibo.com/2/users/domain_show.json", params);
+    String result = weibo.get("https://api.weibo.com/2/users/counts.json", params);
     return Result.parse(result, UserCounts.class);
   }
 

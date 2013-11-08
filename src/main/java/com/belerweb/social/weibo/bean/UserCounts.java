@@ -80,7 +80,7 @@ public class UserCounts extends JsonBean {
 
   public static UserCounts parse(JSONObject jsonObject) {
     UserCounts obj = new UserCounts(jsonObject);
-    obj.id = Result.toString(jsonObject.get("uid"));
+    obj.id = Result.toString(jsonObject.get("id"));
     obj.followersCount = Result.parseInteger(jsonObject.opt("followers_count"));
     obj.friendsCount = Result.parseInteger(jsonObject.opt("friends_count"));
     obj.statusesCount = Result.parseInteger(jsonObject.opt("statuses_count"));
