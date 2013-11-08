@@ -82,8 +82,8 @@ public class AccessToken extends JsonBean {
       return null;
     }
     AccessToken obj = new AccessToken(jsonObject);
-    obj.openId = Result.toString(jsonObject.get("openid"));
     obj.token = jsonObject.getString("access_token");
+    obj.openId = Result.toString(jsonObject.opt("openid"));
     obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));
     obj.refreshToken = Result.toString(jsonObject.opt("refresh_token"));
     obj.scope = Scope.parse(jsonObject.opt("scope"));

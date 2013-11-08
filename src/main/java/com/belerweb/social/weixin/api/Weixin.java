@@ -1,13 +1,19 @@
 package com.belerweb.social.weixin.api;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.NameValuePair;
 
 import com.belerweb.social.SDK;
+import com.belerweb.social.bean.Result;
 import com.belerweb.social.weixin.api.OAuth2;
 import com.belerweb.social.weixin.api.User;
+import com.belerweb.social.weixin.bean.AccessToken;
 
 /**
  * 微信SDK
@@ -21,6 +27,9 @@ public final class Weixin extends SDK {
 
   private OAuth2 oAuth2;
   private User user;
+
+  private AccessToken accessToken;
+  private Date accessTokenTime;
 
   /**
    * 只传入token实例化微信SDK，适合于只开发基于微信基础接口的被动接受消息类应用，如智能应答机器人。不推荐适用。
@@ -107,6 +116,33 @@ public final class Weixin extends SDK {
 
   public void setRedirectUri(String redirectUri) {
     this.redirectUri = redirectUri;
+  }
+
+  /**
+   * 获取access token
+   * 
+   * access_token是公众号的全局唯一票据，公众号调用各接口时都需使用access_token。正常情况下access_token有效期为7200秒，
+   * 重复获取将导致上次获取的access_token失效。
+   * 
+   * 公众号可以使用AppID和AppSecret调用本接口来获取access_token。AppID和AppSecret可在开发模式中获得（需要已经成为开发者，且帐号没有异常状态）。
+   */
+  public AccessToken getAccessToken() {
+    if (accessToken == null || accessTokenTime == null
+        || (new Date().getTime() - accessTokenTime.getTime()) / 1000 > accessToken.getExpiresIn()) {
+      List<NameValuePair> params = new ArrayList<NameValuePair>();
+      addParameter(params, "appid", appId);
+      addParameter(params, "secret", secret);
+      addParameter(params, "grant_type", "client_credential");
+      String json =
+          get("https://api.weixin.qq.com/cgi-bin/token?" + StringUtils.join(params, "&"), params);
+      Result<AccessToken> result = Result.parse(json, AccessToken.class);
+      if (result.success()) {
+        accessToken = result.getResult();
+        accessTokenTime = new Date();
+      }
+    }
+
+    return accessToken;
   }
 
   /**
