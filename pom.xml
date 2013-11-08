@@ -2,10 +2,46 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
 	<groupId>com.belerweb</groupId>
 	<artifactId>social-sdk</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<packaging>jar</packaging>
+
+	<name>social-sdk</name>
+	<description>All in one sdk, include weibo, qq connect, t.qq.com ...</description>
+	<url>https://github.com/belerweb/social-sdk</url>
+
+	<licenses>
+		<license>
+			<name>BSD</name>
+			<url>http://opensource.org/licenses/bsd-license.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git:https://github.com/belerweb/social-sdk.git</connection>
+		<developerConnection>scm:git:https://github.com/belerweb/social-sdk.git</developerConnection>
+		<url>https://github.com/belerweb/social-sdk.git</url>
+	</scm>
+	<issueManagement>
+		<system>Github Issue</system>
+		<url>https://github.com/belerweb/social-sdk/issues</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<id>belerweb</id>
+			<name>Tangjun He</name>
+			<email>belerweb@gmail.com</email>
+			<url>https://github.com/belerweb</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -87,6 +123,19 @@
 										<execute>
 											<runOnIncremental>true</runOnIncremental>
 										</execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-enforcer-plugin</artifactId>
+										<versionRange>[1.0,)</versionRange>
+										<goals>
+											<goal>enforce</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
