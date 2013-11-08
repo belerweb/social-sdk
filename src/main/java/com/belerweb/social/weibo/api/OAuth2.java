@@ -167,7 +167,9 @@ public final class OAuth2 extends API {
    * @param accessToken 用户授权应用的access_token
    */
   public Result<Boolean> revokeOAuth2(String accessToken) {
-    String json = weibo.post("https://api.weibo.com/oauth2/revokeoauth2");
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    weibo.addParameter(params, "access_token", accessToken);
+    String json = weibo.post("https://api.weibo.com/oauth2/revokeoauth2", params);
     JSONObject jsonObject = new JSONObject(json);
     Error error = Error.parse(jsonObject);
     if (error == null) {

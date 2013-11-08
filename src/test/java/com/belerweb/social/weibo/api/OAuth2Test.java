@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.belerweb.social.TestConfig;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.weibo.bean.AccessToken;
+import com.belerweb.social.weibo.bean.TokenInfo;
 
 public class OAuth2Test extends TestConfig {
 
@@ -32,6 +33,22 @@ public class OAuth2Test extends TestConfig {
     tokenResult = weibo.getOAuth2().accessToken(code);
     Assert.assertTrue(tokenResult.success());
     System.out.println(tokenResult.getResult().getJsonObject());
+  }
+
+  @Test
+  public void testGetTokenInfo() {
+    String accessToken = System.getProperty("weibo.token");
+    Result<TokenInfo> tokenResult = weibo.getOAuth2().getTokenInfo(accessToken);
+    Assert.assertTrue(tokenResult.success());
+    System.out.println(tokenResult.getResult().getJsonObject());
+  }
+
+  @Test
+  public void testRevokeOAuth2() {
+    String accessToken = System.getProperty("weibo.token");
+    Result<Boolean> tokenResult = weibo.getOAuth2().revokeOAuth2(accessToken);
+    Assert.assertTrue(tokenResult.success());
+    Assert.assertTrue(tokenResult.getResult());
   }
 
 }
