@@ -17,6 +17,7 @@ import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weixin.api.OAuth2;
 import com.belerweb.social.weixin.api.User;
 import com.belerweb.social.weixin.bean.AccessToken;
+import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.QRCreation;
 import com.belerweb.social.weixin.bean.QRTicket;
 import com.belerweb.social.weixin.bean.QRType;
@@ -185,6 +186,40 @@ public final class Weixin extends SDK {
           post("https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + accessToken,
               new StringEntity(request.toString()));
       return Result.parse(json, QRTicket.class);
+    } catch (UnsupportedEncodingException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
+   * 发送客服消息
+   * 
+   * 当用户主动发消息给公众号的时候，微信将会把消息数据推送给开发者，开发者在一段时间内（目前为24小时）可以调用客服消息接口，通过POST一个JSON数据包来发送消息给普通用户，
+   * 在24小时内不限制发送次数。此接口主要用于客服等有人工消息处理环节的功能，方便开发者为用户提供更加优质的服务。
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
+   * 
+   * @param message 消息
+   */
+  public void sendCustomMessage(Message message) {
+    sendCustomMessage(getAccessToken().getToken(), message);
+  }
+
+  /**
+   * 发送客服消息
+   * 
+   * 当用户主动发消息给公众号的时候，微信将会把消息数据推送给开发者，开发者在一段时间内（目前为24小时）可以调用客服消息接口，通过POST一个JSON数据包来发送消息给普通用户，
+   * 在24小时内不限制发送次数。此接口主要用于客服等有人工消息处理环节的功能，方便开发者为用户提供更加优质的服务。
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/index.php?title=发送客服消息
+   * 
+   * @param accessToken access_token是公众号的全局唯一票据
+   * @param message 消息
+   */
+  public void sendCustomMessage(String accessToken, Message message) {
+    try {
+      post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + accessToken,
+          new StringEntity(message.toJSON()));
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
     }
