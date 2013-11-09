@@ -27,6 +27,11 @@ public enum MsgType {
   VIDEO("video"),
 
   /**
+   * 音乐消息
+   */
+  MUSIC("music"),
+
+  /**
    * 地理位置消息
    */
   LOCATION("location"),
@@ -39,7 +44,12 @@ public enum MsgType {
   /**
    * 事件
    */
-  EVENT("event");
+  EVENT("event"),
+
+  /**
+   * 图文消息
+   */
+  NEWS("news");
 
   private String type;
 
@@ -69,6 +79,9 @@ public enum MsgType {
     if (VIDEO.type.equals(val)) {
       return VIDEO;
     }
+    if (MUSIC.type.equals(val)) {
+      return MUSIC;
+    }
     if (LOCATION.type.equals(val)) {
       return LOCATION;
     }
@@ -77,6 +90,9 @@ public enum MsgType {
     }
     if (EVENT.type.equals(val)) {
       return EVENT;
+    }
+    if (NEWS.type.equals(val)) {
+      return NEWS;
     }
     return null;
   }

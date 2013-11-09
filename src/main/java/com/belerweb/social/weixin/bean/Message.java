@@ -1,7 +1,9 @@
 package com.belerweb.social.weixin.bean;
 
 import java.util.Date;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -11,11 +13,11 @@ import com.belerweb.social.bean.Result;
 /**
  * 普通消息
  */
-public class ReceivedMessage extends JsonBean {
+public class Message extends JsonBean {
 
-  public ReceivedMessage() {}
+  public Message() {}
 
-  private ReceivedMessage(JSONObject jsonObject) {
+  private Message(JSONObject jsonObject) {
     super(jsonObject);
   }
 
@@ -37,10 +39,13 @@ public class ReceivedMessage extends JsonBean {
   private String title;// 消息标题
   private String description;// 消息描述
   private String url;// 消息链接
+  private String musicUrl;// 音乐链接
+  private String hqMusicUrl;// 高质量音乐链接，WIFI环境优先使用该链接播放音乐
   private EventType eventType;// 事件类型
   private String eventKey;// 事件KEY值
   private String ticket;// 二维码的ticket，可用来换取二维码图片
   private Double precision;// 地理位置精度
+  private List<Article> articles;// 多条图文消息信息，默认第一个item为大图
 
   /**
    * 消息id
@@ -154,7 +159,7 @@ public class ReceivedMessage extends JsonBean {
   }
 
   /**
-   * 视频消息特有：视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
+   * 视频消息/音乐消息特有：视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
    */
   public String getThumbMediaId() {
     return thumbMediaId;
@@ -209,7 +214,7 @@ public class ReceivedMessage extends JsonBean {
   }
 
   /**
-   * 链接消息特有：消息标题
+   * 链接消息/音乐消息特有：消息标题
    */
   public String getTitle() {
     return title;
@@ -220,7 +225,7 @@ public class ReceivedMessage extends JsonBean {
   }
 
   /**
-   * 链接消息特有：消息描述
+   * 链接消息/音乐消息特有：消息描述
    */
   public String getDescription() {
     return description;
@@ -239,6 +244,28 @@ public class ReceivedMessage extends JsonBean {
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  /**
+   * 音乐链接
+   */
+  public String getMusicUrl() {
+    return musicUrl;
+  }
+
+  public void setMusicUrl(String musicUrl) {
+    this.musicUrl = musicUrl;
+  }
+
+  /**
+   * 高质量音乐链接，WIFI环境优先使用该链接播放音乐
+   */
+  public String getHqMusicUrl() {
+    return hqMusicUrl;
+  }
+
+  public void setHqMusicUrl(String hqMusicUrl) {
+    this.hqMusicUrl = hqMusicUrl;
   }
 
   /**
@@ -287,15 +314,134 @@ public class ReceivedMessage extends JsonBean {
     this.precision = precision;
   }
 
-  public static ReceivedMessage parse(String xml) {
+  /**
+   * 多条图文消息信息，默认第一个item为大图
+   */
+  public List<Article> getArticles() {
+    return articles;
+  }
+
+  public void setArticles(List<Article> articles) {
+    this.articles = articles;
+  }
+
+  /**
+   * 将Message转换成XML格式，用于发送被动响应消息
+   */
+  public String toXML() {
+    JSONObject obj = new JSONObject();
+    obj.put("MsgType", msgType.toString());
+    obj.put("ToUserName", toUser);
+    obj.put("FromUserName", fromUser);
+    obj.put("CreateTime", (Long) (createTime.getTime() / 1000));
+    if (msgType == MsgType.TEXT) {
+      obj.put("Content", content);
+    }
+    if (msgType == MsgType.IMAGE) {
+      JSONObject image = new JSONObject();
+      image.put("MediaId", mediaId);
+      obj.put("Image", image);
+    }
+    if (msgType == MsgType.VOICE) {
+      JSONObject voice = new JSONObject();
+      voice.put("MediaId", mediaId);
+      obj.put("Voice", voice);
+    }
+    if (msgType == MsgType.VIDEO) {
+      JSONObject video = new JSONObject();
+      video.put("MediaId", mediaId);
+      video.put("ThumbMediaId", thumbMediaId);
+      obj.put("Video", video);
+    }
+    if (msgType == MsgType.MUSIC) {
+      JSONObject music = new JSONObject();
+      music.put("Title", title);
+      music.put("Description", description);
+      music.put("MusicURL", musicUrl);
+      music.put("HQMusicUrl", hqMusicUrl);
+      music.put("ThumbMediaId", thumbMediaId);
+      obj.put("Music", music);
+    }
+    if (msgType == MsgType.NEWS) {
+      obj.put("ArticleCount", articles.size());
+      JSONArray array = new JSONArray();
+      for (Article article : articles) {
+        JSONObject item = new JSONObject();
+        item.put("Title", article.getTitle());
+        item.put("Description", article.getDescription());
+        item.put("PicUrl", article.getPicUrl());
+        item.put("Url", article.getUrl());
+        array.put(item);
+      }
+      obj.put("Articles", array);
+    }
+    return XML.toString(obj, "xml");
+  }
+
+  /**
+   * 将Message转换成JSON格式，用于发送客服消息
+   */
+  public String toJSON() {
+    JSONObject obj = new JSONObject();
+    obj.put("msgtype", msgType.toString());
+    obj.put("touser", toUser);
+    if (msgType == MsgType.TEXT) {
+      JSONObject text = new JSONObject();
+      text.put("content", content);
+      obj.put("text", text);
+    }
+    if (msgType == MsgType.IMAGE) {
+      JSONObject image = new JSONObject();
+      image.put("media_id", mediaId);
+      obj.put("image", image);
+    }
+    if (msgType == MsgType.VOICE) {
+      JSONObject voice = new JSONObject();
+      voice.put("media_id", mediaId);
+      obj.put("voice", voice);
+    }
+    if (msgType == MsgType.VIDEO) {
+      JSONObject video = new JSONObject();
+      video.put("media_id", mediaId);
+      video.put("thumb_media_id", thumbMediaId);
+      obj.put("video", video);
+    }
+    if (msgType == MsgType.MUSIC) {
+      JSONObject music = new JSONObject();
+      music.put("title", title);
+      music.put("description", description);
+      music.put("musicurl", musicUrl);
+      music.put("hqmusicurl", hqMusicUrl);
+      music.put("thumb_media_id", thumbMediaId);
+      obj.put("music", music);
+    }
+    if (msgType == MsgType.NEWS) {
+      JSONObject news = new JSONObject();
+      JSONArray array = new JSONArray();
+      for (Article article : articles) {
+        JSONObject item = new JSONObject();
+        item.put("title", article.getTitle());
+        item.put("description", article.getDescription());
+        item.put("picurl", article.getPicUrl());
+        item.put("url", article.getUrl());
+        array.put(item);
+      }
+      news.put("articles", array);
+      obj.put("news", news);
+    }
+
+    return obj.toString();
+  }
+
+  public static Message parse(String xml) {
     return parse(XML.toJSONObject(xml).getJSONObject("xml"));
   }
 
-  public static ReceivedMessage parse(JSONObject jsonObject) {
+  public static Message parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
     }
-    ReceivedMessage obj = new ReceivedMessage(jsonObject);
+    Message obj = new Message(jsonObject);
     obj.msgId = Result.parseLong(jsonObject.opt("MsgId"));
     MsgType type = MsgType.parse(jsonObject.get("MsgType"));
     obj.msgType = type;
