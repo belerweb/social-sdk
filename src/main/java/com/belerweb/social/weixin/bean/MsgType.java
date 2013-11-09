@@ -34,7 +34,12 @@ public enum MsgType {
   /**
    * 链接消息
    */
-  LINK("link");
+  LINK("link"),
+
+  /**
+   * 事件
+   */
+  EVENT("event");
 
   private String type;
 
@@ -69,6 +74,9 @@ public enum MsgType {
     }
     if (LINK.type.equals(val)) {
       return LINK;
+    }
+    if (EVENT.type.equals(val)) {
+      return EVENT;
     }
     return null;
   }

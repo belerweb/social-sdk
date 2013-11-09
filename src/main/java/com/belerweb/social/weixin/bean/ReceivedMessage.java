@@ -37,6 +37,10 @@ public class ReceivedMessage extends JsonBean {
   private String title;// 消息标题
   private String description;// 消息描述
   private String url;// 消息链接
+  private EventType eventType;// 事件类型
+  private String eventKey;// 事件KEY值
+  private String ticket;// 二维码的ticket，可用来换取二维码图片
+  private Double precision;// 地理位置精度
 
   /**
    * 消息id
@@ -237,6 +241,52 @@ public class ReceivedMessage extends JsonBean {
     this.url = url;
   }
 
+  /**
+   * 事件特有：事件类型
+   */
+  public EventType getEventType() {
+    return eventType;
+  }
+
+  public void setEventType(EventType eventType) {
+    this.eventType = eventType;
+  }
+
+  /**
+   * 事件KEY值，QR扫描／自定义菜单时特有
+   */
+  public String getEventKey() {
+    return eventKey;
+  }
+
+  public void setEventKey(String eventKey) {
+    this.eventKey = eventKey;
+  }
+
+  /**
+   * 扫描二维码，用户已关注时的事件推送特有
+   * 
+   * 二维码的ticket，可用来换取二维码图片
+   */
+  public String getTicket() {
+    return ticket;
+  }
+
+  public void setTicket(String ticket) {
+    this.ticket = ticket;
+  }
+
+  /**
+   * 上报地理位置事件特有： 地理位置精度
+   */
+  public Double getPrecision() {
+    return precision;
+  }
+
+  public void setPrecision(Double precision) {
+    this.precision = precision;
+  }
+
   public static ReceivedMessage parse(String xml) {
     return parse(XML.toJSONObject(xml).getJSONObject("xml"));
   }
@@ -246,7 +296,7 @@ public class ReceivedMessage extends JsonBean {
       return null;
     }
     ReceivedMessage obj = new ReceivedMessage(jsonObject);
-    obj.msgId = Result.parseLong(jsonObject.get("MsgId"));
+    obj.msgId = Result.parseLong(jsonObject.opt("MsgId"));
     MsgType type = MsgType.parse(jsonObject.get("MsgType"));
     obj.msgType = type;
     obj.createTime = new Date(Result.parseLong(jsonObject.get("CreateTime")) * 1000);
@@ -278,6 +328,30 @@ public class ReceivedMessage extends JsonBean {
       obj.title = Result.toString(jsonObject.opt("Title"));
       obj.description = Result.toString(jsonObject.opt("Description"));
       obj.url = Result.toString(jsonObject.opt("Url"));
+    }
+    if (type == MsgType.EVENT) {
+      EventType eventType = EventType.parse(jsonObject.get("Event"));
+      obj.eventType = eventType;
+      if (eventType == EventType.SUBSCRIBE) {
+        // Do nothing when direct follow
+        // When scan QR to follow
+        obj.eventKey = Result.toString(jsonObject.opt("EventKey"));
+        obj.ticket = Result.toString(jsonObject.opt("Ticket"));
+      }
+      if (eventType == EventType.UNSUBSCRIBE) {
+        // Do nothing
+      }
+      if (eventType == EventType.SCAN) {
+        obj.eventKey = Result.toString(jsonObject.opt("EventKey"));
+        obj.ticket = Result.toString(jsonObject.opt("Ticket"));
+      }
+      if (eventType == EventType.LOCATION) {
+        obj.lon = Result.parseDouble(jsonObject.opt("Longitude"));
+        obj.lat = Result.parseDouble(jsonObject.opt("Latitude"));
+      }
+      if (eventType == EventType.CLICK) {
+        obj.eventKey = Result.toString(jsonObject.opt("EventKey"));
+      }
     }
     return obj;
   }
