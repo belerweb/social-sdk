@@ -218,6 +218,7 @@ public final class Weixin extends SDK {
    */
   public void sendCustomMessage(String accessToken, Message message) {
     try {
+      // {"errcode":0,"errmsg":"ok"}
       post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + accessToken,
           new StringEntity(message.toJSON()));
     } catch (UnsupportedEncodingException e) {

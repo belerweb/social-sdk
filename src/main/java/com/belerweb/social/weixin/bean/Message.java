@@ -17,6 +17,10 @@ public class Message extends JsonBean {
 
   public Message() {}
 
+  public Message(MsgType msgType) {
+    this.msgType = msgType;
+  }
+
   private Message(JSONObject jsonObject) {
     super(jsonObject);
   }
