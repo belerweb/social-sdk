@@ -55,15 +55,6 @@ public final class Error extends JsonBean {
       return er;
     }
 
-    errorCode = jsonObject.optString("errcode", null);
-    if (errorCode != null) {// 微信
-      String error = jsonObject.optString("errmsg", null);
-      Error er = new Error(jsonObject);
-      er.setErrorCode(errorCode);
-      er.setError(error);
-      return er;
-    }
-
     errorCode = jsonObject.optString("error", null);
     if (errorCode != null) {// QQ互联
       String error = jsonObject.optString("error_description", null);
@@ -79,6 +70,15 @@ public final class Error extends JsonBean {
       Error er = new Error(jsonObject);
       er.setErrorCode(ret.toString());
       er.setError(msg);
+      return er;
+    }
+
+    ret = Result.parseInteger(jsonObject.opt("errcode"));
+    if (ret != null && ret != 0) {// 微信
+      String error = jsonObject.optString("errmsg", null);
+      Error er = new Error(jsonObject);
+      er.setErrorCode(ret.toString());
+      er.setError(error);
       return er;
     }
 

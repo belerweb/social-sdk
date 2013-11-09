@@ -10,8 +10,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.entity.StringEntity;
+import org.json.JSONObject;
 
 import com.belerweb.social.SDK;
+import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weixin.api.OAuth2;
@@ -201,8 +203,8 @@ public final class Weixin extends SDK {
    * 
    * @param message 消息
    */
-  public void sendCustomMessage(Message message) {
-    sendCustomMessage(getAccessToken().getToken(), message);
+  public Result<Boolean> sendCustomMessage(Message message) {
+    return sendCustomMessage(getAccessToken().getToken(), message);
   }
 
   /**
@@ -216,11 +218,14 @@ public final class Weixin extends SDK {
    * @param accessToken access_token是公众号的全局唯一票据
    * @param message 消息
    */
-  public void sendCustomMessage(String accessToken, Message message) {
+  public Result<Boolean> sendCustomMessage(String accessToken, Message message) {
     try {
       // {"errcode":0,"errmsg":"ok"}
-      post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + accessToken,
-          new StringEntity(message.toJSON()));
+      // {"errcode":45015,"errmsg":"response out of time limit"}
+      String json =
+          post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + accessToken,
+              new StringEntity(message.toJSON()));
+      return new Result<Boolean>(Error.parse(new JSONObject(json)));
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
     }

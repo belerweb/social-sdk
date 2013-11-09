@@ -42,7 +42,8 @@ public class WeixinTest extends TestConfig {
     Message message = new Message(MsgType.TEXT);
     message.setToUser(System.getProperty("weixin.openid"));
     message.setContent(new Date().toString());
-    weixin.sendCustomMessage(message);
+    Result<Boolean> result = weixin.sendCustomMessage(message);
+    Assert.assertTrue(result.success());
   }
 
 }
