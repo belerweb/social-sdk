@@ -370,12 +370,14 @@ public class Message extends JsonBean {
       obj.put("ArticleCount", articles.size());
       JSONArray array = new JSONArray();
       for (Article article : articles) {
+        JSONObject itemWrapper = new JSONObject();
         JSONObject item = new JSONObject();
         item.put("Title", article.getTitle());
         item.put("Description", article.getDescription());
         item.put("PicUrl", article.getPicUrl());
         item.put("Url", article.getUrl());
-        array.put(item);
+        itemWrapper.put("item", item);
+        array.put(itemWrapper);
       }
       obj.put("Articles", array);
     }
