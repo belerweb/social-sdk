@@ -1,5 +1,7 @@
 package com.belerweb.social.weixin.api;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,6 +28,15 @@ public class UserTest extends TestConfig {
         weixin.getUser().userInfo(accessToken, openId);
     Assert.assertTrue(result.success());
     System.out.println(result.getResult().getJsonObject());
+  }
+
+  @Test
+  public void testGetFollowUsers() {
+    Result<List<com.belerweb.social.weixin.bean.User>> result = weixin.getUser().getFollowUsers();
+    Assert.assertTrue(result.success());
+    for (com.belerweb.social.weixin.bean.User user : result.getResult()) {
+      System.out.println(user.getJsonObject());
+    }
   }
 
 }

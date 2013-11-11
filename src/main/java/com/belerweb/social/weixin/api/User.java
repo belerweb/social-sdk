@@ -3,10 +3,12 @@ package com.belerweb.social.weixin.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 
 import com.belerweb.social.API;
 import com.belerweb.social.bean.Result;
+import com.belerweb.social.weixin.bean.GetFollowersResult;
 
 /**
  * 网页授权获取用户基本信息
@@ -57,6 +59,91 @@ public class User extends API {
     weixin.addParameter(params, "openid", openId);
     String json = weixin.get("https://api.weixin.qq.com/cgi-bin/user/info", params);
     return Result.parse(json, com.belerweb.social.weixin.bean.User.class);
+  }
+
+  /**
+   * 获取所欲关注者列表，包含用户详细信息，该接口采用循环多次获取用户详细信息的方式。如果关注者太多可能会很慢。还会超过微信API调用次数限制。请谨慎调用。建议只在第一次同步关注着信息时调用。
+   */
+  public Result<List<com.belerweb.social.weixin.bean.User>> getFollowUsers() {
+    return getFollowUsers(weixin.getAccessToken().getToken());
+  }
+
+  /**
+   * 获取所欲关注者列表，包含用户详细信息，该接口采用循环多次获取用户详细信息的方式。如果关注者太多可能会很慢。还会超过微信API调用次数限制。请谨慎调用。建议只在第一次同步关注着信息时调用。
+   * 
+   * @param accessToken 调用接口凭证
+   */
+  public Result<List<com.belerweb.social.weixin.bean.User>> getFollowUsers(String accessToken) {
+    List<com.belerweb.social.weixin.bean.User> users =
+        new ArrayList<com.belerweb.social.weixin.bean.User>();
+    Result<GetFollowersResult> followersResult = getFollowers(accessToken);
+    if (followersResult.success()) {
+      for (String openId : followersResult.getResult().getOpenIds()) {
+        Result<com.belerweb.social.weixin.bean.User> userResult = userInfo(accessToken, openId);
+        if (userResult.success()) {
+          users.add(userResult.getResult());
+        } else {
+          return new Result<List<com.belerweb.social.weixin.bean.User>>(userResult.getError());
+        }
+      }
+
+      return new Result<List<com.belerweb.social.weixin.bean.User>>(users);
+    }
+    return new Result<List<com.belerweb.social.weixin.bean.User>>(followersResult.getError());
+  }
+
+  /**
+   * 获取所欲关注者列表
+   */
+  public Result<GetFollowersResult> getFollowers() {
+    return getFollowers(weixin.getAccessToken().getToken());
+  }
+
+  /**
+   * 获取所欲关注者列表
+   * 
+   * @param accessToken 调用接口凭证
+   */
+  public Result<GetFollowersResult> getFollowers(String accessToken) {
+    GetFollowersResult result = new GetFollowersResult();
+    List<String> openIds = new ArrayList<String>();
+    Result<GetFollowersResult> followers = getFollowers(accessToken, null);
+    while (followers.success()) {
+      for (String openId : followers.getResult().getOpenIds()) {
+        openIds.add(openId);
+      }
+      String nextOpenid = followers.getResult().getNextOpenid();
+      if (StringUtils.isBlank(nextOpenid)) {
+        break;
+      }
+      followers = getFollowers(accessToken, nextOpenid);
+    }
+    if (!followers.success()) {
+      return new Result<GetFollowersResult>(followers.getError());
+    }
+    result.setTotal(openIds.size());
+    result.setCount(openIds.size());
+    result.setOpenIds(openIds);
+    return new Result<GetFollowersResult>(result);
+  }
+
+  /**
+   * 获取关注者列表
+   * 
+   * 公众号可通过本接口来获取帐号的关注者列表，关注者列表由一串OpenID（加密后的微信号，每个用户对每个公众号的OpenID是唯一的）组成。一次拉取调用最多拉取10000个关注者的OpenID
+   * ，可以通过多次拉取的方式来满足需求。
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/index.php?title=获取关注者列表
+   * 
+   * @param accessToken 调用接口凭证
+   * @param openId 第一个拉取的OPENID，不填默认从头开始拉取
+   */
+  public Result<GetFollowersResult> getFollowers(String accessToken, String openId) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    weixin.addParameter(params, "access_token", accessToken);
+    weixin.addNotNullParameter(params, "openid", openId);
+    String json = weixin.get("https://api.weixin.qq.com/cgi-bin/user/get", params);
+    return Result.parse(json, GetFollowersResult.class);
   }
 
 }
