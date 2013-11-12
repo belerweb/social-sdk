@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.belerweb.social.bean.Gender;
 import com.belerweb.social.bean.JsonBean;
+import com.belerweb.social.bean.Result;
 
 /**
  * 微信用户信息
@@ -157,7 +158,20 @@ public class User extends JsonBean {
       return null;
     }
     User obj = new User(jsonObject);
-    // TODO parse json object
+    obj.openId = Result.toString(jsonObject.get("openid"));
+    obj.nickname = Result.toString(jsonObject.opt("nickname"));
+    obj.gender = Gender.parse(Result.parseInteger(jsonObject.opt("sex")));
+    obj.province = Result.toString(jsonObject.opt("province"));
+    obj.city = Result.toString(jsonObject.opt("city"));
+    obj.country = Result.toString(jsonObject.opt("country"));
+    obj.language = Result.toString(jsonObject.opt("language"));
+    obj.headImgUrl = Result.toString(jsonObject.opt("headimgurl"));
+    obj.subscribe = Result.parseBoolean(jsonObject.opt("subscribe"));
+    Long subscribeTime = Result.parseLong(jsonObject.opt("subscribe_time"));
+    if (subscribeTime != null) {
+      obj.subscribeTime = new Date(subscribeTime * 1000);
+    }
+    obj.privilege = Result.parse(jsonObject.optJSONArray("privilege"), String.class);
     return obj;
   }
 
