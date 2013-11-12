@@ -22,10 +22,9 @@ public class UserTest extends TestConfig {
 
   @Test
   public void testUserInfo() {
-    String accessToken = System.getProperty("weixin.atoken");
     String openId = System.getProperty("weixin.openid");
     Result<com.belerweb.social.weixin.bean.User> result =
-        weixin.getUser().userInfo(accessToken, openId);
+        weixin.getUser().userInfo(weixin.getAccessToken().getToken(), openId);
     Assert.assertTrue(result.success());
     System.out.println(result.getResult().getJsonObject());
   }
