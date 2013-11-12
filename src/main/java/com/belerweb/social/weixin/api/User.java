@@ -113,7 +113,12 @@ public class User extends API {
         openIds.add(openId);
       }
       String nextOpenid = followers.getResult().getNextOpenid();
-      if (StringUtils.isBlank(nextOpenid)) {
+      if (StringUtils.isBlank(nextOpenid) || followers.getResult().getTotal() == openIds.size()) {
+        // 当公众号关注者数量超过10000时，可通过填写next_openid的值，从而多次拉取列表的方式来满足需求。
+        // 具体而言，就是在调用接口时，将上一次调用得到的返回中的next_openid值，作为下一次调用中的next_openid值。
+        // 返回结果（关注者列表已返回完时，返回next_openid为空）。
+        // 实测返回结果不为空，因此增加条件判断是否已读取完毕
+
         break;
       }
       followers = getFollowers(accessToken, nextOpenid);
