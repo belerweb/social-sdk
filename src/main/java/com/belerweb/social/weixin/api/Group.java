@@ -54,7 +54,6 @@ public class Group extends API {
   /**
    * 创建分组
    * 
-   * @param accessToken 调用接口凭证
    * @param name 分组名字（30个字符以内）
    */
   public Result<com.belerweb.social.weixin.bean.Group> create(String name) {
@@ -86,6 +85,40 @@ public class Group extends API {
       }
       return new Result<com.belerweb.social.weixin.bean.Group>(
           com.belerweb.social.weixin.bean.Group.parse(jsonObject.getJSONObject("group")));
+    } catch (UnsupportedEncodingException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
+   * 修改分组名
+   * 
+   * @param id 分组id，由微信分配
+   * @param name 分组名字（30个字符以内）
+   */
+  public Result<Error> update(String id, String name) {
+    return update(id, name);
+  }
+
+  /**
+   * 修改分组名
+   * 
+   * @param accessToken 调用接口凭证
+   * @param id 分组id，由微信分配
+   * @param name 分组名字（30个字符以内）
+   */
+  public Result<Error> update(String accessToken, String id, String name) {
+    JSONObject request = new JSONObject();
+    JSONObject group = new JSONObject();
+    group.put("id", id);
+    group.put("name", name);
+    request.put("group", group);
+    try {
+      String json =
+          weixin.post(
+              "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=" + accessToken,
+              new StringEntity(request.toString()));
+      return Result.parse(json, Error.class);
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
     }
