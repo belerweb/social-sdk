@@ -36,6 +36,7 @@ public final class Weixin extends SDK {
   private User user;
   private Group group;
   private Media media;
+  private Menu menu;
 
   private AccessToken accessToken;
   private Date accessTokenTime;
@@ -274,6 +275,14 @@ public final class Weixin extends SDK {
     }
 
     return media;
+  }
+
+  public Menu getMenu() {
+    if (menu == null) {
+      menu = new Menu(this);
+    }
+
+    return menu;
   }
 
 }
