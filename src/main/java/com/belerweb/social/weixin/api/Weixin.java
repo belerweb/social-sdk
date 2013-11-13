@@ -16,8 +16,6 @@ import com.belerweb.social.SDK;
 import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
-import com.belerweb.social.weixin.api.OAuth2;
-import com.belerweb.social.weixin.api.User;
 import com.belerweb.social.weixin.bean.AccessToken;
 import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.QRCreation;
@@ -36,6 +34,7 @@ public final class Weixin extends SDK {
 
   private OAuth2 oAuth2;
   private User user;
+  private Group group;
 
   private AccessToken accessToken;
   private Date accessTokenTime;
@@ -258,6 +257,14 @@ public final class Weixin extends SDK {
     }
 
     return user;
+  }
+
+  public Group getGroup() {
+    if (group == null) {
+      group = new Group(this);
+    }
+
+    return group;
   }
 
 }

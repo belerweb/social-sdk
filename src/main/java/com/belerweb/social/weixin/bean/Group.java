@@ -60,7 +60,7 @@ public class Group extends JsonBean {
     Group obj = new Group(jsonObject);
     obj.id = Result.toString(jsonObject.get("id"));
     obj.name = Result.toString(jsonObject.get("name"));
-    obj.count = Result.parseInteger(jsonObject.get("count"));
+    obj.count = Result.parseInteger(jsonObject.opt("count"));
     return obj;
   }
 
