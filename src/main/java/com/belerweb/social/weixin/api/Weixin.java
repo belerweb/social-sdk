@@ -35,6 +35,7 @@ public final class Weixin extends SDK {
   private OAuth2 oAuth2;
   private User user;
   private Group group;
+  private Media media;
 
   private AccessToken accessToken;
   private Date accessTokenTime;
@@ -265,6 +266,14 @@ public final class Weixin extends SDK {
     }
 
     return group;
+  }
+
+  public Media getMedia() {
+    if (media == null) {
+      media = new Media(this);
+    }
+
+    return media;
   }
 
 }

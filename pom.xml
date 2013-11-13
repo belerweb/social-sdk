@@ -58,7 +58,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
+			<artifactId>httpmime</artifactId>
 			<version>4.3.1</version>
 		</dependency>
 		<dependency>

@@ -27,7 +27,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public final class Http {
 
-  private static final HttpClient CLIENT;
+  public static final HttpClient CLIENT;
 
   public static String get(String uri, List<NameValuePair> params) throws HttpException {
     String url = uri;
