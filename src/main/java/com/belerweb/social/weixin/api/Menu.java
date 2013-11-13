@@ -46,13 +46,15 @@ public class Menu extends API {
     for (com.belerweb.social.weixin.bean.Menu menu : menus) {
       JSONObject obj = new JSONObject();
       MenuType type = menu.getType();
-      obj.put("type", type.value());
       obj.put("name", menu.getName());
-      if (type == MenuType.CLICK) {
-        obj.put("key", menu.getKey());
-      }
-      if (type == MenuType.VIEW) {
-        obj.put("view", menu.getUrl());
+      if (type != null) {
+        obj.put("type", type.value());
+        if (type == MenuType.CLICK) {
+          obj.put("key", menu.getKey());
+        }
+        if (type == MenuType.VIEW) {
+          obj.put("view", menu.getUrl());
+        }
       }
       List<com.belerweb.social.weixin.bean.Menu> subs = menu.getSubs();
       if (subs != null) {
@@ -60,16 +62,19 @@ public class Menu extends API {
         for (com.belerweb.social.weixin.bean.Menu _menu : subs) {
           JSONObject _obj = new JSONObject();
           MenuType _type = _menu.getType();
-          _obj.put("type", _type.value());
           _obj.put("name", _menu.getName());
-          if (_type == MenuType.CLICK) {
-            _obj.put("key", _menu.getKey());
-          }
-          if (_type == MenuType.VIEW) {
-            _obj.put("view", _menu.getUrl());
+          if (_type != null) {
+            _obj.put("type", _type.value());
+            if (_type == MenuType.CLICK) {
+              _obj.put("key", _menu.getKey());
+            }
+            if (_type == MenuType.VIEW) {
+              _obj.put("url", _menu.getUrl());
+            }
           }
           _menuArray.put(_obj);
         }
+        obj.put("sub_button", _menuArray);
       }
       menuArray.put(obj);
     }
