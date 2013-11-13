@@ -97,7 +97,7 @@ public class Group extends API {
    * @param name 分组名字（30个字符以内）
    */
   public Result<Error> update(String id, String name) {
-    return update(id, name);
+    return update(weixin.getAccessToken().getToken(), id, name);
   }
 
   /**
@@ -118,6 +118,37 @@ public class Group extends API {
           weixin.post(
               "https://api.weixin.qq.com/cgi-bin/groups/update?access_token=" + accessToken,
               new StringEntity(request.toString()));
+      return Result.parse(json, Error.class);
+    } catch (UnsupportedEncodingException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
+   * 移动用户分组
+   * 
+   * @param openId 用户唯一标识符
+   * @param groupId 分组id
+   */
+  public Result<Error> move(String openId, String groupId) {
+    return move(weixin.getAccessToken().getToken(), openId, groupId);
+  }
+
+  /**
+   * 移动用户分组
+   * 
+   * @param accessToken 调用接口凭证
+   * @param openId 用户唯一标识符
+   * @param groupId 分组id
+   */
+  public Result<Error> move(String accessToken, String openId, String groupId) {
+    JSONObject request = new JSONObject();
+    request.put("openid", openId);
+    request.put("to_groupid", groupId);
+    try {
+      String json =
+          weixin.post("https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token="
+              + accessToken, new StringEntity(request.toString()));
       return Result.parse(json, Error.class);
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
