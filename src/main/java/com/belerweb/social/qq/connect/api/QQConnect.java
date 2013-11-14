@@ -38,7 +38,7 @@ public final class QQConnect extends SDK {
    * @param name 要收听的用户的账户名列表。最多30个。
    */
   public Result<Error> addIdol(String accessToken, String openId, List<String> name) {
-    return addIdol(accessToken, getClientId(), openId, name, null);
+    return addIdol(accessToken, openId, name, null);
   }
 
   /**
@@ -81,6 +81,56 @@ public final class QQConnect extends SDK {
     }
     addParameter(params, "format", "json");
     return Result.parse(post("https://graph.qq.com/relation/add_idol", params), Error.class);
+  }
+
+  /**
+   * 取消收听腾讯微博上的用户。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/del_idol
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param name 要取消收听的用户的账户名。 可选，name和fopenid至少选一个，若同时存在则以name值为主。
+   */
+  public Result<Error> delIdol(String accessToken, String openId, String name) {
+    return delIdol(accessToken, openId, name, null);
+  }
+
+  /**
+   * 取消收听腾讯微博上的用户。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/del_idol
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param name 要取消收听的用户的账户名。 可选，name和fopenid至少选一个，若同时存在则以name值为主。
+   * @param fopenid 要取消收听的用户的openid。可选，name和fopenid至少选一个，若同时存在则以name值为主。
+   */
+  public Result<Error> delIdol(String accessToken, String openId, String name, String fopenid) {
+    return delIdol(accessToken, getClientId(), openId, name, fopenid);
+  }
+
+  /**
+   * 取消收听腾讯微博上的用户。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/del_idol
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param name 要取消收听的用户的账户名。 可选，name和fopenid至少选一个，若同时存在则以name值为主。
+   * @param fopenid 要取消收听的用户的openid。可选，name和fopenid至少选一个，若同时存在则以name值为主。
+   */
+  public Result<Error> delIdol(String accessToken, String oauthConsumerKey, String openId,
+      String name, String fopenid) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    addParameter(params, "access_token", accessToken);
+    addParameter(params, "oauth_consumer_key", oauthConsumerKey);
+    addParameter(params, "openid", openId);
+    addNotNullParameter(params, "name", name);
+    addNotNullParameter(params, "fopenid", fopenid);
+    addParameter(params, "format", "json");
+    return Result.parse(post("https://graph.qq.com/relation/del_idol", params), Error.class);
   }
 
   public OAuth2 getOAuth2() {
