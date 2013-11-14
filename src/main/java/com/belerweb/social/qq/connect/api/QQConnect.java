@@ -133,6 +133,43 @@ public final class QQConnect extends SDK {
     return Result.parse(post("https://graph.qq.com/relation/del_idol", params), Error.class);
   }
 
+  /**
+   * 登录用户发表一篇新日志。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_one_blog
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param title 日志标题（纯文本，最大长度128个字节，utf-8编码）。
+   * @param content 文章内容（html数据，最大长度100*1024个字节，utf-8编码）.
+   */
+  public Result<Error> addOneBlog(String accessToken, String openId, String title, String content) {
+    return addOneBlog(accessToken, getClientId(), openId, title, content);
+  }
+
+  /**
+   * 登录用户发表一篇新日志。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_one_blog
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param title 日志标题（纯文本，最大长度128个字节，utf-8编码）。
+   * @param content 文章内容（html数据，最大长度100*1024个字节，utf-8编码）.
+   */
+  public Result<Error> addOneBlog(String accessToken, String oauthConsumerKey, String openId,
+      String title, String content) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    addParameter(params, "access_token", accessToken);
+    addParameter(params, "oauth_consumer_key", oauthConsumerKey);
+    addParameter(params, "openid", openId);
+    addParameter(params, "title", title);
+    addParameter(params, "content", content);
+    addParameter(params, "format", "json");
+    return Result.parse(post("https://graph.qq.com/blog/add_one_blog", params), Error.class);
+  }
+
   public OAuth2 getOAuth2() {
     if (oAuth2 == null) {
       oAuth2 = new OAuth2(this);
