@@ -232,6 +232,26 @@ public final class QQConnect extends SDK {
     return Result.parse(jsonObject.getJSONObject("data"), NewT.class);
   }
 
+  /**
+   * 根据微博ID删除指定微博。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/del_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param id 微博消息的ID，用来唯一标识一条微博消息。
+   */
+  public Result<Error> delT(String accessToken, String oauthConsumerKey, String openId, String id) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    addParameter(params, "access_token", accessToken);
+    addParameter(params, "oauth_consumer_key", oauthConsumerKey);
+    addParameter(params, "openid", openId);
+    addParameter(params, "id", id);
+    addParameter(params, "format", "json");
+    return Result.parse(post("https://graph.qq.com/t/del_t", params), Error.class);
+  }
+
   public OAuth2 getOAuth2() {
     if (oAuth2 == null) {
       oAuth2 = new OAuth2(this);
