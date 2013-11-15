@@ -179,6 +179,21 @@ public final class QQConnect extends SDK {
    * 文档地址：http://wiki.connect.qq.com/add_t
    * 
    * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param content
+   *        表示要发表的微博内容。必须为UTF-8编码，最长为140个汉字，也就是420字节。如果微博内容中有URL，后台会自动将该URL转换为短URL，每个URL折算成11个字节。
+   *        若在此处@好友，需正确填写好友的微博账号，而非昵称。
+   */
+  public Result<NewT> addT(String accessToken, String openId, String content) {
+    return addT(accessToken, getClientId(), openId, content);
+  }
+
+  /**
+   * 发表一条微博信息（纯文本）到腾讯微博平台上。注意连续两次发布的微博内容不可以重复。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
    * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
    * @param openId 用户的ID，与QQ号码一一对应。
    * @param content
@@ -230,6 +245,19 @@ public final class QQConnect extends SDK {
       return new Result<NewT>(error);
     }
     return Result.parse(jsonObject.getJSONObject("data"), NewT.class);
+  }
+
+  /**
+   * 根据微博ID删除指定微博。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/del_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param id 微博消息的ID，用来唯一标识一条微博消息。
+   */
+  public Result<Error> delT(String accessToken, String openId, String id) {
+    return delT(accessToken, getClientId(), openId, id);
   }
 
   /**
