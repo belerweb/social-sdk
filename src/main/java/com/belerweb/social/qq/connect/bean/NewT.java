@@ -18,8 +18,9 @@ public class NewT extends JsonBean {
     super(jsonObject);
   }
 
-  private Long id;
-  private Date time;
+  private Long id;// 微博的ID，用来唯一标识一条微博。
+  private Date time;// 微博的发表时间。
+  private String imgUrl;// 图片分享后的url地址。
 
   public Long getId() {
     return id;
@@ -37,6 +38,14 @@ public class NewT extends JsonBean {
     this.time = time;
   }
 
+  public String getImgUrl() {
+    return imgUrl;
+  }
+
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
+  }
+
   public static NewT parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
@@ -44,6 +53,7 @@ public class NewT extends JsonBean {
     NewT obj = new NewT(jsonObject);
     obj.id = Result.parseLong(jsonObject.get("id"));
     obj.time = new Date(Result.parseLong(jsonObject.get("time")) * 1000);
+    obj.imgUrl = jsonObject.optString("imgurl");
     return obj;
   }
 }

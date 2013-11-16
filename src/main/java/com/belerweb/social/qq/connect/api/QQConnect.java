@@ -1,15 +1,23 @@
 package com.belerweb.social.qq.connect.api;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.json.JSONObject;
 
 import com.belerweb.social.SDK;
 import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
+import com.belerweb.social.exception.SocialException;
+import com.belerweb.social.http.Http;
 import com.belerweb.social.qq.connect.bean.NewT;
 
 public final class QQConnect extends SDK {
@@ -258,6 +266,107 @@ public final class QQConnect extends SDK {
    */
   public Result<Error> delT(String accessToken, String openId, String id) {
     return delT(accessToken, getClientId(), openId, id);
+  }
+
+  /**
+   * 上传一张图片，并发布一条消息到腾讯微博平台上。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_pic_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param content
+   *        表示要发表的微博内容。必须为UTF-8编码，最长为140个汉字，也就是420字节。如果微博内容中有URL，后台会自动将该URL转换为短URL，每个URL折算成11个字节。
+   *        若在此处@好友，需正确填写好友的微博账号，而非昵称。
+   * @param pic 
+   *        要上传的图片的文件名以及图片的内容（在发送请求时，图片内容以二进制数据流的形式发送，见下面的请求示例）。图片仅支持gif、jpeg、jpg、png、bmp及ico格式（所有图片都会重新压缩
+   *        ，gif被重新压缩后不会再有动画效果），图片size小于4M。
+   */
+  public Result<NewT> addPicT(String accessToken, String openId, String content, byte[] pic) {
+    return addPicT(accessToken, getClientId(), openId, content, pic);
+  }
+
+  /**
+   * 上传一张图片，并发布一条消息到腾讯微博平台上。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_pic_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param content
+   *        表示要发表的微博内容。必须为UTF-8编码，最长为140个汉字，也就是420字节。如果微博内容中有URL，后台会自动将该URL转换为短URL，每个URL折算成11个字节。
+   *        若在此处@好友，需正确填写好友的微博账号，而非昵称。
+   * @param pic 
+   *        要上传的图片的文件名以及图片的内容（在发送请求时，图片内容以二进制数据流的形式发送，见下面的请求示例）。图片仅支持gif、jpeg、jpg、png、bmp及ico格式（所有图片都会重新压缩
+   *        ，gif被重新压缩后不会再有动画效果），图片size小于4M。
+   */
+  public Result<NewT> addPicT(String accessToken, String oauthConsumerKey, String openId,
+      String content, byte[] pic) {
+    return addPicT(accessToken, oauthConsumerKey, openId, content, pic, null, null, null, true,
+        true);
+  }
+
+  /**
+   * 上传一张图片，并发布一条消息到腾讯微博平台上。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/add_pic_t
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param content
+   *        表示要发表的微博内容。必须为UTF-8编码，最长为140个汉字，也就是420字节。如果微博内容中有URL，后台会自动将该URL转换为短URL，每个URL折算成11个字节。
+   *        若在此处@好友，需正确填写好友的微博账号，而非昵称。
+   * @param pic 
+   *        要上传的图片的文件名以及图片的内容（在发送请求时，图片内容以二进制数据流的形式发送，见下面的请求示例）。图片仅支持gif、jpeg、jpg、png、bmp及ico格式（所有图片都会重新压缩
+   *        ，gif被重新压缩后不会再有动画效果），图片size小于4M。
+   * @param clientIp 用户ip。必须正确填写用户侧真实ip，不能为内网ip及以127或255开头的ip，以分析用户所在地。
+   * @param lon 用户所在地理位置的经度。为实数，最多支持10位有效数字。有效范围：-180.0到+180.0，+表示东经，默认为0.0。
+   * @param lat 用户所在地理位置的纬度。为实数，最多支持10位有效数字。有效范围：-90.0到+90.0，+表示北纬，默认为0.0。
+   * @param sync 标识是否将发布的微博同步到QQ空间（0：同步； 1：不同步；），默认为0。该参数只支持OAuth1.0，OAuth2.0暂不支持。
+   * @param compatible 容错标志，支持按位操作，默认为0。0x20：微博内容长度超过140字则报错；0：以上错误均做容错处理，即发表普通微博。
+   */
+  public Result<NewT> addPicT(String accessToken, String oauthConsumerKey, String openId,
+      String content, byte[] pic, String clientIp, Double lon, Double lat, Boolean sync,
+      Boolean compatible) {
+    HttpPost request = new HttpPost("https://graph.qq.com/t/add_pic_t");
+    MultipartEntityBuilder builder = MultipartEntityBuilder.create().addBinaryBody("pic", pic);
+
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    addParameter(params, "access_token", accessToken);
+    addParameter(params, "oauth_consumer_key", oauthConsumerKey);
+    addParameter(params, "openid", openId);
+    addParameter(params, "content", content);
+    addNotNullParameter(params, "clientip", clientIp);
+    addNotNullParameter(params, "lon", lon);
+    addNotNullParameter(params, "lat", lat);
+    if (sync != null) {
+      addParameter(params, "syncflag", sync ? "0" : "1");
+    }
+    if (compatible != null) {
+      addParameter(params, "compatibleflag", compatible ? "0" : "0x20");
+    }
+    addParameter(params, "format", "json");
+
+    for (NameValuePair nameValuePair : params) {
+      builder.addTextBody(nameValuePair.getName(), nameValuePair.getValue());
+    }
+    request.setEntity(builder.build());
+    try {
+      HttpResponse response = Http.CLIENT.execute(request);
+      String json = IOUtils.toString(response.getEntity().getContent());
+      JSONObject jsonObject = new JSONObject(json);
+      Error error = Error.parse(jsonObject);
+      if (error != null) {
+        return new Result<NewT>(error);
+      }
+      return Result.parse(jsonObject.getJSONObject("data"), NewT.class);
+    } catch (ClientProtocolException e) {
+      throw new SocialException(e);
+    } catch (IOException e) {
+      throw new SocialException(e);
+    }
   }
 
   /**
