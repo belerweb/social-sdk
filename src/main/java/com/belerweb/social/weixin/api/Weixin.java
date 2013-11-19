@@ -225,7 +225,7 @@ public final class Weixin extends SDK {
       // {"errcode":45015,"errmsg":"response out of time limit"}
       String json =
           post("https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + accessToken,
-              new StringEntity(message.toJSON()));
+              new StringEntity(message.toJSON(), "UTF-8"));
       return new Result<Boolean>(Error.parse(new JSONObject(json)));
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
