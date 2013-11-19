@@ -83,7 +83,7 @@ public class Menu extends API {
     try {
       String json =
           weixin.post("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + accessToken,
-              new StringEntity(request.toString()));
+              new StringEntity(request.toString(), "UTF-8"));
       return Result.parse(json, Error.class);
     } catch (UnsupportedEncodingException e) {
       throw new SocialException(e);
