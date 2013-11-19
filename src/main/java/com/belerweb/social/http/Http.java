@@ -68,14 +68,14 @@ public final class Http {
     return execute(request);
   }
 
-  public static String post(String uri, List<NameValuePair> params, Header... headers)
-      throws HttpException {
+  public static String post(String uri, List<NameValuePair> params, String charset,
+      Header... headers) throws HttpException {
     HttpPost request = new HttpPost(uri);
     if (params != null) {
       List<NameValuePair> parameters = new ArrayList<NameValuePair>();
       parameters.addAll(params);
       try {
-        HttpEntity entity = new UrlEncodedFormEntity(parameters);
+        HttpEntity entity = new UrlEncodedFormEntity(parameters, charset);
         request.setEntity(entity);
       } catch (UnsupportedEncodingException e) {
         throw new HttpException(e);

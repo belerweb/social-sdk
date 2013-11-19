@@ -34,7 +34,7 @@ public abstract class SDK {
 
   public String post(String url, List<NameValuePair> params) {
     try {
-      return Http.post(url, params);
+      return Http.post(url, params, "UTF-8");
     } catch (HttpException e) {
       throw new SocialException(e);
     }
