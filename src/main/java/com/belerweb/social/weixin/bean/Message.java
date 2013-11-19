@@ -459,7 +459,7 @@ public class Message extends JsonBean {
     }
     if (type == MsgType.IMAGE) {
       obj.mediaId = Result.toString(jsonObject.opt("MediaId"));
-      obj.content = Result.toString(jsonObject.opt("PicUrl"));
+      obj.picUrl = Result.toString(jsonObject.opt("PicUrl"));
     }
     if (type == MsgType.VOICE) {
       obj.mediaId = Result.toString(jsonObject.opt("MediaId"));
