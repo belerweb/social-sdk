@@ -162,6 +162,8 @@ public class Result<T> {
     Boolean result = null;
     if (obj instanceof Boolean) {
       result = (Boolean) obj;
+    } else if (obj instanceof Integer) {
+      result = ((Integer) obj).intValue() == 1;
     } else if (obj instanceof String) {
       result = Boolean.valueOf(obj.toString());
     }
