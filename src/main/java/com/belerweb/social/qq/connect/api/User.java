@@ -110,4 +110,41 @@ public final class User extends API {
     return Result.parse(json, com.belerweb.social.qq.connect.bean.User.class);
   }
 
+  /**
+   * 获取已登录用户的关于QQ会员业务的详细资料。
+   * 
+   * 详细资料包括：用户会员的历史属性，用户会员特权的到期时间，用户最后一次充值会员业务的支付渠道，用户开通会员的主要驱动因素。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_vip_rich_info
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   */
+  public Result<com.belerweb.social.qq.connect.bean.User> getVipRichInfo(String accessToken,
+      String openid) {
+    return getVipRichInfo(connect.getClientId(), accessToken, openid);
+  }
+
+  /**
+   * 获取已登录用户的关于QQ会员业务的详细资料。
+   * 
+   * 详细资料包括：用户会员的历史属性，用户会员特权的到期时间，用户最后一次充值会员业务的支付渠道，用户开通会员的主要驱动因素。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_vip_rich_info
+   * 
+   * @param oAuthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   */
+  public Result<com.belerweb.social.qq.connect.bean.User> getVipRichInfo(String oAuthConsumerKey,
+      String accessToken, String openid) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
+    connect.addParameter(params, "access_token", accessToken);
+    connect.addParameter(params, "openid", openid);
+    connect.addParameter(params, "format", "json");
+    String json = connect.get("https://graph.qq.com/user/get_vip_rich_info", params);
+    return Result.parse(json, com.belerweb.social.qq.connect.bean.User.class);
+  }
+
 }

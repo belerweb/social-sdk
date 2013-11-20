@@ -1,5 +1,7 @@
 package com.belerweb.social.qq.connect.bean;
 
+import java.util.Date;
+
 import org.json.JSONObject;
 
 import com.belerweb.social.bean.Gender;
@@ -29,6 +31,24 @@ public class User extends JsonBean {
   private Boolean isQQVip;// 标识是否QQ会员
   private Integer qqVipLevel;// QQ会员等级
   private Boolean isQQYearVip;// 标识是否为年费QQ会员
+  private Boolean isLost;
+  private Date qqVipStart;// QQ会员最后一次充值时间
+  private Date qqVipEnd;// QQ会员期限
+  private Integer qqVipPayway;// QQ会员充值方式
+  private Date qqYearVipStart;// QQ年费会员最后一次充值时间
+  private Date qqYearVipEnd;// QQ年费会员期限
+  private Integer qqYearVipPayway;// QQ年费会员充值方式
+  private Date qqZuanhuangStart;// QQ钻皇最后一次充值时间
+  private Date qqZuanhuangEnd;// QQ钻皇期限
+  private Integer qqZuanhuangPayway;// QQ钻皇充值方式
+  private Date qqHaohuaStart;// 豪华版QQ会员最后一次充值时间
+  private Date qqHaohuaEnd;// 豪华版QQ会员期限
+  private Integer qqHaohuaPayway;// 豪华版QQ会员充值方式
+  private Date qqSvipStart;// QQ SVIP最后一次充值时间，预留字段，当前信息无效
+  private Date qqSvipEnd;// QQ SVIP期限，预留字段，当前信息无效
+  private Integer qqSvipPayway;// QQ SVIP充值方式，预留字段，当前信息无效
+  private Date historyPayTime;// 非会员历史充值时间，仅在用户是非会员时信息有效
+  private Date historyEndTime;// 非会员历史充值到期时间，仅在用户是非会员时信息有效
 
   /**
    * 用户在QQ空间的昵称。
@@ -162,6 +182,9 @@ public class User extends JsonBean {
     this.isYellowYearVip = isYellowYearVip;
   }
 
+  /**
+   * 标识是否QQ会员
+   */
   public Boolean getIsQQVip() {
     return isQQVip;
   }
@@ -170,6 +193,9 @@ public class User extends JsonBean {
     this.isQQVip = isQQVip;
   }
 
+  /**
+   * QQ会员等级
+   */
   public Integer getQqVipLevel() {
     return qqVipLevel;
   }
@@ -178,12 +204,210 @@ public class User extends JsonBean {
     this.qqVipLevel = qqVipLevel;
   }
 
+  /**
+   * 是否是QQ年费会员
+   */
   public Boolean getIsQQYearVip() {
     return isQQYearVip;
   }
 
   public void setIsQQYearVip(Boolean isQQYearVip) {
     this.isQQYearVip = isQQYearVip;
+  }
+
+  public Boolean getIsLost() {
+    return isLost;
+  }
+
+  public void setIsLost(Boolean isLost) {
+    this.isLost = isLost;
+  }
+
+  /**
+   * QQ会员最后一次充值时间
+   */
+  public Date getQqVipStart() {
+    return qqVipStart;
+  }
+
+  public void setQqVipStart(Date qqVipStart) {
+    this.qqVipStart = qqVipStart;
+  }
+
+  /**
+   * QQ会员期限
+   */
+  public Date getQqVipEnd() {
+    return qqVipEnd;
+  }
+
+  public void setQqVipEnd(Date qqVipEnd) {
+    this.qqVipEnd = qqVipEnd;
+  }
+
+  /**
+   * QQ会员充值方式
+   */
+  public Integer getQqVipPayway() {
+    return qqVipPayway;
+  }
+
+  public void setQqVipPayway(Integer qqVipPayway) {
+    this.qqVipPayway = qqVipPayway;
+  }
+
+  /**
+   * QQ年费会员最后一次充值时间
+   */
+  public Date getQqYearVipStart() {
+    return qqYearVipStart;
+  }
+
+  public void setQqYearVipStart(Date qqYearVipStart) {
+    this.qqYearVipStart = qqYearVipStart;
+  }
+
+  /**
+   * QQ年费会员期限
+   */
+  public Date getQqYearVipEnd() {
+    return qqYearVipEnd;
+  }
+
+  public void setQqYearVipEnd(Date qqYearVipEnd) {
+    this.qqYearVipEnd = qqYearVipEnd;
+  }
+
+  /**
+   * QQ年费会员充值方式
+   */
+  public Integer getQqYearVipPayway() {
+    return qqYearVipPayway;
+  }
+
+  public void setQqYearVipPayway(Integer qqYearVipPayway) {
+    this.qqYearVipPayway = qqYearVipPayway;
+  }
+
+  /**
+   * QQ钻皇最后一次充值时间
+   */
+  public Date getQqZuanhuangStart() {
+    return qqZuanhuangStart;
+  }
+
+  public void setQqZuanhuangStart(Date qqZuanhuangStart) {
+    this.qqZuanhuangStart = qqZuanhuangStart;
+  }
+
+  /**
+   * QQ钻皇期限
+   */
+  public Date getQqZuanhuangEnd() {
+    return qqZuanhuangEnd;
+  }
+
+  public void setQqZuanhuangEnd(Date qqZuanhuangEnd) {
+    this.qqZuanhuangEnd = qqZuanhuangEnd;
+  }
+
+  /**
+   * QQ钻皇充值方式
+   */
+  public Integer getQqZuanhuangPayway() {
+    return qqZuanhuangPayway;
+  }
+
+  public void setQqZuanhuangPayway(Integer qqZuanhuangPayway) {
+    this.qqZuanhuangPayway = qqZuanhuangPayway;
+  }
+
+  /**
+   * 豪华版QQ会员最后一次充值时间
+   */
+  public Date getQqHaohuaStart() {
+    return qqHaohuaStart;
+  }
+
+  public void setQqHaohuaStart(Date qqHaohuaStart) {
+    this.qqHaohuaStart = qqHaohuaStart;
+  }
+
+  /**
+   * 豪华版QQ会员期限
+   */
+  public Date getQqHaohuaEnd() {
+    return qqHaohuaEnd;
+  }
+
+  public void setQqHaohuaEnd(Date qqHaohuaEnd) {
+    this.qqHaohuaEnd = qqHaohuaEnd;
+  }
+
+  /**
+   * 豪华版QQ会员充值方式
+   */
+  public Integer getQqHaohuaPayway() {
+    return qqHaohuaPayway;
+  }
+
+  public void setQqHaohuaPayway(Integer qqHaohuaPayway) {
+    this.qqHaohuaPayway = qqHaohuaPayway;
+  }
+
+  /**
+   * QQ SVIP最后一次充值时间，预留字段，当前信息无效
+   */
+  public Date getQqSvipStart() {
+    return qqSvipStart;
+  }
+
+  public void setQqSvipStart(Date qqSvipStart) {
+    this.qqSvipStart = qqSvipStart;
+  }
+
+  /**
+   * QQ SVIP期限，预留字段，当前信息无效
+   */
+  public Date getQqSvipEnd() {
+    return qqSvipEnd;
+  }
+
+  public void setQqSvipEnd(Date qqSvipEnd) {
+    this.qqSvipEnd = qqSvipEnd;
+  }
+
+  /**
+   * QQ SVIP充值方式，预留字段，当前信息无效
+   */
+  public Integer getQqSvipPayway() {
+    return qqSvipPayway;
+  }
+
+  public void setQqSvipPayway(Integer qqSvipPayway) {
+    this.qqSvipPayway = qqSvipPayway;
+  }
+
+  /**
+   * 非会员历史充值时间，仅在用户是非会员时信息有效
+   */
+  public Date getHistoryPayTime() {
+    return historyPayTime;
+  }
+
+  public void setHistoryPayTime(Date historyPayTime) {
+    this.historyPayTime = historyPayTime;
+  }
+
+  /**
+   * 非会员历史充值到期时间，仅在用户是非会员时信息有效
+   */
+  public Date getHistoryEndTime() {
+    return historyEndTime;
+  }
+
+  public void setHistoryEndTime(Date historyEndTime) {
+    this.historyEndTime = historyEndTime;
   }
 
   public static User parse(JSONObject jsonObject) {
@@ -206,6 +430,31 @@ public class User extends JsonBean {
     obj.isQQVip = Result.parseBoolean(jsonObject.opt("is_qq_vip"));
     obj.qqVipLevel = Result.parseInteger(jsonObject.opt("qq_vip_level"));
     obj.isQQYearVip = Result.parseBoolean(jsonObject.opt("is_qq_year_vip"));
+    obj.isLost = Result.parseBoolean(jsonObject.opt("is_lost"));
+    obj.qqVipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_vip_start")));
+    obj.qqVipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_vip_end")));
+    obj.qqVipPayway = Result.parseInteger(jsonObject.opt("qq_vip_payway"));
+    obj.qqYearVipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_year_vip_start")));
+    obj.qqYearVipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_year_vip_end")));
+    obj.qqYearVipPayway = Result.parseInteger(jsonObject.opt("qq_year_vip_payway"));
+    obj.qqZuanhuangStart = parseDate(Result.parseInteger(jsonObject.opt("qq_zuanhuang_start")));
+    obj.qqZuanhuangEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_zuanhuang_end")));
+    obj.qqZuanhuangPayway = Result.parseInteger(jsonObject.opt("qq_zuanhuang_payway"));
+    obj.qqHaohuaStart = parseDate(Result.parseInteger(jsonObject.opt("qq_haohua_start")));
+    obj.qqHaohuaEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_haohua_end")));
+    obj.qqHaohuaPayway = Result.parseInteger(jsonObject.opt("qq_haohua_payway"));
+    obj.qqSvipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_svip_start")));
+    obj.qqSvipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_svip_end")));
+    obj.qqSvipPayway = Result.parseInteger(jsonObject.opt("qq_svip_payway"));
+    obj.historyPayTime = parseDate(Result.parseInteger(jsonObject.opt("history_pay_time")));
+    obj.historyEndTime = parseDate(Result.parseInteger(jsonObject.opt("history_end_time")));
     return obj;
+  }
+
+  private static Date parseDate(Integer time) {
+    if (time == null || time == 0) {
+      return null;
+    }
+    return new Date(time * 1000);
   }
 }
