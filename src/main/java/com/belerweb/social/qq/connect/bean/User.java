@@ -26,6 +26,9 @@ public class User extends JsonBean {
   private Integer yellowVipLevel;// 黄钻等级
   private Integer level;// 黄钻等级
   private Boolean isYellowYearVip;// 标识是否为年费黄钻用户
+  private Boolean isQQVip;// 标识是否QQ会员
+  private Integer qqVipLevel;// QQ会员等级
+  private Boolean isQQYearVip;// 标识是否为年费QQ会员
 
   /**
    * 用户在QQ空间的昵称。
@@ -159,12 +162,36 @@ public class User extends JsonBean {
     this.isYellowYearVip = isYellowYearVip;
   }
 
+  public Boolean getIsQQVip() {
+    return isQQVip;
+  }
+
+  public void setIsQQVip(Boolean isQQVip) {
+    this.isQQVip = isQQVip;
+  }
+
+  public Integer getQqVipLevel() {
+    return qqVipLevel;
+  }
+
+  public void setQqVipLevel(Integer qqVipLevel) {
+    this.qqVipLevel = qqVipLevel;
+  }
+
+  public Boolean getIsQQYearVip() {
+    return isQQYearVip;
+  }
+
+  public void setIsQQYearVip(Boolean isQQYearVip) {
+    this.isQQYearVip = isQQYearVip;
+  }
+
   public static User parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
     }
     User obj = new User(jsonObject);
-    obj.nickname = Result.toString(jsonObject.get("nickname"));
+    obj.nickname = Result.toString(jsonObject.opt("nickname"));
     obj.figureUrl = Result.toString(jsonObject.opt("figureurl"));
     obj.figureUrl1 = Result.toString(jsonObject.opt("figureurl_1"));
     obj.figureUrl2 = Result.toString(jsonObject.opt("figureurl_2"));
@@ -176,6 +203,9 @@ public class User extends JsonBean {
     obj.yellowVipLevel = Result.parseInteger(jsonObject.opt("yellow_vip_level"));
     obj.level = Result.parseInteger(jsonObject.opt("level"));
     obj.isYellowYearVip = Result.parseBoolean(jsonObject.opt("is_yellow_year_vip"));
+    obj.isQQVip = Result.parseBoolean(jsonObject.opt("is_qq_vip"));
+    obj.qqVipLevel = Result.parseInteger(jsonObject.opt("qq_vip_level"));
+    obj.isQQYearVip = Result.parseBoolean(jsonObject.opt("is_qq_year_vip"));
     return obj;
   }
 }
