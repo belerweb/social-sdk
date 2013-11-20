@@ -3,6 +3,7 @@ package com.belerweb.social.qq.connect.api;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -19,6 +20,7 @@ import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.http.Http;
 import com.belerweb.social.qq.connect.bean.NewT;
+import com.belerweb.social.qq.connect.bean.TenpayAddress;
 
 public final class QQConnect extends SDK {
 
@@ -387,6 +389,91 @@ public final class QQConnect extends SDK {
     addParameter(params, "id", id);
     addParameter(params, "format", "json");
     return Result.parse(post("https://graph.qq.com/t/del_t", params), Error.class);
+  }
+
+  /**
+   * 获取财付通用户的收货地址。一个用户可能设置了多条收货地址信息。查询的用户必须为财付通用户，否则查询将返回失败。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_tenpay_addr
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   */
+  public Result<List<TenpayAddress>> getTenpayAddr(String accessToken, String openId) {
+    return getTenpayAddr(accessToken, getClientId(), openId, 0, Integer.MAX_VALUE);
+  }
+
+  /**
+   * 获取财付通用户的收货地址。一个用户可能设置了多条收货地址信息。查询的用户必须为财付通用户，否则查询将返回失败。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_tenpay_addr
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param offset
+   *        表示查询收货地址的偏移量，一般情况下offset可以不传值或传入0，表示从第一条开始读取。offset参数是为一种特殊情况准备的，即该收货人有很多条收获地址，需要分页展示，
+   *        则offset可设置为该页显示的条数。例如如果offset为10，则会跳过第10条收货地址，从第11条收货地址开始读取。
+   * @param limit 表示查询收货地址的返回限制数（即最多期望返回几个收货地址）。limit不传默认按照5来处理。
+   */
+  public Result<List<TenpayAddress>> getTenpayAddr(String accessToken, String openId,
+      Integer offset, Integer limit) {
+    return getTenpayAddr(accessToken, getClientId(), openId, offset, limit);
+  }
+
+  /**
+   * 获取财付通用户的收货地址。一个用户可能设置了多条收货地址信息。查询的用户必须为财付通用户，否则查询将返回失败。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_tenpay_addr
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param oauthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param openId 用户的ID，与QQ号码一一对应。
+   * @param offset
+   *        表示查询收货地址的偏移量，一般情况下offset可以不传值或传入0，表示从第一条开始读取。offset参数是为一种特殊情况准备的，即该收货人有很多条收获地址，需要分页展示，
+   *        则offset可设置为该页显示的条数。例如如果offset为10，则会跳过第10条收货地址，从第11条收货地址开始读取。
+   * @param limit 表示查询收货地址的返回限制数（即最多期望返回几个收货地址）。limit不传默认按照5来处理。
+   */
+  public Result<List<TenpayAddress>> getTenpayAddr(String accessToken, String oauthConsumerKey,
+      String openId, Integer offset, Integer limit) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    addParameter(params, "access_token", accessToken);
+    addParameter(params, "oauth_consumer_key", oauthConsumerKey);
+    addParameter(params, "openid", openId);
+    addParameter(params, "offset", offset == null ? "0" : offset);
+    addParameter(params, "limit", limit == null ? "5" : limit);
+    addParameter(params, "ver", "1");
+    addParameter(params, "format", "json");
+    JSONObject jsonObject =
+        new JSONObject(post("https://graph.qq.com/cft_info/get_tenpay_addr", params));
+    Error error = Error.parse(jsonObject);
+    if (error != null) {
+      return new Result<List<TenpayAddress>>(error);
+    }
+    List<TenpayAddress> addresses = new ArrayList<TenpayAddress>();
+    Integer total = Result.parseInteger(jsonObject.get("ret_num"));
+    for (int i = 0; i < total; i++) {
+      Integer index = Result.parseInteger(jsonObject.opt("Findex_" + i));
+      if (index == null) {
+        break;
+      }
+      TenpayAddress address = new TenpayAddress();
+      address.setTotal(total);
+      address.setIndex(index);
+      address.setRegionId(Result.parseInteger(jsonObject.opt("FRegionId_" + i)));
+      address.setStreet(jsonObject.optString("Faddrstreet_" + i));
+      address.setZipcode(Result.toString(jsonObject.opt("Fzipcode_" + i)));
+      address.setMobile(Result.toString(jsonObject.opt("Fmobile_" + i)));
+      address.setTel(Result.toString(jsonObject.opt("Ftel_" + i)));
+      address.setName(Result.toString(jsonObject.opt("Fname_" + i)));
+      address.setCreated(Result.parseDate(jsonObject.opt("Fcreate_time_" + i),
+          "yyyy-MM-dd HH:mm:ss", Locale.CHINA));
+      address.setModified(Result.parseDate(jsonObject.opt("Fmod_time_" + i), "yyyy-MM-dd HH:mm:ss",
+          Locale.CHINA));
+      address.setLastUsed(Result.parseDate(jsonObject.opt("Flastuse_time_" + i),
+          "yyyy-MM-dd HH:mm:ss", Locale.CHINA));
+      address.setUsedCount(Result.parseInteger(jsonObject.opt("FUsedCount_" + i)));
+    }
+    return new Result<List<TenpayAddress>>(addresses);
   }
 
   public OAuth2 getOAuth2() {
