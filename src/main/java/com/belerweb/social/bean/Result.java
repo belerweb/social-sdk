@@ -190,4 +190,12 @@ public class Result<T> {
 
     return result;
   }
+
+  public static Date parseTimeSeconds(Object obj) {
+    Integer seconds = Result.parseInteger(obj);
+    if (seconds == null || seconds == 0) {
+      return null;
+    }
+    return new Date(seconds * 1000);
+  }
 }

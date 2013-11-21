@@ -431,30 +431,24 @@ public class User extends JsonBean {
     obj.qqVipLevel = Result.parseInteger(jsonObject.opt("qq_vip_level"));
     obj.isQQYearVip = Result.parseBoolean(jsonObject.opt("is_qq_year_vip"));
     obj.isLost = Result.parseBoolean(jsonObject.opt("is_lost"));
-    obj.qqVipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_vip_start")));
-    obj.qqVipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_vip_end")));
+    obj.qqVipStart = Result.parseTimeSeconds(jsonObject.opt("qq_vip_start"));
+    obj.qqVipEnd = Result.parseTimeSeconds(jsonObject.opt("qq_vip_end"));
     obj.qqVipPayway = Result.parseInteger(jsonObject.opt("qq_vip_payway"));
-    obj.qqYearVipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_year_vip_start")));
-    obj.qqYearVipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_year_vip_end")));
+    obj.qqYearVipStart = Result.parseTimeSeconds(jsonObject.opt("qq_year_vip_start"));
+    obj.qqYearVipEnd = Result.parseTimeSeconds(jsonObject.opt("qq_year_vip_end"));
     obj.qqYearVipPayway = Result.parseInteger(jsonObject.opt("qq_year_vip_payway"));
-    obj.qqZuanhuangStart = parseDate(Result.parseInteger(jsonObject.opt("qq_zuanhuang_start")));
-    obj.qqZuanhuangEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_zuanhuang_end")));
+    obj.qqZuanhuangStart = Result.parseTimeSeconds(jsonObject.opt("qq_zuanhuang_start"));
+    obj.qqZuanhuangEnd = Result.parseTimeSeconds(jsonObject.opt("qq_zuanhuang_end"));
     obj.qqZuanhuangPayway = Result.parseInteger(jsonObject.opt("qq_zuanhuang_payway"));
-    obj.qqHaohuaStart = parseDate(Result.parseInteger(jsonObject.opt("qq_haohua_start")));
-    obj.qqHaohuaEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_haohua_end")));
+    obj.qqHaohuaStart = Result.parseTimeSeconds(jsonObject.opt("qq_haohua_start"));
+    obj.qqHaohuaEnd = Result.parseTimeSeconds(jsonObject.opt("qq_haohua_end"));
     obj.qqHaohuaPayway = Result.parseInteger(jsonObject.opt("qq_haohua_payway"));
-    obj.qqSvipStart = parseDate(Result.parseInteger(jsonObject.opt("qq_svip_start")));
-    obj.qqSvipEnd = parseDate(Result.parseInteger(jsonObject.opt("qq_svip_end")));
+    obj.qqSvipStart = Result.parseTimeSeconds(jsonObject.opt("qq_svip_start"));
+    obj.qqSvipEnd = Result.parseTimeSeconds(jsonObject.opt("qq_svip_end"));
     obj.qqSvipPayway = Result.parseInteger(jsonObject.opt("qq_svip_payway"));
-    obj.historyPayTime = parseDate(Result.parseInteger(jsonObject.opt("history_pay_time")));
-    obj.historyEndTime = parseDate(Result.parseInteger(jsonObject.opt("history_end_time")));
+    obj.historyPayTime = Result.parseTimeSeconds(jsonObject.opt("history_pay_time"));
+    obj.historyEndTime = Result.parseTimeSeconds(jsonObject.opt("history_end_time"));
     return obj;
   }
 
-  private static Date parseDate(Integer time) {
-    if (time == null || time == 0) {
-      return null;
-    }
-    return new Date(time * 1000);
-  }
 }
