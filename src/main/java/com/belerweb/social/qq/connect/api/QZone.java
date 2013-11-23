@@ -21,6 +21,7 @@ import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.http.Http;
 import com.belerweb.social.qq.connect.bean.Album;
 import com.belerweb.social.qq.connect.bean.AlbumPrivilege;
+import com.belerweb.social.qq.connect.bean.Photo;
 import com.belerweb.social.qq.connect.bean.PicUploadResult;
 
 /**
@@ -197,6 +198,52 @@ public final class QZone extends API {
     } catch (IOException e) {
       throw new SocialException(e);
     }
+  }
+
+  /**
+   * 获取登录用户的照片列表。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/list_photo
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   * @param albumId 表示要获取的照片列表所在的相册ID。
+   */
+  public Result<Photo> listPhoto(String accessToken, String openid, String albumId) {
+    return listPhoto(connect.getClientId(), accessToken, openid, albumId);
+  }
+
+  /**
+   * 获取登录用户的照片列表。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/list_photo
+   * 
+   * @param oAuthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   * @param albumId 表示要获取的照片列表所在的相册ID。
+   */
+  public Result<Photo> listPhoto(String oAuthConsumerKey, String accessToken, String openid,
+      String albumId) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
+    connect.addParameter(params, "access_token", accessToken);
+    connect.addParameter(params, "openid", openid);
+    connect.addParameter(params, "format", "json");
+    connect.addParameter(params, "albumid", albumId);
+    String json = connect.get("https://graph.qq.com/photo/list_photo", params);
+
+    JSONObject jsonObject = new JSONObject(json);
+    Error error = Error.parse(jsonObject);
+    if (error != null) {
+      return new Result<Photo>(error);
+    }
+    List<Photo> results = new ArrayList<Photo>();
+    JSONArray jsonArray = jsonObject.getJSONArray("photos");
+    for (int i = 0; i < jsonArray.length(); i++) {
+      results.add(Photo.parse(jsonArray.getJSONObject(i)));
+    }
+    return new Result<Photo>(results);
   }
 
 }
