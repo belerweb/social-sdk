@@ -427,6 +427,9 @@ public class WeiboUser extends JsonBean {
       obj.tags = tags;
     }
     jsonArray = jsonObject.optJSONArray("tweetinfo");
+    if (jsonArray == null) {
+      jsonArray = jsonObject.optJSONArray("tweet");
+    }
     if (jsonArray != null) {
       List<TweetInfo> tweets = new ArrayList<TweetInfo>();
       for (int i = 0; i < jsonArray.length(); i++) {
