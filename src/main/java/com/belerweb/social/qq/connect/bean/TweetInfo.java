@@ -36,6 +36,9 @@ public class TweetInfo extends JsonBean {
   private Date timestamp;// 服务器时间戳，不能用于翻页。
   private Integer type;// 表示微博的类型。1：原创发表；2：转播；3：私信；4：回复；5：没有内容的回复；6：提及；7：评论。
   private Video video;// 视频信息。
+  private Integer count;// 转播次数。
+  private Integer mCount;// 评论数。
+  private Boolean isVip;// 用户是否为微博认证用户
 
   public String getId() {
     return id;
@@ -205,6 +208,30 @@ public class TweetInfo extends JsonBean {
     this.video = video;
   }
 
+  public Integer getCount() {
+    return count;
+  }
+
+  public void setCount(Integer count) {
+    this.count = count;
+  }
+
+  public Integer getmCount() {
+    return mCount;
+  }
+
+  public void setmCount(Integer mCount) {
+    this.mCount = mCount;
+  }
+
+  public Boolean getIsVip() {
+    return isVip;
+  }
+
+  public void setIsVip(Boolean isVip) {
+    this.isVip = isVip;
+  }
+
   public static TweetInfo parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
@@ -231,6 +258,9 @@ public class TweetInfo extends JsonBean {
     obj.timestamp = Result.parseTimeSeconds(jsonObject.opt("timestamp"));
     obj.type = Result.parseInteger(jsonObject.opt("type"));
     obj.video = Video.parse(jsonObject.optJSONObject("video"));
+    obj.count = Result.parseInteger(jsonObject.opt("count"));
+    obj.mCount = Result.parseInteger(jsonObject.opt("mcount"));
+    obj.isVip = Result.parseBoolean(jsonObject.opt("isvip"));
     return obj;
   }
 }

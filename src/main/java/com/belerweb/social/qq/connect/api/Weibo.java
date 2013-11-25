@@ -11,6 +11,7 @@ import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.qq.connect.bean.FanList;
 import com.belerweb.social.qq.connect.bean.IdolList;
+import com.belerweb.social.qq.connect.bean.RepostList;
 import com.belerweb.social.qq.connect.bean.WeiboUser;
 
 /**
@@ -201,6 +202,60 @@ public final class Weibo extends API {
       return new Result<IdolList>(error);
     }
     return Result.parse(jsonObject.getJSONObject("data"), IdolList.class);
+  }
+
+  /**
+   * 获取一条微博的转播或评论信息列表。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_repost_list
+   * 
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   * @param reqNum 必须。请求获取的听众个数。取值范围为1-30。
+   * @param startIndex 必须。请求获取听众列表的起始位置。第一页：0；继续向下翻页：reqnum*（page-1）。
+   */
+  public Result<RepostList> getRepostList(String accessToken, String openid, int flag,
+      String rootId, int pageFlag, int pageTime, int reqNum, String twitterId) {
+    return getRepostList(connect.getClientId(), accessToken, openid, flag, rootId, pageFlag,
+        pageTime, reqNum, twitterId);
+  }
+
+  /**
+   * 获取一条微博的转播或评论信息列表。
+   * 
+   * 文档地址：http://wiki.connect.qq.com/get_repost_list
+   * 
+   * @param oAuthConsumerKey 申请QQ登录成功后，分配给应用的appid
+   * @param accessToken 可通过使用Authorization_Code获取Access_Token 或来获取。access_token有3个月有效期。
+   * @param openid 用户的ID，与QQ号码一一对应。
+   * @param flag 标识获取的是转播列表还是点评列表。0：获取转播列表；1：获取点评列表；2：转播列表和点评列表都获取。
+   * @param rootId 转发或点评的源微博的ID。
+   * @param pageFlag 分页标识。0：第一页；1：向下翻页；2：向上翻页。
+   * @param pageTime 分页标识。0：第一页；1：向下翻页；2：向上翻页。
+   * @param reqNum 每次请求记录的条数。取值为1-100条。
+   * @param twitterId 翻页时使用。第1-100条：0；继续向下翻页：上一次请求返回的最后一条记录id。
+   */
+  public Result<RepostList> getRepostList(String oAuthConsumerKey, String accessToken,
+      String openid, int flag, String rootId, int pageFlag, int pageTime, int reqNum,
+      String twitterId) {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    connect.addParameter(params, "oauth_consumer_key", oAuthConsumerKey);
+    connect.addParameter(params, "access_token", accessToken);
+    connect.addParameter(params, "openid", openid);
+    connect.addParameter(params, "format", "json");
+    connect.addParameter(params, "flag", flag);
+    connect.addParameter(params, "rootid", rootId);
+    connect.addParameter(params, "pageflag", pageFlag);
+    connect.addParameter(params, "pagetime", pageTime);
+    connect.addParameter(params, "reqnum", reqNum);
+    connect.addParameter(params, "twitterid", twitterId);
+    String json = connect.get("https://graph.qq.com/t/get_repost_list", params);
+    JSONObject jsonObject = new JSONObject(json);
+    Error error = Error.parse(jsonObject);
+    if (error != null) {
+      return new Result<RepostList>(error);
+    }
+    return Result.parse(jsonObject.getJSONObject("data"), RepostList.class);
   }
 
 }
