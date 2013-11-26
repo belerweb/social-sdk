@@ -32,9 +32,8 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 -   新浪微博
 	-   新浪微博登录
 	-   获取新浪微博用户信息
--   QQ帐号
-	-   QQ帐号登录
-	-   获取QQ用户信息
+-   QQ帐号/QQ互联
+	-   支持http://wiki.connect.qq.com/列出的API
 -   腾讯微博（未测试）
 	-   腾讯微博登录（未测试）
 	-   获取腾讯微博用户信息（未测试）
@@ -72,7 +71,7 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 <dependency>
     <groupId>com.belerweb</groupId>
     <artifactId>social-sdk</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

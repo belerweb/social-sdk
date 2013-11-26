@@ -10,7 +10,7 @@
 
 	<groupId>com.belerweb</groupId>
 	<artifactId>social-sdk</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>social-sdk</name>
