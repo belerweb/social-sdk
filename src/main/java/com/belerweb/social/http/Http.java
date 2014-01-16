@@ -2,6 +2,7 @@ package com.belerweb.social.http;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -20,9 +21,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public final class Http {
@@ -94,14 +96,24 @@ public final class Http {
     return post(uri, (HttpEntity) null);
   }
 
-  private static String execute(HttpUriRequest request) throws HttpException {
+  private static String execute(HttpRequestBase request) throws HttpException {
     try {
       HttpResponse response = CLIENT.execute(request);
       // StatusLine status = response.getStatusLine();
       HttpEntity entity = response.getEntity();
       String result = null;
       if (entity != null) {
-        result = IOUtils.toString(entity.getContent());
+        Charset charset = null;
+        Header encoding = entity.getContentEncoding();
+        if (encoding == null) {
+          ContentType contentType = ContentType.get(entity);
+          if (contentType != null) {
+            charset = contentType.getCharset();
+          }
+        } else {
+          charset = Charset.forName(encoding.getValue());
+        }
+        result = IOUtils.toString(entity.getContent(), charset);
         return result;
       } else {
         throw new HttpException("No response entity.");
@@ -114,6 +126,8 @@ public final class Http {
       throw new HttpException(e);
     } catch (IOException e) {
       throw new HttpException(e);
+    } finally {
+      request.releaseConnection();
     }
   }
 
