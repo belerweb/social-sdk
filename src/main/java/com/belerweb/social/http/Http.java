@@ -143,7 +143,9 @@ public final class Http {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    CLIENT = HttpClientBuilder.create().setSslcontext(sslContext).build();
+    CLIENT =
+        HttpClientBuilder.create().setSslcontext(sslContext).setMaxConnPerRoute(50)
+            .setMaxConnTotal(200).build();
   }
 
 }
