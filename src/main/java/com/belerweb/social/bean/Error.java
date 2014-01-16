@@ -10,6 +10,11 @@ public final class Error extends JsonBean {
 
   public Error() {}
 
+  public Error(String code, String message) {
+    this.errorCode = code;
+    this.error = message;
+  }
+
   private Error(JSONObject jsonObject) {
     super(jsonObject);
   }
