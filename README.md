@@ -29,6 +29,9 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 已实现
 ---
 
+-   QQ相关
+	-   通过QQ邮箱获取联系人，支持验证码自动登录
+	-   获取QZone访客记录，支持验证码自动登录
 -   新浪微博
 	-   新浪微博登录
 	-   获取新浪微博用户信息
@@ -71,7 +74,7 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 <dependency>
     <groupId>com.belerweb</groupId>
     <artifactId>social-sdk</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
