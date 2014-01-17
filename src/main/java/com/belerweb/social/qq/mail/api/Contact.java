@@ -2,14 +2,11 @@ package com.belerweb.social.qq.mail.api;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.net.ssl.SSLContext;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
@@ -22,17 +19,16 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.SSLContexts;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
@@ -41,7 +37,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.belerweb.social.captcha.api.Yundama;
+import com.belerweb.social.captcha.bean.YundamaType;
 import com.belerweb.social.exception.SocialException;
+import com.belerweb.social.http.Http;
 import com.belerweb.social.qq.mail.bean.Group;
 import com.belerweb.social.qq.mail.bean.User;
 import com.belerweb.social.qq.mail.bean.ValidationCode;
@@ -50,47 +49,13 @@ import com.belerweb.social.qq.mail.bean.ValidationCode;
  * 获取QQ邮箱联系人
  */
 public class Contact {
-  private static final String[] AGENTS =
-      new String[] {
-          "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36",
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1664.3 Safari/537.36",
-          "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.0; WOW64) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_5_8) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.66 Safari/535.11",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; Media Center PC 5.0; .NET CLR 3.5.21022; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.5.30729; InfoPath.2; .NET CLR 3.0.30729; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; OfficeLiveConnector.1.4; OfficeLivePatch.1.3; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB6; .NET CLR 2.0.50727; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB6; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 1.1.4322; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB6.3; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 1.1.4322; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB0.0; InfoPath.1; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 4.0.20506; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 1.1.4322; InfoPath.2; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 1.1.4322; .NET CLR 3.0.04506.30; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; InfoPath.2; .NET CLR 2.0.50727; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; .NET CLR 1.0.3705; .NET CLR 1.1.4322; Media Center PC 4.0; .NET CLR 2.0.50727; InfoPath.1; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; .NET CLR 1.1.4322; GreenBrowser)",
-          "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.04506.648; .NET CLR 3.5.21022; .NET CLR 1.1.4322; GreenBrowser)",
-          "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.62 Safari/537.36"};
+  private static final Pattern PATTERN = Pattern.compile("sid=([0-9a-zA-Z-_]+)[&\"]");
 
   private HttpClient http;
 
   private String email;
   private String password;
+  private Yundama yundama;
   private String sid;
 
   /**
@@ -99,24 +64,11 @@ public class Contact {
    * @param email QQ邮箱地址
    * @param password QQ邮箱密码
    */
-  public Contact(String email, String password) {
-    SSLContext sslContext = SSLContexts.createDefault();
-    try {
-      sslContext = SSLContexts.custom().loadTrustMaterial(null, new TrustStrategy() {
-        public boolean isTrusted(X509Certificate[] chain, String authType)
-            throws CertificateException {
-          return true;
-        }
-      }).build();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    http =
-        HttpClientBuilder.create().setSslcontext(sslContext).setMaxConnPerRoute(50)
-            .setMaxConnTotal(200).setUserAgent(AGENTS[RandomUtils.nextInt(AGENTS.length)]).build();
-
+  public Contact(String email, String password, Yundama yundama) {
     this.email = email;
     this.password = password;
+    this.yundama = yundama;
+    http = Http.newClient();
   }
 
   private List<Group> get(Group group) throws SocialException {
@@ -130,7 +82,6 @@ public class Contact {
     request.addHeader(new BasicHeader("Accept-Language", "zh-cn,zh"));
     request
         .addHeader(new BasicHeader("Referer", "http://mail.qq.com/cgi-bin/frame_html?sid=" + sid));
-    request.addHeader(new BasicHeader("Accept-Language", "zh-cn,zh"));
     try {
       HttpResponse response = http.execute(request);
       StatusLine statusLine = response.getStatusLine();
@@ -202,8 +153,9 @@ public class Contact {
    */
   public String login() throws SocialException {
     ValidationCode validationCode = check();
+    String vc = validationCode.getCode();
     if (validationCode.need()) {
-      throw new SocialException("需要输入验证码才能登录");
+      vc = yundama.decode(getValidationCode(), YundamaType.ALPHABETIC4).getResult();
     }
 
     try {
@@ -214,7 +166,7 @@ public class Contact {
       System.arraycopy(byte1, 0, bytes, 0, byte1.length);
       System.arraycopy(byte2, 0, bytes, byte1.length, byte2.length);
       code = DigestUtils.md5Hex(bytes).toUpperCase();
-      code = DigestUtils.md5Hex(code + validationCode.getCode().toUpperCase()).toUpperCase();
+      code = DigestUtils.md5Hex(code + vc.toUpperCase()).toUpperCase();
 
       List<NameValuePair> params = new ArrayList<NameValuePair>();
       params.add(new BasicNameValuePair("aid", "522005705"));
@@ -241,7 +193,7 @@ public class Contact {
       params.add(new BasicNameValuePair("u", email));
       params.add(new BasicNameValuePair("u_domain", email.substring(email.indexOf("@"))));
       params.add(new BasicNameValuePair("uin", email.substring(0, email.indexOf("@"))));
-      params.add(new BasicNameValuePair("verifycode", validationCode.getCode()));
+      params.add(new BasicNameValuePair("verifycode", vc));
       HttpGet request =
           new HttpGet("https://ssl.ptlogin2.qq.com/login?" + StringUtils.join(params, "&"));
       request
@@ -255,7 +207,6 @@ public class Contact {
       }
       String result = IOUtils.toString(response.getEntity().getContent());
       request.releaseConnection();
-      System.out.println(result);
       String[] str = result.substring(7, result.length() - 1).split(",");
       if (!"0".equals(str[0].trim().substring(1, str[0].length() - 1))) {
         throw new SocialException(str[4]);
@@ -270,12 +221,67 @@ public class Contact {
       }
       result = IOUtils.toString(response.getEntity().getContent(), "GB18030");
       request.releaseConnection();
-      System.out.println(result);
-      Matcher matcher = Pattern.compile("sid=([0-9a-zA-Z-_]+)\"").matcher(result);
-      if (!matcher.find()) {
-        throw new SocialException("没有获取到sid");
+      Matcher matcher = PATTERN.matcher(result);
+      if (matcher.find()) {
+        this.sid = matcher.group(1);
+      } else {
+        if (!result.contains("看不清")) {
+          Document doc = Jsoup.parse(result);
+          Elements scripts = doc.select("script");
+          boolean status = false;
+          for (Element el : scripts) {
+            for (DataNode node : el.dataNodes()) {
+              String script = node.getWholeData().trim();
+              if (script.startsWith("var urlHead")) {
+                ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
+                script = script.replace("window.location.replace(targetUrl);", "");
+                try {
+                  engine.eval(script);
+                  String url = engine.get("targetUrl").toString();
+                  request = new HttpGet(url);
+                  response = http.execute(request);
+                  result = IOUtils.toString(response.getEntity().getContent(), "GB18030");
+                  status = true;
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            }
+          }
+          if (!status) {
+            // throw new SocialException("没有获取到sid");
+          }
+        }
+        vc = yundama.decode(getValidationCode2(), YundamaType.ALPHABETIC4).getResult();
+        params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("btlogin", "登录"));
+        params.add(new BasicNameValuePair("delegate_url", ""));
+        params.add(new BasicNameValuePair("sid", ""));
+        params.add(new BasicNameValuePair("uin", email.substring(0, email.indexOf("@"))));
+        params.add(new BasicNameValuePair("verifycode", vc));
+        params.add(new BasicNameValuePair("vt", "passport"));
+        HttpPost post = new HttpPost("https://mail.qq.com/cgi-bin/login?sid=");
+        post.setConfig(RequestConfig.custom().setRedirectsEnabled(false)
+            .setRelativeRedirectsAllowed(false).setCircularRedirectsAllowed(false).build());
+        post.setEntity(new UrlEncodedFormEntity(params));
+        response = http.execute(post);
+        try {
+          result = IOUtils.toString(response.getEntity().getContent(), "GB18030");
+          matcher = PATTERN.matcher(result);
+          if (matcher.find()) {
+            this.sid = matcher.group(1);
+          } else {
+            matcher = PATTERN.matcher(response.getFirstHeader("Location").getValue());
+            if (matcher.find()) {
+              this.sid = matcher.group(1);
+            } else {
+              throw new SocialException("没有获取到sid");
+            }
+          }
+        } catch (Exception e) {
+          throw new SocialException("没有获取到sid");
+        }
       }
-      this.sid = matcher.group(1);
       return this.sid;
     } catch (DecoderException e) {
       throw new SocialException(e);
@@ -310,8 +316,67 @@ public class Contact {
       }
       String result = IOUtils.toString(response.getEntity().getContent());
       request.releaseConnection();
-      System.out.println(result);
       return new ValidationCode(result);
+    } catch (ClientProtocolException e) {
+      throw new SocialException(e);
+    } catch (IOException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
+   * 获取验证码
+   */
+  public byte[] getValidationCode() throws SocialException {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    params.add(new BasicNameValuePair("aid", "522005705"));
+    params.add(new BasicNameValuePair("r", String.valueOf(Math.random())));
+    params.add(new BasicNameValuePair("uin", email));
+    HttpGet request =
+        new HttpGet("https://ssl.captcha.qq.com/getimage?" + StringUtils.join(params, "&"));
+    request.addHeader(new BasicHeader("Referer", "https://mail.qq.com/cgi-bin/loginpage?lang=cn"));
+    request.addHeader(new BasicHeader("Accept-Language", "zh-cn,zh"));
+    try {
+      HttpResponse response = http.execute(request);
+      StatusLine statusLine = response.getStatusLine();
+      if (statusLine == null || statusLine.getStatusCode() != HttpStatus.SC_OK
+          || response.getEntity() == null) {
+        throw new SocialException(String.valueOf(statusLine));
+      }
+      byte[] result = IOUtils.toByteArray(response.getEntity().getContent());
+      request.releaseConnection();
+      return result;
+    } catch (ClientProtocolException e) {
+      throw new SocialException(e);
+    } catch (IOException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
+   * 获取验证码2
+   */
+  public byte[] getValidationCode2() throws SocialException {
+    List<NameValuePair> params = new ArrayList<NameValuePair>();
+    params.add(new BasicNameValuePair("aid", "23000101"));
+    params.add(new BasicNameValuePair("f", "html"));
+    params.add(new BasicNameValuePair("ck", "1"));
+    params.add(new BasicNameValuePair("r", String.valueOf(Math.random())));
+    HttpGet request =
+        new HttpGet("https://mail.qq.com/cgi-bin/getverifyimage?" + StringUtils.join(params, "&"));
+    request.addHeader(new BasicHeader("Referer",
+        "  https://mail.qq.com/cgi-bin/loginpage?errtype=3"));
+    request.addHeader(new BasicHeader("Accept-Language", "zh-cn,zh"));
+    try {
+      HttpResponse response = http.execute(request);
+      StatusLine statusLine = response.getStatusLine();
+      if (statusLine == null || statusLine.getStatusCode() != HttpStatus.SC_OK
+          || response.getEntity() == null) {
+        throw new SocialException(String.valueOf(statusLine));
+      }
+      byte[] result = IOUtils.toByteArray(response.getEntity().getContent());
+      request.releaseConnection();
+      return result;
     } catch (ClientProtocolException e) {
       throw new SocialException(e);
     } catch (IOException e) {
