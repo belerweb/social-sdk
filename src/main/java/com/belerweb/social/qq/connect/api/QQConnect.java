@@ -368,6 +368,8 @@ public final class QQConnect extends SDK {
       throw new SocialException(e);
     } catch (IOException e) {
       throw new SocialException(e);
+    } finally {
+      request.releaseConnection();
     }
   }
 
