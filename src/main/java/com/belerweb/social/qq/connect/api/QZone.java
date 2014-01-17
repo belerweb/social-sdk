@@ -197,6 +197,8 @@ public final class QZone extends API {
       throw new SocialException(e);
     } catch (IOException e) {
       throw new SocialException(e);
+    } finally {
+      request.releaseConnection();
     }
   }
 

@@ -72,7 +72,7 @@ public class Menu extends JsonBean {
     Menu obj = new Menu(jsonObject);
     obj.name = Result.toString(jsonObject.get("name"));
     obj.key = Result.toString(jsonObject.opt("key"));
-    obj.key = Result.toString(jsonObject.opt("url"));
+    obj.url = Result.toString(jsonObject.opt("url"));
     obj.type = MenuType.parse(jsonObject.opt("type"));
     obj.subs = Result.parse(jsonObject.optJSONArray("sub_button"), Menu.class);
     return obj;

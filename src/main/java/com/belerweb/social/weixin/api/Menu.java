@@ -53,7 +53,7 @@ public class Menu extends API {
           obj.put("key", menu.getKey());
         }
         if (type == MenuType.VIEW) {
-          obj.put("view", menu.getUrl());
+          obj.put("url", menu.getUrl());
         }
       }
       List<com.belerweb.social.weixin.bean.Menu> subs = menu.getSubs();
