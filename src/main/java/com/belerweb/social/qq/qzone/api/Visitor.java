@@ -119,7 +119,7 @@ public class Visitor {
     ValidationCode validationCode = loginCheck();
     String code = validationCode.getCode();
     if (validationCode.need()) {
-      code = yundama.decode(getValidationCode(), YundamaType.ALPHABETIC4).getResult();
+      code = yundama.decode(getValidationCode(), YundamaType.ALPHANUMERIC).getResult();
     }
 
     String p = DigestUtils.md5Hex(password).toUpperCase();
