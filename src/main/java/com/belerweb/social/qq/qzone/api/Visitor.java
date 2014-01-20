@@ -22,6 +22,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.belerweb.social.captcha.api.Yundama;
 import com.belerweb.social.captcha.bean.YundamaType;
@@ -31,6 +33,8 @@ import com.belerweb.social.http.HttpException;
 import com.belerweb.social.qq.mail.bean.ValidationCode;
 
 public class Visitor {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Visitor.class);
 
   private String qq;
   private String password;
@@ -119,7 +123,9 @@ public class Visitor {
     ValidationCode validationCode = loginCheck();
     String code = validationCode.getCode();
     if (validationCode.need()) {
+      LOGGER.debug("Qzone visitor need validation code.");
       code = yundama.decode(getValidationCode(), YundamaType.ALPHANUMERIC).getResult();
+      LOGGER.debug("Qzone visitor validation code is {}.", code);
     }
 
     String p = DigestUtils.md5Hex(password).toUpperCase();
@@ -162,6 +168,7 @@ public class Visitor {
       throw new SocialException("Step 6, login failed.");
     }
 
+    LOGGER.debug("Qzone visitor login end.");
     String html = Http.responseToString(response);
     if (!html.contains("登录成功")) {
       throw new SocialException("Step 7, login failed.");
@@ -172,6 +179,7 @@ public class Visitor {
       if (matcher.find()) {
         skey = matcher.group(1);
         session = true;
+        LOGGER.debug("Qzone visitor login success.");
       }
     }
     if (!session) {
@@ -180,9 +188,13 @@ public class Visitor {
   }
 
   public JSONObject getSimple() throws SocialException {
+    LOGGER.debug("Qzone visitor getSimple begin.");
     try {
       if (!session) {
+        LOGGER.debug("Qzone visitor need login.");
         login();
+      } else {
+        LOGGER.debug("Qzone in session.");
       }
       long gtk = 5381;
       for (int i = 0, len = skey.length(); i < len; ++i) {
@@ -208,10 +220,13 @@ public class Visitor {
       if (!Http.isRequestSuccess(response)) {
         throw new SocialException("Step 9, get visitor simple failed.");
       }
+
+      LOGGER.debug("Qzone visitor getSimple end.");
       String html = Http.responseToString(response);
       JSONObject json =
           new JSONObject(html.substring(html.indexOf("{"), html.lastIndexOf("}") + 1));
       if (json.getInt("code") != 0) {
+        LOGGER.debug("Qzone visitor getSimple error: {}", html);
         session = false;
         http = Http.newClient();
         loginUi = null;
@@ -220,6 +235,7 @@ public class Visitor {
         return getSimple();
       }
 
+      LOGGER.debug("Qzone visitor getSimple success.");
       return json;
     } catch (ClientProtocolException e) {
       throw new SocialException(e);
