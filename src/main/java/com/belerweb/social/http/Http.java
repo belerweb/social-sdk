@@ -20,6 +20,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -200,8 +201,15 @@ public final class Http {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return HttpClientBuilder.create().setSslcontext(sslContext).setMaxConnPerRoute(50)
-        .setMaxConnTotal(200).setUserAgent(Http.randomAgent()).build();
+    return HttpClientBuilder
+        .create()
+        .setSslcontext(sslContext)
+        .setMaxConnPerRoute(50)
+        .setMaxConnTotal(200)
+        .setUserAgent(Http.randomAgent())
+        .setDefaultRequestConfig(
+            RequestConfig.custom().setConnectTimeout(30000).setSocketTimeout(30000)
+                .setConnectionRequestTimeout(30000).build()).build();
   }
 
 }
