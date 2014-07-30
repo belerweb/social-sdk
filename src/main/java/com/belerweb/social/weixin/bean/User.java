@@ -21,6 +21,7 @@ public class User extends JsonBean {
   }
 
   private String openId;// 用户的唯一标识
+  private String unionID;// 同一用户，对同一个微信开放平台帐号下的不同应用，UnionID是相同的
   private String nickname;// 用户昵称
   private Gender gender;// 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
   private String province;// 用户个人资料填写的省份
@@ -153,12 +154,26 @@ public class User extends JsonBean {
     this.subscribeTime = subscribeTime;
   }
 
+  /**
+   * 公众号只有在被绑定到微信开放平台帐号下后，才会获取UnionID。只要是同一个微信开放平台帐号下的公众号，用户的UnionID是唯一的
+   * 
+   * @return the unionId
+   */
+  public String getUnionID() {
+    return unionID;
+  }
+
+  public void setUnionID(String unionID) {
+    this.unionID = unionID;
+  }
+
   public static User parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
     }
     User obj = new User(jsonObject);
     obj.openId = Result.toString(jsonObject.get("openid"));
+    obj.unionID = Result.toString(jsonObject.get("unionid"));
     obj.nickname = Result.toString(jsonObject.opt("nickname"));
     obj.gender = Gender.parse(Result.parseInteger(jsonObject.opt("sex")));
     obj.province = Result.toString(jsonObject.opt("province"));
