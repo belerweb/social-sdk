@@ -54,7 +54,12 @@ public enum MsgType {
   /**
    * 模板消息
    */
-  TEMPLATE("template");
+  TEMPLATE("template"),
+
+  /**
+   * 多客服接入
+   */
+  TRANSFER_CUSTOMER_SERVICE("transfer_customer_service");
 
   private String type;
 
@@ -101,6 +106,9 @@ public enum MsgType {
     }
     if (TEMPLATE.type.equals(val)) {
       return TEMPLATE;
+    }
+    if (TRANSFER_CUSTOMER_SERVICE.type.equals(val)) {
+      return TRANSFER_CUSTOMER_SERVICE;
     }
     return null;
   }
