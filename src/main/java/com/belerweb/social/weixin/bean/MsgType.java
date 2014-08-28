@@ -49,7 +49,12 @@ public enum MsgType {
   /**
    * 图文消息
    */
-  NEWS("news");
+  NEWS("news"),
+
+  /**
+   * 模板消息
+   */
+  TEMPLATE("template");
 
   private String type;
 
@@ -93,6 +98,9 @@ public enum MsgType {
     }
     if (NEWS.type.equals(val)) {
       return NEWS;
+    }
+    if (TEMPLATE.type.equals(val)) {
+      return TEMPLATE;
     }
     return null;
   }

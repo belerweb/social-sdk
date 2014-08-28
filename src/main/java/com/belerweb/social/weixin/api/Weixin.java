@@ -233,6 +233,74 @@ public final class Weixin extends SDK {
   }
 
   /**
+   * 发送模板消息
+   * 
+   * <p>
+   * 为了保证用户不受到骚扰，在开发者出现需要主动提醒、通知用户时，才允许开发者在公众平台网站中模板消息库中选择模板，选择后获得模板ID，再根据模板ID向用户主动推送提醒、通知消息。
+   * </p>
+   * <p>
+   * 模板消息调用时主要需要模板ID和模板中各参数的赋值内容。请注意：
+   * <ol>
+   * <li>模板中参数内容必须以".DATA"结尾，否则视为保留字;</li>
+   * <li>模板保留符号"{{ }}"</li>
+   * </ol>
+   * </p>
+   * 具体调用方法
+   * <p>
+   * 第一步：获取模板ID<br />
+   * 通过在模板消息功能的模板库中使用需要的模板，可以获得模板ID。
+   * </p>
+   * <p>
+   * 第二步：请求接口
+   * </p>
+   * 
+   * 文档地址：https://mp.weixin.qq.com/advanced/tmplmsg?action=faq&lang=zh_CN
+   * 
+   * @param message 消息
+   */
+  public Result<Boolean> sendTemplateMessage(Message message) {
+    return sendCustomMessage(getAccessToken().getToken(), message);
+  }
+
+  /**
+   * 发送模板消息
+   * 
+   * <p>
+   * 为了保证用户不受到骚扰，在开发者出现需要主动提醒、通知用户时，才允许开发者在公众平台网站中模板消息库中选择模板，选择后获得模板ID，再根据模板ID向用户主动推送提醒、通知消息。
+   * </p>
+   * <p>
+   * 模板消息调用时主要需要模板ID和模板中各参数的赋值内容。请注意：
+   * <ol>
+   * <li>模板中参数内容必须以".DATA"结尾，否则视为保留字;</li>
+   * <li>模板保留符号"{{ }}"</li>
+   * </ol>
+   * </p>
+   * 具体调用方法
+   * <p>
+   * 第一步：获取模板ID<br />
+   * 通过在模板消息功能的模板库中使用需要的模板，可以获得模板ID。
+   * </p>
+   * <p>
+   * 第二步：请求接口
+   * </p>
+   * 
+   * 文档地址：https://mp.weixin.qq.com/advanced/tmplmsg?action=faq&lang=zh_CN
+   * 
+   * @param accessToken access_token是公众号的全局唯一票据
+   * @param message 消息
+   */
+  public Result<Boolean> sendTemplateMessage(String accessToken, Message message) {
+    try {
+      String json =
+          post("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
+              + accessToken, new StringEntity(message.toJSON(), "UTF-8"));
+      return new Result<Boolean>(Error.parse(new JSONObject(json)));
+    } catch (UnsupportedEncodingException e) {
+      throw new SocialException(e);
+    }
+  }
+
+  /**
    * 在公众平台网站的高级功能 –
    * 开发模式页，点击“成为开发者”按钮，填写URL和Token，其中URL是开发者用来接收微信服务器数据的接口URL。Token可由开发者可以任意填写，用作生成签名（
    * 该Token会和接口URL中包含的Token进行比对，从而验证安全性）
