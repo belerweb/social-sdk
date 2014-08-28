@@ -259,7 +259,7 @@ public final class Weixin extends SDK {
    * @param message 消息
    */
   public Result<Boolean> sendTemplateMessage(Message message) {
-    return sendCustomMessage(getAccessToken().getToken(), message);
+    return sendTemplateMessage(getAccessToken().getToken(), message);
   }
 
   /**
