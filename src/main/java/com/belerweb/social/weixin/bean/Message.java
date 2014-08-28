@@ -1,5 +1,6 @@
 package com.belerweb.social.weixin.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -364,11 +365,19 @@ public class Message extends JsonBean {
    * @return
    */
   public List<Variable> getVariables() {
+    if (variables == null) {
+      variables = new ArrayList<Variable>();
+    }
     return variables;
   }
 
   public void setVariables(List<Variable> variables) {
     this.variables = variables;
+  }
+
+  public Message addVariable(Variable variable) {
+    getVariables().add(variable);
+    return this;
   }
 
   /**

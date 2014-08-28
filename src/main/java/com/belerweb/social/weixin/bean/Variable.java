@@ -11,6 +11,19 @@ public class Variable {
   private String value;// 变量值
   private String color;// 变量颜色值 eg:#FF0000
 
+  public Variable() {}
+
+  public Variable(String name, String value) {
+    this.name = name;
+    this.value = value;
+  }
+
+  public Variable(String name, String value, String color) {
+    this.name = name;
+    this.value = value;
+    this.color = color;
+  }
+
   /**
    * 变量名称
    */
