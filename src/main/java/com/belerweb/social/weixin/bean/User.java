@@ -173,7 +173,9 @@ public class User extends JsonBean {
     }
     User obj = new User(jsonObject);
     obj.openId = Result.toString(jsonObject.get("openid"));
-    obj.unionID = Result.toString(jsonObject.get("unionid"));
+    if (jsonObject.has("unionid")) {
+      obj.unionID = Result.toString(jsonObject.get("unionid"));
+    }
     obj.nickname = Result.toString(jsonObject.opt("nickname"));
     obj.gender = Gender.parse(Result.parseInteger(jsonObject.opt("sex")));
     obj.province = Result.toString(jsonObject.opt("province"));

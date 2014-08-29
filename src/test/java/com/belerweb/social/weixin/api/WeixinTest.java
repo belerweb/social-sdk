@@ -2,6 +2,7 @@ package com.belerweb.social.weixin.api;
 
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,6 +13,7 @@ import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.MsgType;
 import com.belerweb.social.weixin.bean.QRTicket;
 import com.belerweb.social.weixin.bean.QRType;
+import com.belerweb.social.weixin.bean.Variable;
 
 public class WeixinTest extends TestConfig {
 
@@ -46,4 +48,18 @@ public class WeixinTest extends TestConfig {
     Assert.assertTrue(result.success());
   }
 
+  @Test
+  public void testSendTemplateMessage() throws Exception {
+    Message message = new Message(MsgType.TEMPLATE);
+    message.setToUser(System.getProperty("weixin.openid"));
+    message.setTopColor("#459ae9");
+    message.setTemplateId(System.getProperty("weixin.templateid"));
+    Variable var1 = new Variable("first", "您好，这是一个模板消息的测试");
+    Variable var2 = new Variable("schedule", "这是一个新的事件");
+    Variable var3 = new Variable("time", DateFormatUtils.format(new Date(), "yyyy年MM月dd日 HH:mm"));
+    Variable var4 = new Variable("time", DateFormatUtils.format(new Date(), "yyyy年MM月dd日 HH:mm"));
+    message.addVariable(var1).addVariable(var2).addVariable(var3).addVariable(var4);
+    Result<Boolean> result = weixin.sendTemplateMessage(message);
+    Assert.assertTrue(result.success());
+  }
 }

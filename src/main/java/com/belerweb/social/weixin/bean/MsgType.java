@@ -52,6 +52,11 @@ public enum MsgType {
   NEWS("news"),
 
   /**
+   * 模板消息
+   */
+  TEMPLATE("template"),
+
+  /**
    * 多客服接入
    */
   TRANSFER_CUSTOMER_SERVICE("transfer_customer_service");
@@ -98,6 +103,9 @@ public enum MsgType {
     }
     if (NEWS.type.equals(val)) {
       return NEWS;
+    }
+    if (TEMPLATE.type.equals(val)) {
+      return TEMPLATE;
     }
     if (TRANSFER_CUSTOMER_SERVICE.type.equals(val)) {
       return TRANSFER_CUSTOMER_SERVICE;

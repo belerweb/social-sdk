@@ -1,8 +1,10 @@
 package com.belerweb.social.weixin.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
@@ -50,6 +52,12 @@ public class Message extends JsonBean {
   private String ticket;// 二维码的ticket，可用来换取二维码图片
   private Double precision;// 地理位置精度
   private List<Article> articles;// 多条图文消息信息，默认第一个item为大图
+
+  /** 模板消息特有的属性 */
+  private String templateId;// 模板消息的id
+  private String topColor;// 模板消息头部的颜色 eg:#FF0000
+  private List<Variable> variables;// 模板消息的变量
+
 
   /**
    * 消息id
@@ -330,6 +338,49 @@ public class Message extends JsonBean {
   }
 
   /**
+   * 模板消息id
+   */
+  public String getTemplateId() {
+    return templateId;
+  }
+
+  public void setTemplateId(String templateId) {
+    this.templateId = templateId;
+  }
+
+  /**
+   * 模板消息头部颜色
+   */
+  public String getTopColor() {
+    return topColor;
+  }
+
+  public void setTopColor(String topColor) {
+    this.topColor = topColor;
+  }
+
+  /**
+   * 模板消息变量
+   * 
+   * @return
+   */
+  public List<Variable> getVariables() {
+    if (variables == null) {
+      variables = new ArrayList<Variable>();
+    }
+    return variables;
+  }
+
+  public void setVariables(List<Variable> variables) {
+    this.variables = variables;
+  }
+
+  public Message addVariable(Variable variable) {
+    getVariables().add(variable);
+    return this;
+  }
+
+  /**
    * 将Message转换成XML格式，用于发送被动响应消息
    */
   public String toXML() {
@@ -435,7 +486,22 @@ public class Message extends JsonBean {
       news.put("articles", array);
       obj.put("news", news);
     }
-
+    if (msgType == MsgType.TEMPLATE) {
+      obj.put("template_id", templateId);
+      if (StringUtils.isNotBlank(topColor)) {
+        obj.put("topcolor", topColor);
+      }
+      JSONObject data = new JSONObject();
+      for (Variable var : variables) {
+        JSONObject varJson = new JSONObject();
+        varJson.put("value", var.getValue());
+        if (StringUtils.isNotBlank(var.getColor())) {
+          varJson.put("color", var.getColor());
+        }
+        data.put(var.getName(), varJson);
+      }
+      obj.put("data", data);
+    }
     return obj.toString();
   }
 
