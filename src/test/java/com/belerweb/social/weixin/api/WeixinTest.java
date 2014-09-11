@@ -52,6 +52,7 @@ public class WeixinTest extends TestConfig {
   public void testSendTemplateMessage() throws Exception {
     Message message = new Message(MsgType.TEMPLATE);
     message.setToUser(System.getProperty("weixin.openid"));
+    message.setUrl("https://github.com/belerweb/social-sdk");
     message.setTopColor("#459ae9");
     message.setTemplateId(System.getProperty("weixin.templateid"));
     Variable var1 = new Variable("first", "您好，这是一个模板消息的测试");
