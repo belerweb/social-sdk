@@ -75,7 +75,7 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 <dependency>
     <groupId>com.belerweb</groupId>
     <artifactId>social-sdk</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 </dependency>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

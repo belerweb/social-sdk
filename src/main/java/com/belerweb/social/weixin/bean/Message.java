@@ -491,6 +491,9 @@ public class Message extends JsonBean {
       if (StringUtils.isNotBlank(topColor)) {
         obj.put("topcolor", topColor);
       }
+      if (StringUtils.isNotBlank(url)) {
+        obj.put("url", url);
+      }
       JSONObject data = new JSONObject();
       for (Variable var : variables) {
         JSONObject varJson = new JSONObject();
