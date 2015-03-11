@@ -37,6 +37,9 @@ public class Menu extends API {
 
   /**
    * 自定义菜单创建接口
+   * <p>
+   * 注意：只有菜单类型为 MenuType.VIEW 时才需要url属性，其它情况都是使用key
+   * </p>
    * 
    * @param accessToken 调用接口凭证
    * @param menus 菜单
@@ -49,11 +52,10 @@ public class Menu extends API {
       obj.put("name", menu.getName());
       if (type != null) {
         obj.put("type", type.value());
-        if (type == MenuType.CLICK) {
-          obj.put("key", menu.getKey());
-        }
         if (type == MenuType.VIEW) {
           obj.put("url", menu.getUrl());
+        } else {
+          obj.put("key", menu.getKey());
         }
       }
       List<com.belerweb.social.weixin.bean.Menu> subs = menu.getSubs();
@@ -65,11 +67,10 @@ public class Menu extends API {
           _obj.put("name", _menu.getName());
           if (_type != null) {
             _obj.put("type", _type.value());
-            if (_type == MenuType.CLICK) {
-              _obj.put("key", _menu.getKey());
-            }
             if (_type == MenuType.VIEW) {
               _obj.put("url", _menu.getUrl());
+            } else {
+              _obj.put("key", _menu.getKey());
             }
           }
           _menuArray.put(_obj);
