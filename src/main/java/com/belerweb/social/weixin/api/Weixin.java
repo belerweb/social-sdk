@@ -17,6 +17,7 @@ import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weixin.bean.AccessToken;
+import com.belerweb.social.weixin.bean.JSApiTicket;
 import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.QRCreation;
 import com.belerweb.social.weixin.bean.QRTicket;
@@ -40,6 +41,9 @@ public final class Weixin extends SDK {
 
   private AccessToken accessToken;
   private Date accessTokenTime;
+
+  private JSApiTicket jsApiTicket;
+  private Date jsApiTicketTime;
 
   /**
    * 只传入token实例化微信SDK，适合于只开发基于微信基础接口的被动接受消息类应用，如智能应答机器人。不推荐适用。
@@ -104,6 +108,26 @@ public final class Weixin extends SDK {
     return false;
   }
 
+  /**
+   * jsapi_ticket签名算法
+   * 
+   * 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-
+   * JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * 
+   * @param url 网页的url地址不包括 {@code #} 后面的参数(不包含锚的值).但是包括所有的请求参数
+   * @param timestamp 时间戳
+   * @param nonce 随机数
+   * @return 返回签名后的字符串
+   */
+  public String jsapiSignature(String url, long timestamp, String nonce) {
+    StringBuilder content = new StringBuilder();
+    content.append("jsapi_ticket=").append(getJsApiTicket().getTicket());
+    content.append("&noncestr=").append(nonce);
+    content.append("&timestamp=").append(timestamp);
+    content.append("&url=").append(url);
+    return DigestUtils.shaHex(content.toString());
+  }
+
   public String getAppId() {
     return appId;
   }
@@ -153,6 +177,33 @@ public final class Weixin extends SDK {
     }
 
     return accessToken;
+  }
+
+  /**
+   * jsapi_ticket是公众号用于调用微信JS接口的临时票据。正常情况下，jsapi_ticket的有效期为7200秒，通过access_token来获取。
+   * 
+   * 文档地址:http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-
+   * JS-SDK.E4.BD.BF.E7.94.A8.E6.9D.83.E9.99.90.E7.AD.BE.E5.90.8D.E7.AE.97.E6.B3.95
+   * 
+   * 由于获取jsapi_ticket的api调用次数非常有限，频繁刷新jsapi_ticket会导致api调用受限，影响自身业务，开发者必须在自己的服务全局缓存jsapi_ticket 。
+   */
+  public JSApiTicket getJsApiTicket() {
+    if (jsApiTicket == null || jsApiTicketTime == null
+        || (new Date().getTime() - jsApiTicketTime.getTime()) / 1000 > jsApiTicket.getExpiresIn()) {
+      List<NameValuePair> params = new ArrayList<NameValuePair>();
+      addParameter(params, "access_token", getAccessToken().getToken());
+      addParameter(params, "type", "jsapi");
+      String json =
+          get("https://api.weixin.qq.com/cgi-bin/ticket/getticket?" + StringUtils.join(params, "&"),
+              params);
+      Result<JSApiTicket> result = Result.parse(json, JSApiTicket.class);
+      if (result.success()) {
+        jsApiTicket = result.getResult();
+        jsApiTicketTime = new Date();
+      }
+    }
+
+    return jsApiTicket;
   }
 
   /**
