@@ -17,7 +17,7 @@ public class QRTicket extends JsonBean {
   }
 
   private String ticket;// 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。
-  private Integer expireSeconds = 1800;// 该二维码有效时间，以秒为单位。 最大不超过1800。
+  private Integer expireSeconds = 604800;// 该二维码有效时间，以秒为单位。 最大不超过1800。
 
   /**
    * 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。

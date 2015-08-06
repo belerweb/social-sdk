@@ -19,7 +19,7 @@ public enum EventType {
   /**
    * 扫描二维码：用户已关注时的事件推送
    */
-  SCAN("scan"),
+  SCAN("SCAN"),
 
   /**
    * 上报地理位置事件
