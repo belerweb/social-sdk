@@ -17,8 +17,7 @@ import com.belerweb.social.bean.Result;
  */
 public class Message extends JsonBean {
 
-  public Message() {
-  }
+  public Message() {}
 
   public Message(MsgType msgType) {
     this.msgType = msgType;
@@ -364,7 +363,7 @@ public class Message extends JsonBean {
 
   /**
    * 模板消息变量
-   *
+   * 
    * @return
    */
   public List<Variable> getVariables() {

@@ -1,5 +1,7 @@
 package com.belerweb.social.weixin.api;
 
+import static org.junit.Assert.*;
+
 import java.util.Date;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import com.belerweb.social.TestConfig;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.weixin.bean.AccessToken;
+import com.belerweb.social.weixin.bean.ApiTicket;
 import com.belerweb.social.weixin.bean.JSApiTicket;
 import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.MsgType;
@@ -31,6 +34,22 @@ public class WeixinTest extends TestConfig {
     JSApiTicket result = weixin.getJsApiTicket();
     Assert.assertNotNull(result);
     System.out.println(result.getJsonObject());
+  }
+
+  @Test
+  public void testGetApiTicket() {
+    ApiTicket result = weixin.getApiTicket();
+    Assert.assertNotNull(result);
+    System.out.println(result.getJsonObject());
+  }
+
+  @Test
+  public void testSignature() throws Exception {
+    Weixin wx = new Weixin(null);
+    assertEquals("def42db04eb64f66c47a4e14fcc736156a704d8e", wx.signature("sduhi123",
+        "wxd0f84fbc9396d6ae", "GROUPON",
+        "E0o2-at6NcC2OsJiQTlwlKQmnidi_i9qnUG6I8wOFOOnPaK_fcjapbiBA15AUBXvkux2vvNsjYomRcbxXolfMw",
+        "14300000000", "134234235235235"));
   }
 
   @Test

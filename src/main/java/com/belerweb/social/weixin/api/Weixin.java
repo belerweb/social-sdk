@@ -17,6 +17,7 @@ import com.belerweb.social.bean.Error;
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.exception.SocialException;
 import com.belerweb.social.weixin.bean.AccessToken;
+import com.belerweb.social.weixin.bean.ApiTicket;
 import com.belerweb.social.weixin.bean.JSApiTicket;
 import com.belerweb.social.weixin.bean.Message;
 import com.belerweb.social.weixin.bean.QRCreation;
@@ -44,6 +45,9 @@ public final class Weixin extends SDK {
 
   private JSApiTicket jsApiTicket;
   private Date jsApiTicketTime;
+
+  private ApiTicket apiTicket;
+  private Date apiTicketTime;
 
   /**
    * 只传入token实例化微信SDK，适合于只开发基于微信基础接口的被动接受消息类应用，如智能应答机器人。不推荐适用。
@@ -109,6 +113,19 @@ public final class Weixin extends SDK {
   }
 
   /**
+   * 签名传入的参数,按照字典顺序排序后连接起来sha1 文档地址：<a href=
+   * "http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.954-.E5.8D.A1.E5.88.B8.E6.89.A9.E5.B1.95.E5.AD.97.E6.AE.B5.E5.8F.8A.E7.AD.BE.E5.90.8D.E7.94.9F.E6.88.90.E7.AE.97.E6.B3.95"
+   * >卡券扩展字段及签名生成算法</a>
+   * 
+   * @param args
+   * @return
+   */
+  public String signature(String... args) {
+    Arrays.sort(args);
+    return DigestUtils.shaHex(StringUtils.join(args));
+  }
+
+  /**
    * jsapi_ticket签名算法
    * 
    * 文档地址：http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E9.99.84.E5.BD.951-
@@ -127,6 +144,7 @@ public final class Weixin extends SDK {
     content.append("&url=").append(url);
     return DigestUtils.shaHex(content.toString());
   }
+
 
   public String getAppId() {
     return appId;
@@ -177,6 +195,34 @@ public final class Weixin extends SDK {
     }
 
     return accessToken;
+  }
+
+  /**
+   * api_ticket 是用于调用微信卡券JS API的临时票据，有效期为7200 秒，通过access_token 来获取。
+   * 
+   * 文档地址:<a href=
+   * "http://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html#.E8.8E.B7.E5.8F.96api_ticket"
+   * >获取api_ticket</a>
+   * 
+   * 由于获取api_ticket 的api 调用次数非常有限，频繁刷新api_ticket 会导致api调用受限，影响自身业务，开发者需在自己的服务存储与更新api_ticket。
+   */
+  public ApiTicket getApiTicket() {
+    if (apiTicket == null || apiTicketTime == null
+        || (new Date().getTime() - apiTicketTime.getTime()) / 1000 > apiTicket.getExpiresIn()) {
+      List<NameValuePair> params = new ArrayList<NameValuePair>();
+      addParameter(params, "access_token", getAccessToken().getToken());
+      addParameter(params, "type", "wx_card");
+      String json =
+          get("https://api.weixin.qq.com/cgi-bin/ticket/getticket?" + StringUtils.join(params, "&"),
+              params);
+      Result<ApiTicket> result = Result.parse(json, ApiTicket.class);
+      if (result.success()) {
+        apiTicket = result.getResult();
+        apiTicketTime = new Date();
+      }
+    }
+
+    return apiTicket;
   }
 
   /**
