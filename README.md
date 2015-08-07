@@ -41,8 +41,8 @@ SDK，有官方的、也有非官方的开源项目，如如新浪微博开放�
 	-   腾讯微博登录（未测试）
 	-   获取腾讯微博用户信息（未测试）
 -   [微信帐号](wiki/微信API)
-	-   [获取access_token](wiki/微信API#获取access token)
-	-   [获取jsapi_ticket](wiki/微信API#获取jsapi_ticket)
+	-   [获取access_token](../../wiki/微信API#获取access token)
+	-   [获取jsapi_ticket](../../wiki/微信API#获取jsapi_ticket)
 	-   jsapi签名
 	-   上传下载多媒体文件
 	-   接受消息／事件推送／位置信息
