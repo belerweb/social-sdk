@@ -5,6 +5,8 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.belerweb.social.TestConfig;
 import com.belerweb.social.bean.Result;
@@ -12,6 +14,7 @@ import com.belerweb.social.weixin.bean.Media;
 import com.belerweb.social.weixin.bean.MediaType;
 
 public class MediaTest extends TestConfig {
+  final static Logger logger = LoggerFactory.getLogger(MediaTest.class);
 
   @Test
   public void testUpload() throws Exception {
@@ -23,7 +26,7 @@ public class MediaTest extends TestConfig {
     Result<com.belerweb.social.weixin.bean.Media> result =
         weixin.getMedia().upload(MediaType.VOICE_AMR, media);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getId());
+    logger.info(result.getResult().getId());
   }
 
   @Test
@@ -31,8 +34,8 @@ public class MediaTest extends TestConfig {
     String mediaId = System.getProperty("weixin.mediaid");
     Result<Media> result = weixin.getMedia().get(mediaId);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getContentType());
-    System.out.println(result.getResult().getName());
+    logger.info(result.getResult().getContentType());
+    logger.info(result.getResult().getName());
   }
 
 }

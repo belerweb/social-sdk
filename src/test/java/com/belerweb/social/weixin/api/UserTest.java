@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.belerweb.social.TestConfig;
 import com.belerweb.social.bean.Result;
 
 public class UserTest extends TestConfig {
+
+  final static Logger logger = LoggerFactory.getLogger(UserTest.class);
 
   @Test
   public void testSnsapiUserInfo() {
@@ -17,7 +21,7 @@ public class UserTest extends TestConfig {
     Result<com.belerweb.social.weixin.bean.User> result =
         weixin.getUser().snsapiUserInfo(accessToken, openId);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getJsonObject());
+    logger.info(result.getResult().getJsonObject().toString());
   }
 
   @Test
@@ -26,7 +30,7 @@ public class UserTest extends TestConfig {
     Result<com.belerweb.social.weixin.bean.User> result =
         weixin.getUser().userInfo(weixin.getAccessToken().getToken(), openId);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getJsonObject());
+    logger.info(result.getResult().getJsonObject().toString());
   }
 
   @Test
@@ -34,7 +38,7 @@ public class UserTest extends TestConfig {
     Result<List<com.belerweb.social.weixin.bean.User>> result = weixin.getUser().getFollowUsers();
     Assert.assertTrue(result.success());
     for (com.belerweb.social.weixin.bean.User user : result.getResult()) {
-      System.out.println(user.getJsonObject());
+      logger.info(user.getJsonObject().toString());
     }
   }
 

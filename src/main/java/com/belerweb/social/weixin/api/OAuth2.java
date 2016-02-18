@@ -127,7 +127,7 @@ public final class OAuth2 extends API {
     weixin.addParameter(params, "secret", secret);
     weixin.addParameter(params, "code", code);
     weixin.addParameter(params, "grant_type", grantType);
-    String result = weixin.get("https://api.weixin.qq.com/sns/oauth2/access_token", params);
+    String result = weixin.post("https://api.weixin.qq.com/sns/oauth2/access_token", params);
     return Result.parse(result, AccessToken.class);
   }
 

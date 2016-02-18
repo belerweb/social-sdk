@@ -1,6 +1,6 @@
 package com.belerweb.social.weixin.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
@@ -8,6 +8,8 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.belerweb.social.TestConfig;
 import com.belerweb.social.bean.Result;
@@ -21,26 +23,27 @@ import com.belerweb.social.weixin.bean.QRType;
 import com.belerweb.social.weixin.bean.Variable;
 
 public class WeixinTest extends TestConfig {
+  final static Logger logger = LoggerFactory.getLogger(WeixinTest.class);
 
   @Test
   public void testGetAccessToken() {
     AccessToken result = weixin.getAccessToken();
     Assert.assertNotNull(result);
-    System.out.println(result.getJsonObject());
+    logger.info(result.getJsonObject().toString());
   }
 
   @Test
   public void testGetJSApiTicket() {
     JSApiTicket result = weixin.getJsApiTicket();
     Assert.assertNotNull(result);
-    System.out.println(result.getJsonObject());
+    logger.info(result.getJsonObject().toString());
   }
 
   @Test
   public void testGetApiTicket() {
     ApiTicket result = weixin.getApiTicket();
     Assert.assertNotNull(result);
-    System.out.println(result.getJsonObject());
+    logger.info(result.getJsonObject().toString());
   }
 
   @Test
@@ -58,22 +61,22 @@ public class WeixinTest extends TestConfig {
         weixin.jsapiSignature("http://openlaw.cn", new Date().getTime(),
             RandomStringUtils.randomAlphanumeric(16));
     Assert.assertNotNull(signature);
-    System.out.println(signature);
+    logger.info(signature);
   }
 
   @Test
   public void testCreateQR() {
     Result<QRTicket> result = weixin.createQR(QRType.QR_SCENE, 0);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getJsonObject());
+    logger.info(result.getResult().getJsonObject().toString());
   }
 
   @Test
   public void testCreateQR2() {
     Result<QRTicket> result = weixin.createQR(QRType.QR_LIMIT_SCENE, 0);
     Assert.assertTrue(result.success());
-    System.out.println(result.getResult().getJsonObject());
-    System.out.println(result.getResult().getQRUrl());
+    logger.info(result.getResult().getJsonObject().toString());
+    logger.info(result.getResult().getQRUrl());
   }
 
   @Test

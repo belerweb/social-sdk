@@ -2,11 +2,15 @@ package com.belerweb.social.captcha.api;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.belerweb.social.bean.Result;
 import com.belerweb.social.captcha.bean.YundamaType;
 
 public class YundamaTest {
+
+  final static Logger logger = LoggerFactory.getLogger(YundamaTest.class);
 
   @Test
   public void testDecode() {
@@ -178,9 +182,9 @@ public class YundamaTest {
           new Yundama(System.getProperty("yundama.username"),
               System.getProperty("yundama.password")).decode(img, YundamaType.ALPHABETIC4);
       if (result.success()) {
-        System.out.println("Text:" + result.getResult());
+        logger.info("Text:{}", result.getResult());
       } else {
-        System.out.println("Error:" + result.getError().getErrorCode());
+        logger.error("Error:{}", result.getError().getErrorCode());
       }
       Assert.assertTrue("nkha".equalsIgnoreCase(result.getResult()));
     } catch (Exception e) {
