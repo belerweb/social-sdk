@@ -21,6 +21,7 @@ public class AccessToken extends JsonBean {
   private String refreshToken;// 用户刷新access_token
   private String openId;// 用户唯一标识，请注意，在未关注公众号时，用户访问公众号的网页，也会产生一个用户和公众号唯一的OpenID
   private Scope scope;// 用户授权的作用域，使用逗号（,）分隔
+  private String unionid;// 当且仅当该网站应用已获得该用户的userinfo授权时，才会出现该字段
 
   /**
    * 网页授权接口调用凭证,注意：此access_token与基础支持的access_token不同
@@ -77,6 +78,14 @@ public class AccessToken extends JsonBean {
     this.scope = scope;
   }
 
+  public String getUnionid() {
+    return unionid;
+  }
+
+  public void setUnionid(String unionid) {
+    this.unionid = unionid;
+  }
+
   public static AccessToken parse(JSONObject jsonObject) {
     if (jsonObject == null) {
       return null;
@@ -87,6 +96,7 @@ public class AccessToken extends JsonBean {
     obj.expiresIn = Result.parseLong(jsonObject.opt("expires_in"));
     obj.refreshToken = Result.toString(jsonObject.opt("refresh_token"));
     obj.scope = Scope.parse(jsonObject.opt("scope"));
+    obj.unionid = Result.toString(jsonObject.opt("unionid"));
     return obj;
   }
 }
