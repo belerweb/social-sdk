@@ -27,6 +27,11 @@ public enum EventType {
   LOCATION("LOCATION"),
 
   /**
+   * 点击链接事件
+   */
+  VIEW("VIEW"),
+
+  /**
    * 自定义菜单事件
    */
   CLICK("CLICK");
@@ -61,6 +66,9 @@ public enum EventType {
     }
     if (CLICK.type.equals(val)) {
       return CLICK;
+    }
+    if (VIEW.type.equals(val)) {
+      return VIEW;
     }
     return null;
   }

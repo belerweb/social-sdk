@@ -178,7 +178,7 @@ public final class Weixin extends SDK {
    * 
    * 公众号可以使用AppID和AppSecret调用本接口来获取access_token。AppID和AppSecret可在开发模式中获得（需要已经成为开发者，且帐号没有异常状态）。
    */
-  public AccessToken getAccessToken() {
+  public synchronized AccessToken getAccessToken() {
     if (accessToken == null || accessTokenTime == null
         || (new Date().getTime() - accessTokenTime.getTime()) / 1000 > accessToken.getExpiresIn()) {
       List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -206,7 +206,7 @@ public final class Weixin extends SDK {
    * 
    * 由于获取api_ticket 的api 调用次数非常有限，频繁刷新api_ticket 会导致api调用受限，影响自身业务，开发者需在自己的服务存储与更新api_ticket。
    */
-  public ApiTicket getApiTicket() {
+  public synchronized ApiTicket getApiTicket() {
     if (apiTicket == null || apiTicketTime == null
         || (new Date().getTime() - apiTicketTime.getTime()) / 1000 > apiTicket.getExpiresIn()) {
       List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -233,7 +233,7 @@ public final class Weixin extends SDK {
    * 
    * 由于获取jsapi_ticket的api调用次数非常有限，频繁刷新jsapi_ticket会导致api调用受限，影响自身业务，开发者必须在自己的服务全局缓存jsapi_ticket 。
    */
-  public JSApiTicket getJsApiTicket() {
+  public synchronized JSApiTicket getJsApiTicket() {
     if (jsApiTicket == null || jsApiTicketTime == null
         || (new Date().getTime() - jsApiTicketTime.getTime()) / 1000 > jsApiTicket.getExpiresIn()) {
       List<NameValuePair> params = new ArrayList<NameValuePair>();

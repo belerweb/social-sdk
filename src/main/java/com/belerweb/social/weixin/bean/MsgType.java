@@ -27,6 +27,11 @@ public enum MsgType {
   VIDEO("video"),
 
   /**
+   * 视频消息
+   */
+  SHORTVIDEO("shortvideo"),
+
+  /**
    * 音乐消息
    */
   MUSIC("music"),
