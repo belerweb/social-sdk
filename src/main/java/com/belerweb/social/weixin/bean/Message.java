@@ -575,6 +575,10 @@ public class Message extends JsonBean {
       if (eventType == EventType.CLICK) {
         obj.eventKey = Result.toString(jsonObject.opt("EventKey"));
       }
+      if (eventType == EventType.VIEW) {
+        obj.eventKey = Result.toString(jsonObject.opt("EventKey"));
+        obj.url = obj.eventKey;
+      }
     }
     return obj;
   }
