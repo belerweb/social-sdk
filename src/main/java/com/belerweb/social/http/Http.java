@@ -72,6 +72,24 @@ public final class Http {
 
   public static final HttpClient CLIENT = newClient();
 
+  private static final ThreadLocal<Charset> defaultCharset = new ThreadLocal<Charset>();
+
+  private static Charset getDefaultCharset() {
+    return defaultCharset.get();
+  }
+
+  /**
+   * Sets the default charset for reading the response, which is used while the server side does not
+   * provided the encoding or charset. If {@code null} is set, the {@link Charset#defaultCharset()}
+   * will be used to read the response. Note, this is a {@link ThreadLocal} variable.
+   * 
+   * @param charset the charset.
+   * @see #responseToString(HttpResponse)
+   */
+  public static void setDefaultCharset(Charset charset) {
+    defaultCharset.set(charset);
+  }
+
   public static String get(String uri, List<NameValuePair> params) throws HttpException {
     String url = uri;
     if (params != null) {
@@ -173,6 +191,9 @@ public final class Http {
         }
       } else {
         charset = Charset.forName(encoding.getValue());
+      }
+      if (charset == null) {
+        charset = getDefaultCharset();
       }
       try {
         result = IOUtils.toString(entity.getContent(), charset);

@@ -1,5 +1,6 @@
 package com.belerweb.social;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,19 @@ import com.belerweb.social.http.HttpException;
 
 public abstract class SDK {
 
+  private final Charset defaultCharset;
+
+  public SDK() {
+    this(null);
+  }
+
+  public SDK(Charset defaultCharset) {
+    this.defaultCharset = defaultCharset;
+  }
+
   public String get(String url, List<NameValuePair> params) {
     try {
+      Http.setDefaultCharset(defaultCharset);
       return Http.get(url, params);
     } catch (HttpException e) {
       throw new SocialException(e);
@@ -32,6 +44,7 @@ public abstract class SDK {
 
   public String post(String url, HttpEntity postBody) {
     try {
+      Http.setDefaultCharset(defaultCharset);
       return Http.post(url, postBody);
     } catch (HttpException e) {
       throw new SocialException(e);
@@ -40,6 +53,7 @@ public abstract class SDK {
 
   public String post(String url, List<NameValuePair> params) {
     try {
+      Http.setDefaultCharset(defaultCharset);
       return Http.post(url, params, "UTF-8");
     } catch (HttpException e) {
       throw new SocialException(e);
