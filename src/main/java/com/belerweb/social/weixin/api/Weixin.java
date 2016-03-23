@@ -1,6 +1,7 @@
 package com.belerweb.social.weixin.api;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,6 +29,8 @@ import com.belerweb.social.weixin.bean.QRType;
  * 微信SDK
  */
 public final class Weixin extends SDK {
+
+  private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
   private String appId;
   private String secret;
@@ -57,6 +60,7 @@ public final class Weixin extends SDK {
    *        ，用作生成签名（该Token会和接口URL中包含的Token进行比对，从而验证安全性）。
    */
   public Weixin(String token) {
+    super(DEFAULT_CHARSET);
     this.token = token;
   }
 
@@ -67,6 +71,7 @@ public final class Weixin extends SDK {
    * @param secret 公众号的appsecret
    */
   public Weixin(String appId, String secret) {
+    super(DEFAULT_CHARSET);
     this.appId = appId;
     this.secret = secret;
   }
